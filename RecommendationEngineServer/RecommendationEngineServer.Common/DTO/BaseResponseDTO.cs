@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Common.DTO
 {
-    public class BaseDTO
+    public class BaseResponseDTO
     {
         public string Status { get; set; }
         public string Message { get; set; }

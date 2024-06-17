@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.DAL;
 using RecommendationEngineServer.DAL.UnitOfWork;
+using RecommendationEngineServer.Logic.Admin;
 using RecommendationEngineServer.Logic.Login;
 
 namespace RecommendationEngineServer
@@ -33,9 +34,11 @@ namespace RecommendationEngineServer
 
                     // Controller Config
                     services.AddScoped<AuthController>();
+                    services.AddScoped<AdminController>();
 
                     // Logic Config
                     services.AddScoped<IAuthLogic, AuthLogic>();
+                    services.AddScoped<IAdminLogic, AdminLogic>();
                 }));
         }
     }

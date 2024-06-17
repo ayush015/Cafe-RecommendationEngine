@@ -11,12 +11,14 @@ namespace RecommendationEngineServer
     {
         private TcpClient _client;
         private NetworkStream _stream;
-        private readonly AuthController _authController;
+        private AuthController _authController;
+        private AdminController _adminController;
         private IServiceScope _scope;
 
-        public ClientHandler(AuthController authController)
+        public ClientHandler(AuthController authController, AdminController adminController)
         {
             _authController = authController;
+            _adminController = adminController;
         }
 
         public void SetClient(TcpClient client, IServiceScope scope)
@@ -51,13 +53,7 @@ namespace RecommendationEngineServer
 
         private async Task HandleIncomingDataString(string data)
         {
-            var splitData = data.Split('/');
-            var dataObject = new DataObject()
-            {
-                Controller = splitData[0],
-                Action = splitData[1],
-                Data = splitData[2]
-            };
+            var dataObject = JsonConvert.DeserializeObject<DataObject>(data);
 
             await ControllerHandler(dataObject);
         }
@@ -68,6 +64,9 @@ namespace RecommendationEngineServer
             {
                 case "Login":
                     await AuthControllerActionHandler(data);
+                    break;
+                case "Admin":
+                    await AdminControllerActionHandler(data);
                     break;
                     // Add other controllers here
             }
@@ -83,6 +82,45 @@ namespace RecommendationEngineServer
                     byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
                     await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
                     break;
+                    // Handle other actions here
+            }
+        }
+
+        private async Task AdminControllerActionHandler(DataObject data)
+        {
+            switch (data.Action)
+            {
+                case "AddMenuItem":
+                    {
+                        AddMenuItemRequest menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "GetMenuList":
+                    {
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.GetMenuList());
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "RemoveMenuItem":
+                    {
+                        int menuId = JsonConvert.DeserializeObject<int>(data.Data); ;
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.RemoveMenuItem(menuId));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "UpdateMenuItem":
+                    {
+                        UpdateMenuItemRequest menuItem = JsonConvert.DeserializeObject<UpdateMenuItemRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.UpdateMenuItem(menuItem));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
                     // Handle other actions here
             }
         }
