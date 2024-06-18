@@ -13,12 +13,14 @@ namespace RecommendationEngineServer
         private NetworkStream _stream;
         private AuthController _authController;
         private AdminController _adminController;
+        private ChefController _chefController;
         private IServiceScope _scope;
 
-        public ClientHandler(AuthController authController, AdminController adminController)
+        public ClientHandler(AuthController authController, AdminController adminController,ChefController chefController)
         {
             _authController = authController;
             _adminController = adminController;
+            _chefController = chefController;
         }
 
         public void SetClient(TcpClient client, IServiceScope scope)
@@ -135,15 +137,22 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "AddMenuItem":
+                case "AddDailyMenuItem":
                     {
-                        AddMenuItemRequest menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
-                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
+                        List<int> menuIds = JsonConvert.DeserializeObject<List<int>>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _chefController.AddDailyMenuItem(menuIds));
                         byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
                         await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
                         break;
                     }
-               
+                case "SendNotification":
+                    {
+                        var jsonResponse = JsonConvert.SerializeObject(await _chefController.SendNotification());
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+
                     // Handle other actions here
             }
         }
