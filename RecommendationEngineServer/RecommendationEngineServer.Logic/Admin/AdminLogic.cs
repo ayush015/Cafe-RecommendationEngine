@@ -37,6 +37,7 @@ namespace RecommendationEngineServer.Logic.Admin
               FoodName = addMenuItemRequest.FoodItemName,
             };
             var addFoodItem =  await _unitOfWork.FoodItem.Create(newFoodItem);
+            await _unitOfWork.Complete();
 
             Menu newMenuItem = new Menu()
             {

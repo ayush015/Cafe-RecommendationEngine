@@ -68,6 +68,12 @@ namespace RecommendationEngineServer
                 case "Admin":
                     await AdminControllerActionHandler(data);
                     break;
+                case "Chef":
+                    await ChefControllerActionHandler(data);
+                    break;
+                case "Employee":
+                    await EmployeeControllerActionHandler(data);
+                    break;
                     // Add other controllers here
             }
         }
@@ -124,6 +130,41 @@ namespace RecommendationEngineServer
                     // Handle other actions here
             }
         }
+
+        private async Task ChefControllerActionHandler(DataObject data)
+        {
+            switch (data.Action)
+            {
+                case "AddMenuItem":
+                    {
+                        AddMenuItemRequest menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+               
+                    // Handle other actions here
+            }
+        }
+
+        private async Task EmployeeControllerActionHandler(DataObject data)
+        {
+            switch (data.Action)
+            {
+                case "AddMenuItem":
+                    {
+                        AddMenuItemRequest menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+
+                    // Handle other actions here
+            }
+        }
+
     }
 
 

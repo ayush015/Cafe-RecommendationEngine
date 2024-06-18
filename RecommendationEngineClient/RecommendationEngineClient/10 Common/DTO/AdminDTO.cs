@@ -6,6 +6,22 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineClient.Common.DTO
 {
+
+    #region Request DTO
+    public class AddMenuItemRequest
+    {
+        public string FoodItemName { get; set; }
+        public int MealTypeId { get; set; }
+    }
+
+    public class UpdateMenuItemRequest
+    {
+        public int MenuId { get; set; }
+        public string FoodItemName { get; set; }
+        public int MealTypeId { get; set; }
+    }
+    #endregion
+
     public class MenuListResponse : BaseResponseDTO
     {
         public List<MenuListViewModel> MenuList { get; set; }

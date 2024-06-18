@@ -12,6 +12,6 @@
 
     public class MenuItemAlreadyPresentException : MenuException
     {
-        public MenuItemAlreadyPresentException() : base(ApplicationConstants.MenuItemNotFound) { }
+        public MenuItemAlreadyPresentException() : base(ApplicationConstants.MenuItemALreadyPresent) { }
     }
 }

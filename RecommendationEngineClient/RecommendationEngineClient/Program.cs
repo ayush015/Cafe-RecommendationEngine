@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using RecommendationEngineClient.Admin;
+﻿using RecommendationEngineClient.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Login;
-using System.Net.Sockets;
-using System.Text;
 
 namespace RecommendationEngineClient
 {
     public class Program
     {
+
         static async Task Main(string[] args)
         {
             await Start();
@@ -19,14 +17,14 @@ namespace RecommendationEngineClient
         {
             RequestServices requestServices = new RequestServices();
             LoginHandler loginHandler = new LoginHandler(requestServices);
-            AdminHandler adminHandler = new AdminHandler(requestServices);
+            AdminConsole adminHandler = new AdminConsole(requestServices);
             var userLogin = await loginHandler.AttemptLogin();
             UserRole userRole = (UserRole)userLogin.UserRoleId;
             switch (userRole)
             {
                 case UserRole.Admin:
                     {
-                        await adminHandler.AdminConsole();
+                        await adminHandler.AdminConsoleHandler();
                     }
                     break;
                 case UserRole.Chef:
