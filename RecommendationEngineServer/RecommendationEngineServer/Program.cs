@@ -13,15 +13,15 @@ namespace RecommendationEngineServer
     {
         static async Task Main(string[] args)
         {
-            var app = (await CreateHostBuilder(args)).Build();
+            var app = CreateHostBuilder(args).Build();
             var socket = app.Services.GetRequiredService<SocketSetup>();
             await socket.StartServer();
             await app.RunAsync();
         }
 
-        public static async Task<IHostBuilder> CreateHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return await Task.FromResult(Host.CreateDefaultBuilder(args)
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
                     // Initial Setup Config
@@ -39,7 +39,7 @@ namespace RecommendationEngineServer
                     // Logic Config
                     services.AddScoped<IAuthLogic, AuthLogic>();
                     services.AddScoped<IAdminLogic, AdminLogic>();
-                }));
+                });
         }
     }
 
