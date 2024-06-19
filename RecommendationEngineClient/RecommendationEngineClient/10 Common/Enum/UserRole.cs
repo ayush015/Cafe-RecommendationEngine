@@ -12,10 +12,10 @@ namespace RecommendationEngineClient.Common.Enum
         [Description("Admin")]
         Admin = 1,
 
-        [Description("Chef")]
-        Chef = 2,
-
         [Description("Employee")]
-        Employee = 3,
+        Employee = 2,
+
+        [Description("Chef")]
+        Chef = 3,
     }
 }

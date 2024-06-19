@@ -1,4 +1,5 @@
-﻿using RecommendationEngineClient.Admin;
+﻿using RecommendationEngineClient._20_ConsoleHandler;
+using RecommendationEngineClient.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Login;
 
@@ -18,6 +19,7 @@ namespace RecommendationEngineClient
             RequestServices requestServices = new RequestServices();
             LoginHandler loginHandler = new LoginHandler(requestServices);
             AdminConsole adminHandler = new AdminConsole(requestServices);
+            ChefConsole chefHandler = new ChefConsole(requestServices);
             var userLogin = await loginHandler.AttemptLogin();
             UserRole userRole = (UserRole)userLogin.UserRoleId;
             switch (userRole)
@@ -29,7 +31,7 @@ namespace RecommendationEngineClient
                     break;
                 case UserRole.Chef:
                     {
-
+                        await chefHandler.ChefConsoleHandler();
                     }
                     break;
                 case UserRole.Employee:

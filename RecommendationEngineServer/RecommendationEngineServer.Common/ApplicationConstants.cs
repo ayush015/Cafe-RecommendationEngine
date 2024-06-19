@@ -27,7 +27,7 @@
 
         #region Chef Constants
         public const string DailyMenuListCannotbeEmpty = "Daily Menu List Item cannot be empty";
-        public const string DailyMenuAddedSuccessfully = "Daily Menu has be added successfully";
+        public const string DailyMenuAddedSuccessfully = "Daily Menu has been added successfully";
         public const string SentNotificationSuccessfully = "The notification has been sent successfully";
         #endregion
     }

@@ -16,17 +16,16 @@ namespace RecommendationEngineServer.Logic.Chef
 
         public async Task<int> AddDailyMenuItem(List<int> menuIds)
         {
+            List<DailyMenu> menuList = new List<DailyMenu>();
+
             if (menuIds.Count <= 0)
                 throw new MenuException(ApplicationConstants.MenuListIsEmpty);
 
-            var allDailyMenu =  await _unitOfWork.DailyMenu.GetAll();
-
-            List<DailyMenu> menuList = new List<DailyMenu>();
-
+            var allDailyMenu =  (await _unitOfWork.DailyMenu.GetAll()).ToList();
 
             foreach (var item in menuIds)
             {
-               if(allDailyMenu == null)
+               if(allDailyMenu == null || allDailyMenu.Count == 0)
                {
                     DailyMenu menu = new DailyMenu()
                     {
@@ -70,8 +69,9 @@ namespace RecommendationEngineServer.Logic.Chef
             foreach (var item in allDailyMenu) 
             { 
                 var menuItem = await _unitOfWork.Menu.GetMenuItemById(item.MenuId);
+                item.IsNotificationSent = true;
                 string message = $"FoodItem {menuItem.FoodItemName}\t{menuItem.MealTypeName}\n";
-                notificationMessage.Append(message);
+                notificationMessage.AppendLine(message);
             }
 
             Notification addNotification = new Notification()
@@ -81,6 +81,7 @@ namespace RecommendationEngineServer.Logic.Chef
             };
 
             await _unitOfWork.Notification.Create(addNotification);
+            await _unitOfWork.Complete();
         }
 
     }
