@@ -29,7 +29,11 @@ namespace RecommendationEngineClient._20_ConsoleHandler
                 }
                 else
                 {
-                    if (choice == ApplicationConstants.Logout) break;
+                    if (choice == ApplicationConstants.Logout)
+                    {
+                        Console.WriteLine($"{ApplicationConstants.LogoutSuccessfull}\n");
+                        break;
+                    }
 
                     ChefChoice chefChoice = (ChefChoice)choice;
                     switch (chefChoice)

@@ -11,6 +11,7 @@ namespace RecommendationEngineClient.Common
         public const string SocketAddress = "127.0.0.1";
         public const int Port = 3000;
         public const int Logout = 5;
+        public const string LogoutSuccessfull = "Logged out successfully";
 
         #region Generic Response Constants
         public const string StatusSuccess = "Success";

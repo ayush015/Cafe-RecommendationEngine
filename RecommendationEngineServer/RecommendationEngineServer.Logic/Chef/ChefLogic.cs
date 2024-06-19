@@ -63,7 +63,10 @@ namespace RecommendationEngineServer.Logic.Chef
                               .Where(m => m.IsNotificationSent == false)
                               .OrderBy(m => m.Menu.MealTypeId)
                               .ToList();
-
+            if(allDailyMenu.Count == 0)
+            {
+                throw new NoNewDailyMenuItemAddedException();   
+            }
             DateTime date = allDailyMenu.FirstOrDefault().Date;
             StringBuilder notificationMessage = new StringBuilder();
             foreach (var item in allDailyMenu) 

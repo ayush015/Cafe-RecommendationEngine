@@ -30,5 +30,9 @@
         public const string DailyMenuAddedSuccessfully = "Daily Menu has been added successfully";
         public const string SentNotificationSuccessfully = "The notification has been sent successfully";
         #endregion
+
+        #region Notification Constants
+        public const string NoNewDailyMenuItemAdded = "No New Daily Menu Item has been added to send notification";
+        #endregion
     }
 }

@@ -119,7 +119,7 @@ namespace RecommendationEngineClient._30_Services
 
         private void BaseResponsePrint(BaseResponseDTO response)
         {
-            Console.WriteLine($"Status : {response.Status}, Message : {response.Message}");
+            Console.WriteLine($"Status : {response.Status}, Message : {response.Message}\n");
         }
         #endregion
     }
