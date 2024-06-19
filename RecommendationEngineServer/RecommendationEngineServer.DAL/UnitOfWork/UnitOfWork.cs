@@ -3,6 +3,7 @@ using RecommendationEngineServer.DAL.Repository.Feedback;
 using RecommendationEngineServer.DAL.Repository.FoodItem;
 using RecommendationEngineServer.DAL.Repository.MealType;
 using RecommendationEngineServer.DAL.Repository.Menu;
+using RecommendationEngineServer.DAL.Repository.Notification;
 using RecommendationEngineServer.DAL.Repository.Order;
 using RecommendationEngineServer.DAL.Repository.User;
 using RecommendationEngineServer.DAL.Repository.UserOrder;
@@ -23,7 +24,7 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         public IFoodItem FoodItem { get; }
         public IFeedback Feedback { get; }
         public IDailyMenu DailyMenu { get; }
-
+        public INotification Notification { get; }
         public UnitOfWork(RecommendationEngineDBContext dbContext)
         {
             _dbContext = dbContext;
@@ -36,6 +37,7 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
             FoodItem = new FoodItem(_dbContext);
             Feedback = new Feedback(_dbContext);
             DailyMenu = new DailyMenu(_dbContext);
+            Notification = new Notification(_dbContext);
         }
 
         public async Task<int> Complete()

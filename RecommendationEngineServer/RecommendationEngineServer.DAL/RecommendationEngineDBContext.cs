@@ -19,6 +19,7 @@ namespace RecommendationEngineServer.DAL
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<DailyMenu> DailyMenus { get; set; }
         public DbSet<FoodItem> FoodItems { get; set; }  
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

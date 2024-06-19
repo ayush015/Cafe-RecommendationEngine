@@ -20,8 +20,5 @@ namespace RecommendationEngineClient.Common.Enum
 
         [Description("Remove Item")]
         RemoveItem = 4,
-
-        [Description("Logout")]
-        Logout = 4,
     }
 }

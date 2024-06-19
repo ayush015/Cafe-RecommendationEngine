@@ -9,6 +9,7 @@ namespace RecommendationEngineServer.DAL.Models
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; }
         public int MenuId { get; set; }
+        public bool IsNotificationSent { get; set; }
         public virtual Menu Menu { get; set; }
     }
 }
