@@ -20,44 +20,48 @@ namespace RecommendationEngineClient._20_ConsoleHandler
             {
                 Console.WriteLine("Enter Choice");
                 Console.WriteLine("1. Get All Menu List\n2. Get Recommendations \n3. Roll out menu\n4. Send Notification\n5. Logout\n");
+                Console.Write("Enter : ");
                 string userInput = Console.ReadLine();
-
+                Console.WriteLine();
                 if (!int.TryParse(userInput, out int choice) || choice < 0)
                 {
-                    Console.WriteLine("\nInvalit Input\n");
+                    Console.WriteLine("Invalit Input\n");
                 }
-
-                if (choice == ApplicationConstants.Logout) break;
-
-                ChefChoice chefChoice = (ChefChoice)choice;
-                switch (chefChoice)
+                else
                 {
-                    case ChefChoice.MenuList:
-                        {
-                            await _chefService.GetMenuList();
-                            break;
-                        }
-                    case ChefChoice.RecommendedMenuList:
-                        {
-                            await _chefService.GetRecommendedMenuList();
-                            break;
-                        }
-                    case ChefChoice.AddDailyMenuItem:
-                        {
-                            await _chefService.AddDailyMenuItem();
-                            break;
-                        }
-                    case ChefChoice.SendNotification:
-                        {
-                            await _chefService.SendNotification();
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine(ApplicationConstants.InvalidChoice);
-                            break;
-                        }
+                    if (choice == ApplicationConstants.Logout) break;
+
+                    ChefChoice chefChoice = (ChefChoice)choice;
+                    switch (chefChoice)
+                    {
+                        case ChefChoice.MenuList:
+                            {
+                                await _chefService.GetMenuList();
+                                break;
+                            }
+                        case ChefChoice.RecommendedMenuList:
+                            {
+                                await _chefService.GetRecommendedMenuList();
+                                break;
+                            }
+                        case ChefChoice.AddDailyMenuItem:
+                            {
+                                await _chefService.AddDailyMenuItem();
+                                break;
+                            }
+                        case ChefChoice.SendNotification:
+                            {
+                                await _chefService.SendNotification();
+                                break;
+                            }
+                        default:
+                            {
+                                Console.WriteLine(ApplicationConstants.InvalidChoice);
+                                break;
+                            }
+                    }
                 }
+                
             }
         }
     }

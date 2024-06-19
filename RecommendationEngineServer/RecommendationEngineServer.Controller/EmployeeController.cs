@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecommendationEngineServer.Logic.Chef;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,10 @@ namespace RecommendationEngineServer.Controller
 {
     public class EmployeeController
     {
+        private IChefLogic _chefLogic;
+        public EmployeeController(IChefLogic chefLogic)
+        {
+            _chefLogic = chefLogic;
+        }
     }
 }

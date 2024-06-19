@@ -12,8 +12,8 @@ using RecommendationEngineServer.DAL;
 namespace RecommendationEngineServer.DAL.Migrations
 {
     [DbContext(typeof(RecommendationEngineDBContext))]
-    [Migration("20240618213523_AddedIsNotificationSentColumnToDailyMenu")]
-    partial class AddedIsNotificationSentColumnToDailyMenu
+    [Migration("20240619074626_AddedUserNotificationTable")]
+    partial class AddedUserNotificationTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -220,6 +220,27 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LastSeenNotificationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserNotifications");
+                });
+
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -331,6 +352,17 @@ namespace RecommendationEngineServer.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserNotification", b =>
+                {
+                    b.HasOne("RecommendationEngineServer.DAL.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserOrder", b =>

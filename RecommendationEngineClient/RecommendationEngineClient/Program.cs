@@ -10,40 +10,41 @@ namespace RecommendationEngineClient
 
         static async Task Main(string[] args)
         {
+            Console.WriteLine("Welcome to Cafe-Recommendation\n");
             await Start();
             Console.ReadLine();
         }
 
         public static async Task Start()
         {
-            RequestServices requestServices = new RequestServices();
-            LoginHandler loginHandler = new LoginHandler(requestServices);
-            AdminConsole adminHandler = new AdminConsole(requestServices);
-            ChefConsole chefHandler = new ChefConsole(requestServices);
-            var userLogin = await loginHandler.AttemptLogin();
-            UserRole userRole = (UserRole)userLogin.UserRoleId;
-            switch (userRole)
+            while(true)
             {
-                case UserRole.Admin:
-                    {
-                        await adminHandler.AdminConsoleHandler();
-                    }
-                    break;
-                case UserRole.Chef:
-                    {
-                        await chefHandler.ChefConsoleHandler();
-                    }
-                    break;
-                case UserRole.Employee:
-                    {
+                RequestServices requestServices = new RequestServices();
+                LoginConsole loginHandler = new LoginConsole(requestServices);
+                AdminConsole adminHandler = new AdminConsole(requestServices);
+                ChefConsole chefHandler = new ChefConsole(requestServices);
+                var userLogin = await loginHandler.AttemptLogin();
+                UserRole userRole = (UserRole)userLogin.UserRoleId;
+                switch (userRole)
+                {
+                    case UserRole.Admin:
+                        {
+                            await adminHandler.AdminConsoleHandler();
 
-                    }
-                    break;
+                        }
+                        break;
+                    case UserRole.Chef:
+                        {
+                            await chefHandler.ChefConsoleHandler();
+                        }
+                        break;
+                    case UserRole.Employee:
+                        {
+
+                        }
+                        break;
+                }
             }
-
-
-            Console.WriteLine($" Username : {userLogin.UserName},\n User Role : {userLogin.UserRoleId}");
-           
         }
     }
 }

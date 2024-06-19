@@ -11,8 +11,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="30 Services\Login\" />
-  </ItemGroup>
-
 </Project>

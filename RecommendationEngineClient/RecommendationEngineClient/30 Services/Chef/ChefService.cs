@@ -43,7 +43,7 @@ namespace RecommendationEngineClient._30_Services
             {
                 Console.WriteLine($"{item.MenuId}\t {item.FoodItemName}\t {item.MealTypeName}");
             }
-
+            Console.WriteLine();
             Console.ReadKey();
         }
 

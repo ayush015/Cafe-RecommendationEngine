@@ -19,7 +19,6 @@ namespace RecommendationEngineClient
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string responseData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                Console.WriteLine("Received: {0}", responseData);
                 return responseData;
             }
         }
