@@ -23,6 +23,7 @@ namespace RecommendationEngineClient
                 LoginConsole loginHandler = new LoginConsole(requestServices);
                 AdminConsole adminHandler = new AdminConsole(requestServices);
                 ChefConsole chefHandler = new ChefConsole(requestServices);
+                EmployeeConsole employeeHandler = new EmployeeConsole(requestServices);
                 var userLogin = await loginHandler.AttemptLogin();
                 UserRole userRole = (UserRole)userLogin.UserRoleId;
                 switch (userRole)
@@ -40,7 +41,7 @@ namespace RecommendationEngineClient
                         break;
                     case UserRole.Employee:
                         {
-
+                            await employeeHandler.EmployeeConsoleHandler(userLogin.UserId);
                         }
                         break;
                 }

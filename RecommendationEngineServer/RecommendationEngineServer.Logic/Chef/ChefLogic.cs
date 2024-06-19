@@ -73,7 +73,7 @@ namespace RecommendationEngineServer.Logic.Chef
             { 
                 var menuItem = await _unitOfWork.Menu.GetMenuItemById(item.MenuId);
                 item.IsNotificationSent = true;
-                string message = $"FoodItem {menuItem.FoodItemName}\t{menuItem.MealTypeName}\n";
+                string message = $"{menuItem.DailyMenuId} {menuItem.FoodItemName} {menuItem.MealTypeName},";
                 notificationMessage.AppendLine(message);
             }
 

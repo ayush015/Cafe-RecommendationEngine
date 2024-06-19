@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace RecommendationEngineServer.DAL.Repository.UserOrder
 {
     public interface IUserOrder : IGenericRepository<Models.UserOrder>
-    { 
+    {
+        Task AddUserOrders(IEnumerable<Models.UserOrder> userOrders);
     }
 }

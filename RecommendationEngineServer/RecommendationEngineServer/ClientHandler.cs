@@ -14,13 +14,15 @@ namespace RecommendationEngineServer
         private AuthController _authController;
         private AdminController _adminController;
         private ChefController _chefController;
+        private EmployeeController _employeeController;
         private IServiceScope _scope;
 
-        public ClientHandler(AuthController authController, AdminController adminController,ChefController chefController)
+        public ClientHandler(AuthController authController, AdminController adminController,ChefController chefController, EmployeeController employeeController)
         {
             _authController = authController;
             _adminController = adminController;
             _chefController = chefController;
+            _employeeController = employeeController;   
         }
 
         public void SetClient(TcpClient client, IServiceScope scope)
@@ -161,16 +163,40 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "AddMenuItem":
+                case "GetNotification":
                     {
-                        AddMenuItemRequest menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
-                        var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
+                        int userId = JsonConvert.DeserializeObject<int>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetNotification(userId));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "SelectFoodItemsFromDailyMenu":
+                    {
+                        OrderRequest order = JsonConvert.DeserializeObject<OrderRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _employeeController.SelectFoodItemsFromDailyMenu(order));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "GiveFeedBack":
+                    {
+                        var feedbacks = JsonConvert.DeserializeObject<List<GiveFeedBackRequest>>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GiveFeedBack(feedbacks));
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "GetMenuItemByOrderId":
+                    {
+                        int orderId = JsonConvert.DeserializeObject<int>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuItemByOrderId(orderId));
                         byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
                         await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
                         break;
                     }
 
-                    // Handle other actions here
+                    // Handle other actions here GetMenuItemByOrderId
             }
         }
 

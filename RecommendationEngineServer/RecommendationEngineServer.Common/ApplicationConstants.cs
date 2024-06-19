@@ -28,11 +28,17 @@
         #region Chef Constants
         public const string DailyMenuListCannotbeEmpty = "Daily Menu List Item cannot be empty";
         public const string DailyMenuAddedSuccessfully = "Daily Menu has been added successfully";
-        public const string SentNotificationSuccessfully = "The notification has been sent successfully";
         #endregion
 
         #region Notification Constants
+        public const string SentNotificationSuccessfully = "The notification has been sent successfully";
         public const string NoNewDailyMenuItemAdded = "No New Daily Menu Item has been added to send notification";
+        public const string NotificationReceivedSuccessfully = "Notification has been received successfully";
+        #endregion
+
+        #region
+        public const string FoodItemSelectSuccessfully = "Food Items has been select";
+        public const string FeedbackSuccess = "Thanks for provinding feedback";
         #endregion
     }
 }
