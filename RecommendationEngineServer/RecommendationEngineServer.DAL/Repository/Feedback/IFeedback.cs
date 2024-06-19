@@ -9,5 +9,6 @@ namespace RecommendationEngineServer.DAL.Repository.Feedback
 {
     public interface IFeedback : IGenericRepository<Models.Feedback>
     {
+        Task AddUserFeebacks(IEnumerable<Models.Feedback> feedbacks);
     }
 }

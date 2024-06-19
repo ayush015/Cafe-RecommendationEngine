@@ -6,6 +6,7 @@ using RecommendationEngineServer.DAL;
 using RecommendationEngineServer.DAL.UnitOfWork;
 using RecommendationEngineServer.Logic.Admin;
 using RecommendationEngineServer.Logic.Chef;
+using RecommendationEngineServer.Logic.Employee;
 using RecommendationEngineServer.Logic.Login;
 
 namespace RecommendationEngineServer
@@ -37,11 +38,13 @@ namespace RecommendationEngineServer
                     services.AddScoped<AuthController>();
                     services.AddScoped<AdminController>();
                     services.AddScoped<ChefController>();
+                    services.AddScoped<EmployeeController>();
 
                     // Logic Config
                     services.AddScoped<IAuthLogic, AuthLogic>();
                     services.AddScoped<IAdminLogic, AdminLogic>();
                     services.AddScoped<IChefLogic, ChefLogic>();
+                    services.AddScoped<IEmployeeLogic, EmployeeLogic>();
                 });
         }
     }

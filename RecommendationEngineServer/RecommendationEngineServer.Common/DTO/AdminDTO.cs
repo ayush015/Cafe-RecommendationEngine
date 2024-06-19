@@ -27,6 +27,7 @@ namespace RecommendationEngineServer.Common.DTO
     { 
         public List<MenuListViewModel> MenuList { get; set; }
     }
+
     #endregion
 
     #region View Model

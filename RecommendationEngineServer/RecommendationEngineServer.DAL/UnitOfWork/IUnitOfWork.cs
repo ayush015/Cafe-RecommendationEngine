@@ -6,6 +6,7 @@ using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.Repository.Notification;
 using RecommendationEngineServer.DAL.Repository.Order;
 using RecommendationEngineServer.DAL.Repository.User;
+using RecommendationEngineServer.DAL.Repository.UserNotification;
 using RecommendationEngineServer.DAL.Repository.UserOrder;
 using RecommendationEngineServer.DAL.Repository.UserRole;
 
@@ -23,6 +24,7 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         IFeedback Feedback { get; }
         IDailyMenu DailyMenu { get; }
         INotification Notification { get; }
+        IUserNotification UserNotification { get; }
         Task<int> Complete();
     }
 }
