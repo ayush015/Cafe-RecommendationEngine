@@ -63,5 +63,28 @@ namespace RecommendationEngineServer.Controller
                 };
             }
         }
+
+        public async Task<RecommendedMenuResponse> GetMenuListItems()
+        {
+            try
+            {
+                var recommendedMenuList = await _chefLogic.GetMenuListItems();
+                return new RecommendedMenuResponse
+                { 
+                    RecommendedMenus = recommendedMenuList,
+                    Status = ApplicationConstants.StatusSuccess, 
+                };
+
+            }
+            catch (Exception ex) 
+            {
+                return new RecommendedMenuResponse
+                {
+                    Message = ex.Message,
+                    Status = ApplicationConstants.StatusSuccess,
+                };
+
+            }
+        }
     }
 }

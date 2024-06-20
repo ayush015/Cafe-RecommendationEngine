@@ -8,5 +8,6 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
         Task<List<MenuListViewModel>> GetMenuList();
         Task<DailyMenuListViewModel> GetMenuItemById(int menuId);
         Task<List<UserOrderMenu>> GetMenuItemsByOrderId(int orderId);
+        Task<RecommendedMenu> GetMenuDetailByMenuId(int menuId);
     }
 }

@@ -42,10 +42,10 @@ namespace RecommendationEngineClient._30_Services.Admin
             {
                 Console.WriteLine($"Menu is Empty.");
             }
-
+            Console.WriteLine($"{"MenuId",-10} {"Item Name",-40} {"MealType",-30}");
             foreach (var item in menuList.MenuList)
             {
-                Console.WriteLine($"{item.MenuId}\t {item.FoodItemName}\t {item.MealTypeName}");
+                Console.WriteLine($"{item.MenuId, -10}\t {item.FoodItemName, -30}\t {item.MealTypeName, -20}");
             }
 
             Console.ReadKey();
@@ -119,7 +119,7 @@ namespace RecommendationEngineClient._30_Services.Admin
             string mealTypeInput;
             string foodItemInput;
             Console.WriteLine("Enter the Meal Type");
-            Console.WriteLine("1. Breakfast\n 2. Lunch\n 3. Dinner");
+            Console.WriteLine("1. Breakfast\n2. Lunch\n3. Dinner");
             mealTypeInput = Console.ReadLine();
 
             if (!int.TryParse(mealTypeInput, out int mealInputId) || mealInputId < 0 || mealInputId > 3)

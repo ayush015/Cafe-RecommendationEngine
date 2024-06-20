@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecommendationEngineServer.Common.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace RecommendationEngineServer.Logic.Chef
     {
         Task SendNotification();
         Task<int> AddDailyMenuItem(List<int> menuIds);
+        Task<List<RecommendedMenu>> GetMenuListItems();
     }
 }

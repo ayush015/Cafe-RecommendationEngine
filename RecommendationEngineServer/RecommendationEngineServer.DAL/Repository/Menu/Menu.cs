@@ -72,5 +72,23 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                 });
             return await result.ToListAsync();  
         }
+
+       public async Task<RecommendedMenu> GetMenuDetailByMenuId(int menuId)
+       {
+            var result = (
+                         from menu in _dbContext.Menu
+                         join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id
+                         join mealType in _dbContext.MealTypes on menu.MealTypeId equals mealType.Id
+                         where menu.IsDeleted == false && menu.Id == menuId
+                         select new RecommendedMenu
+                         {
+                             MenuId = menu.Id,
+                             FoodItemName = foodItem.FoodName,
+                             FoodItemId = foodItem.Id,
+                             MealTypeId = mealType.Id,
+                             MealTypeName = mealType.MealTypeName,
+                         }).FirstOrDefaultAsync();
+            return await result;
+        }
     }
 }

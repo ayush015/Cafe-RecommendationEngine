@@ -19,7 +19,7 @@ namespace RecommendationEngineClient._20_ConsoleHandler
             while (true)
             {
                 Console.WriteLine("Enter Choice");
-                Console.WriteLine("1. Get All Menu List\n2. Get Recommendations \n3. Roll out menu\n4. Send Notification\n5. Logout\n");
+                Console.WriteLine("1. Get All Menu List\n2. Roll out menu\n3. Send Notification\n5. Logout\n");
                 Console.Write("Enter : ");
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -41,11 +41,6 @@ namespace RecommendationEngineClient._20_ConsoleHandler
                         case ChefChoice.MenuList:
                             {
                                 await _chefService.GetMenuList();
-                                break;
-                            }
-                        case ChefChoice.RecommendedMenuList:
-                            {
-                                await _chefService.GetRecommendedMenuList();
                                 break;
                             }
                         case ChefChoice.AddDailyMenuItem:

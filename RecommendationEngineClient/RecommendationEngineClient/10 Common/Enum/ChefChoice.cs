@@ -12,14 +12,11 @@ namespace RecommendationEngineClient._10_Common.Enum
         [Description("Menu List")]
         MenuList = 1,
 
-        [Description("Recommended Menu List")]
-        RecommendedMenuList = 2,
-
         [Description("Add Daily MenuItem")]
-        AddDailyMenuItem = 3,
+        AddDailyMenuItem = 2,
 
         [Description("Send Notification")]
-        SendNotification = 4,
+        SendNotification = 3,
 
     }
 }

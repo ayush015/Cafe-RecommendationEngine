@@ -37,7 +37,7 @@ namespace RecommendationEngineServer
         {
             try
             {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[2048];
                 int bytesRead;
 
                 while ((bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
@@ -150,6 +150,13 @@ namespace RecommendationEngineServer
                 case "SendNotification":
                     {
                         var jsonResponse = JsonConvert.SerializeObject(await _chefController.SendNotification());
+                        byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
+                        await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
+                        break;
+                    }
+                case "GetMenuListItems":
+                    {
+                        var jsonResponse = JsonConvert.SerializeObject(await _chefController.GetMenuListItems());
                         byte[] dataToSend = Encoding.ASCII.GetBytes(jsonResponse);
                         await _stream.WriteAsync(dataToSend, 0, dataToSend.Length);
                         break;

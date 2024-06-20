@@ -2,6 +2,7 @@
 using RecommendationEngineClient._30_Services.Chef;
 using RecommendationEngineClient.Common.DTO;
 using RecommendationEngineClient.Common;
+using RecommendationEngineClient._10_Common.DTO;
 
 namespace RecommendationEngineClient._30_Services
 {
@@ -19,14 +20,14 @@ namespace RecommendationEngineClient._30_Services
         {
             DataObject requestData = new DataObject()
             {
-                Controller = "Admin",
-                Action = "GetMenuList",
+                Controller = "Chef",
+                Action = "GetMenuListItems",
                 Data = null
             };
 
             var jsonRequest = JsonConvert.SerializeObject(requestData);
             var response = await _requestServices.SendRequestAsync(jsonRequest);
-            var menuList = JsonConvert.DeserializeObject<MenuListResponse>(response);
+            var menuList = JsonConvert.DeserializeObject<RecommendedMenuResponse>(response);
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -34,22 +35,18 @@ namespace RecommendationEngineClient._30_Services
                 return;
             }
 
-            if (menuList.MenuList != null && menuList.MenuList.Count == 0)
+            if (menuList.RecommendedMenus != null && menuList.RecommendedMenus.Count == 0)
             {
                 Console.WriteLine($"Menu is Empty.");
             }
 
-            foreach (var item in menuList.MenuList)
+            Console.WriteLine($"{"MenuId",-10} {"Item Name",-30} {"MealType",-20} {"Rating",-10}");
+            foreach (var item in menuList.RecommendedMenus)
             {
-                Console.WriteLine($"{item.MenuId}\t {item.FoodItemName}\t {item.MealTypeName}");
+                Console.WriteLine($"{item.MenuId,-10} {item.FoodItemName,-30} {item.MealTypeName,-20} {item.RecommendationScore,-10:F1}");
             }
             Console.WriteLine();
             Console.ReadKey();
-        }
-
-        public Task GetRecommendedMenuList()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task AddDailyMenuItem()
