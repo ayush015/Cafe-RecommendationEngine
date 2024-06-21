@@ -1,9 +1,0 @@
-Feedback in L&C workshop
-
-UML :
-1. Class Diagram :
---Look into what is Fan in and Fan out 
---Logic Layer naming convention
---Look into UnitOfWork
-2. 
-
