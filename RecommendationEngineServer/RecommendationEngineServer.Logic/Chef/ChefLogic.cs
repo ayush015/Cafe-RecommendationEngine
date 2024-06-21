@@ -286,7 +286,8 @@ namespace RecommendationEngineServer.Logic.Chef
             "delicious", "tasty", "yummy", "flavorful", "satisfying", "exquisite",
             "mouth-watering", "savory", "delectable", "succulent", "fresh", "crispy",
             "juicy", "perfect", "amazing", "wonderful", "excellent", "great",
-            "fantastic", "superb", "awesome", "outstanding", "appetizing", "heavenly"
+            "fantastic", "superb", "awesome", "outstanding", "appetizing", "heavenly",
+            "good", "very good","enjoyable", "yum"
             };
 
             return positiveWords;
@@ -296,7 +297,7 @@ namespace RecommendationEngineServer.Logic.Chef
         {
             var negativeWords = new List<string>
             {
-            "bland", "tasteless", "flavorless", "bad", "terrible", "awful", "disgusting",
+            "bland", "tasteless", "flavorless", "bad", "very bad","terrible", "awful", "disgusting",
             "stale", "cold", "overcooked", "undercooked", "burnt", "soggy", "greasy",
             "unappetizing", "horrible", "nasty", "inedible", "gross", "displeasing",
             "unpalatable", "poor", "unsatisfactory", "unpleasant", "mediocre"
