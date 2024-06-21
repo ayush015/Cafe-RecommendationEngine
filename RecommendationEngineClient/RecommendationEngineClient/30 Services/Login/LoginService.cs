@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +31,9 @@ namespace RecommendationEngineClient._30_Services.Login
 
             var jsonRequest = JsonConvert.SerializeObject(requestData);
             var jsonResponse = await _requestServices.SendRequestAsync(jsonRequest);
+            if (jsonResponse == null || string.IsNullOrEmpty(jsonResponse))
+                throw new SocketException((int)SocketError.HostDown);
+
             var response = JsonConvert.DeserializeObject<LoggedInUserResponse>(jsonResponse);
 
             Console.WriteLine($"{response.Message}\n");

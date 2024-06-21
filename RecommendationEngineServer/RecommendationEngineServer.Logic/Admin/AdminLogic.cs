@@ -14,6 +14,7 @@ namespace RecommendationEngineServer.Logic.Admin
             _unitOfWork = unitOfWork;
         }
 
+        #region Public Methods
         public async Task<int> AddMenuItem(AddMenuItemRequest addMenuItemRequest)
         {
             if(addMenuItemRequest.FoodItemName == null || addMenuItemRequest.MealTypeId == 0)
@@ -91,5 +92,6 @@ namespace RecommendationEngineServer.Logic.Admin
             await _unitOfWork.Complete();
 
         }
+        #endregion
     }
 }

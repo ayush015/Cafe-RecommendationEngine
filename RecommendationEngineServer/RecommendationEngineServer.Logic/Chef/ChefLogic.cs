@@ -7,6 +7,7 @@ using RecommendationEngineServer.DAL.UnitOfWork;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RecommendationEngineServer.Logic.Chef
 {
@@ -104,8 +105,6 @@ namespace RecommendationEngineServer.Logic.Chef
             }
             return recommendedMenus;
         }
-        #endregion
-
 
         public async Task<List<MenuRecommendation>> GetRecommendedMenuList()
         {
@@ -139,56 +138,9 @@ namespace RecommendationEngineServer.Logic.Chef
                                    }).OrderByDescending(r => r.RecommendationScore).ToList();
             return recommendations;
         }
+        #endregion
 
-
-
-
-        //private async Task<List<UserOrderFrequency>> GetOrderFrequency(List<UserOrder> userOrders)
-        //{
-        //    int frequency = 0;
-        //    var allMenu = (await _unitOfWork.Menu.GetAll()).ToList();
-        //    List<UserOrderFrequency> orderFrequencies= new List<UserOrderFrequency>();
-        //    int dailyMenuId = userOrders[0].DailyMenuId;
-        //    foreach (var item in userOrders)
-        //    {
-        //        if(dailyMenuId == item.DailyMenuId)
-        //        {
-        //            ++frequency;
-        //        }
-        //        else
-        //        {
-        //            var dailyMenu = await _unitOfWork.DailyMenu.GetById(dailyMenuId);
-        //            UserOrderFrequency userOrder = new UserOrderFrequency()
-        //            {
-        //                DailyMenuId = dailyMenuId,
-        //                OrderFrequency = frequency,
-        //                MenuId = dailyMenu.MenuId
-        //            };
-        //            orderFrequencies.Add(userOrder);
-        //            frequency = 0;
-        //            dailyMenuId = item.DailyMenuId;
-        //            ++frequency;
-        //        }
-
-        //    }
-
-        //    foreach (var menu in allMenu)
-        //    {
-        //        if (!orderFrequencies.Any(x => x.MenuId == menu.Id))
-        //        {
-        //            UserOrderFrequency userOrder = new UserOrderFrequency()
-        //            {
-        //                MenuId = menu.Id,
-        //                OrderFrequency = 0,
-        //                DailyMenuId = 0
-        //            };
-        //            orderFrequencies.Add(userOrder);
-        //        }
-        //    }
-        //    return orderFrequencies;
-
-        //}
-
+        #region Private Methods
         private async Task<List<UserOrderFrequency>> GetOrderFrequency(List<UserOrder> userOrders)
         {
             int frequency = 0;
@@ -244,17 +196,14 @@ namespace RecommendationEngineServer.Logic.Chef
 
             return orderFrequencies;
         }
-
-
         private double CalculateRecommendationScore(double averageRating, List<string> comments, int orderFrequency)
         {
-            double maxCommentScore = 10.0;
+            
             double maxOrderFrequency = 50.0;
 
             double normalizedRating = (averageRating / 5.0) * 5.0;
-            double normalizedCommentScore = (Math.Min(comments.Count, maxCommentScore) / maxCommentScore) * 5.0;
+            double normalizedCommentScore = CalculateCommentSentimentScore(comments);
             double normalizedOrderFrequency = (Math.Min(orderFrequency, maxOrderFrequency) / maxOrderFrequency) * 5.0;
-
 
             double ratingWeight = 0.5;
             double commentWeight = 0.2;
@@ -266,5 +215,96 @@ namespace RecommendationEngineServer.Logic.Chef
             return Math.Round(finalScore, 1);
         }
 
+        private double CalculateCommentSentimentScore(List<string> comments)
+        {
+            double maxSentimentScore = 10;
+            double totalSentimentScore = 0;
+
+            if (comments.Count == 0) return 0;
+
+            foreach (var comment in comments)
+            {
+                double sentimentScore = AnalyzeCommentSentiment(comment);
+                totalSentimentScore += sentimentScore;
+            }
+
+            double averageSentimentScore = totalSentimentScore / comments.Count;
+            double normalizedCommentScore = (Math.Min(averageSentimentScore, maxSentimentScore) / maxSentimentScore) * 5.0;
+
+            return normalizedCommentScore;
+        }
+
+        private double AnalyzeCommentSentiment(string comment)
+        {
+            var positiveWords = GetPositiveWords();
+            var negativeWords = GetNegativeWords();
+
+            comment = comment.ToLower();
+            var words = comment.Split(new[] { ' ', '.', ','}, StringSplitOptions.RemoveEmptyEntries);
+
+            int positiveScore = 0;
+            int negativeScore = 0;
+            bool negate = false;
+
+            foreach (var word in words)
+            {
+                if (word == "not" || word == "no" || word == "never")
+                {
+                    negate = !negate;
+                    continue;
+                }
+
+                if (positiveWords.Contains(word))
+                {
+                    positiveScore += negate ? -1 : 1;
+                }
+                else if (negativeWords.Contains(word))
+                {
+                    negativeScore += negate ? -1 : 1;
+                }
+                negate = false;
+            }
+
+            if (positiveScore > negativeScore)
+            {
+                return 1.0;
+            }
+            else if (negativeScore > positiveScore)
+            {
+                return -1.0; 
+            }
+            else
+            {
+                return 0.5;
+            }
+        }
+
+        private List<string> GetPositiveWords()
+        {
+            var positiveWords = new List<string>
+            {
+            "delicious", "tasty", "yummy", "flavorful", "satisfying", "exquisite",
+            "mouth-watering", "savory", "delectable", "succulent", "fresh", "crispy",
+            "juicy", "perfect", "amazing", "wonderful", "excellent", "great",
+            "fantastic", "superb", "awesome", "outstanding", "appetizing", "heavenly"
+            };
+
+            return positiveWords;
+        }
+
+        private List<string> GetNegativeWords() 
+        {
+            var negativeWords = new List<string>
+            {
+            "bland", "tasteless", "flavorless", "bad", "terrible", "awful", "disgusting",
+            "stale", "cold", "overcooked", "undercooked", "burnt", "soggy", "greasy",
+            "unappetizing", "horrible", "nasty", "inedible", "gross", "displeasing",
+            "unpalatable", "poor", "unsatisfactory", "unpleasant", "mediocre"
+            };
+
+            return negativeWords;
+        }
+
+        #endregion
     }
 }

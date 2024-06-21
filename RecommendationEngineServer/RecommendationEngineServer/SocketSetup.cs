@@ -22,13 +22,13 @@ namespace RecommendationEngineServer
             TcpListener server = new TcpListener(IPAddress.Any, port);
             server.Start();
             Console.WriteLine($"Server is up and running at port: {port}");
-            int clientCounter = 0;
+            int requestCount = 0;
 
             while (true)
             {
-                Console.WriteLine("Connecting new Clients");
+                Console.WriteLine("Wait for Request...");
                 TcpClient client = await server.AcceptTcpClientAsync();
-                Console.WriteLine($"{++clientCounter} Clients Connected");
+                Console.WriteLine($"Request number : {++requestCount}");
 
                 // Resolve a new scope for each client
                 var scope = _serviceProvider.CreateScope();

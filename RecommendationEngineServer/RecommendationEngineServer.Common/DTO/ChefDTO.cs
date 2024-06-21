@@ -37,4 +37,13 @@ namespace RecommendationEngineServer.Common.DTO
       public List<RecommendedMenu> RecommendedMenus { get; set; }
     }
 
+    public class Sentiment
+    { 
+      public int PositiveSentimentScore { get; set; }
+      public int NegativeSentimentScore { get; set; }
+      public int NeutralSentimentScore { get; set; }
+    
+    }
+
+
 }

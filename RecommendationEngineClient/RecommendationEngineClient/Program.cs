@@ -2,6 +2,7 @@
 using RecommendationEngineClient.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Login;
+using System.Net.Sockets;
 
 namespace RecommendationEngineClient
 {
@@ -17,34 +18,49 @@ namespace RecommendationEngineClient
 
         public static async Task Start()
         {
-            while(true)
+            try
             {
-                RequestServices requestServices = new RequestServices();
-                LoginConsole loginHandler = new LoginConsole(requestServices);
-                AdminConsole adminHandler = new AdminConsole(requestServices);
-                ChefConsole chefHandler = new ChefConsole(requestServices);
-                EmployeeConsole employeeHandler = new EmployeeConsole(requestServices);
-                var userLogin = await loginHandler.AttemptLogin();
-                UserRole userRole = (UserRole)userLogin.UserRoleId;
-                switch (userRole)
+                while (true)
                 {
-                    case UserRole.Admin:
-                        {
-                            await adminHandler.AdminConsoleHandler();
+                    RequestServices requestServices = new RequestServices();
+                    LoginConsole loginHandler = new LoginConsole(requestServices);
+                    AdminConsole adminHandler = new AdminConsole(requestServices);
+                    ChefConsole chefHandler = new ChefConsole(requestServices);
+                    EmployeeConsole employeeHandler = new EmployeeConsole(requestServices);
+                    var userLogin = await loginHandler.AttemptLogin();
+                    UserRole userRole = (UserRole)userLogin.UserRoleId;
+                    switch (userRole)
+                    {
+                        case UserRole.Admin:
+                            {
+                                await adminHandler.AdminConsoleHandler();
 
-                        }
-                        break;
-                    case UserRole.Chef:
-                        {
-                            await chefHandler.ChefConsoleHandler();
-                        }
-                        break;
-                    case UserRole.Employee:
-                        {
-                            await employeeHandler.EmployeeConsoleHandler(userLogin.UserId);
-                        }
-                        break;
+                            }
+                            break;
+                        case UserRole.Chef:
+                            {
+                                await chefHandler.ChefConsoleHandler();
+                            }
+                            break;
+                        case UserRole.Employee:
+                            {
+                                await employeeHandler.EmployeeConsoleHandler(userLogin.UserId);
+                            }
+                            break;
+                    }
                 }
+
+            }
+            catch(SocketException ex)
+            {
+                Console.WriteLine((SocketError)ex.ErrorCode);
+                return;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+                Console.ReadKey();
+                return;
             }
         }
     }

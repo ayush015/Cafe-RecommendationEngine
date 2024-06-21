@@ -12,6 +12,7 @@ namespace RecommendationEngineClient.Common
         public const int Port = 3000;
         public const int Logout = 5;
         public const string LogoutSuccessfull = "Logged out successfully";
+        public const string ServerDisconnected= "Server Got disconnected unexpectedly";
 
         #region Generic Response Constants
         public const string StatusSuccess = "Success";
@@ -21,5 +22,7 @@ namespace RecommendationEngineClient.Common
         #region Generic Print statement
         public const string InvalidChoice = "Invalid Choice";
         #endregion
+
+
     }
 }

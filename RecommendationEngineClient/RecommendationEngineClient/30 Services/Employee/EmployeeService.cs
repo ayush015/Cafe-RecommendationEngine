@@ -149,16 +149,22 @@ namespace RecommendationEngineClient._30_Services.Employee
             {
                 Console.WriteLine($"Give feedback for {item.FoodItemName}");
                 Console.Write("Rating : ");
-                int rating = Convert.ToInt32(Console.ReadLine());
+                string ratingInput = Console.ReadLine();
 
-                if(rating < 1 || rating > 5)
+                if(!int.TryParse(ratingInput, out int rating) || rating < 1 || rating > 5)
                 {
-                    Console.WriteLine("The rating has to between 1 to 5");
-                    return null;
+                    Console.WriteLine("Invalid input");
+                    break;
                 }
 
                 Console.Write("\nAny Comments : ");
-                string comment = CollectComments();
+                string comment = Console.ReadLine();
+
+                if(string.IsNullOrEmpty(comment) || string.IsNullOrWhiteSpace(comment))
+                {
+                    Console.WriteLine("Invalid input");
+                    break;
+                }
 
                 GiveFeedBackRequest giveFeedBack = new GiveFeedBackRequest()
                 { 
@@ -176,38 +182,6 @@ namespace RecommendationEngineClient._30_Services.Employee
             return giveFeedBackList;
         }
 
-        private string CollectComments()
-        {
-            string userInput;
-            Console.WriteLine("\n1. Very Good\n 2. Good\n3. Average\n4. Spicy\n5. Tasty\n6. Bad\n7. Cannot Recommend");
-            userInput = Console.ReadLine();
-
-            if (!int.TryParse(userInput, out int choice))
-            {
-                Console.WriteLine("\nInvalit Input\n");
-            }
-
-            CommentChoice commentChoice = (CommentChoice)choice;
-            switch (commentChoice) 
-            {
-                case CommentChoice.VeryGood:
-                    return CommentChoice.VeryGood.GetDescription();
-                case CommentChoice.Good:
-                    return CommentChoice.Good.GetDescription();               
-                case CommentChoice.Average:
-                    return (CommentChoice.Average.GetDescription());
-                case CommentChoice.Spicy:
-                    return (CommentChoice.Spicy.GetDescription());
-                case CommentChoice.Tasty:
-                   return CommentChoice.Tasty.GetDescription();
-                case CommentChoice.Bad:
-                   return CommentChoice.Bad.GetDescription();
-                case CommentChoice.CannotRecommend:
-                    return CommentChoice.CannotRecommend.GetDescription();
-                default:
-                    return string.Empty;
-            }
-
-        }
+       
     }
 }

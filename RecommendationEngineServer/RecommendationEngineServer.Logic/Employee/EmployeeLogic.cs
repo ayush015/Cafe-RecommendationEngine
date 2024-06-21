@@ -18,6 +18,7 @@ namespace RecommendationEngineServer.Logic.Employee
             _unitOfWork = unitOfWork;
         }
 
+        #region Public Methods
         public async Task<string> GetNotification(int userId)
         {
             var lastSeenUserNotification = (await _unitOfWork.UserNotification.GetAll())
@@ -115,5 +116,6 @@ namespace RecommendationEngineServer.Logic.Employee
         {
             return await _unitOfWork.Menu.GetMenuItemsByOrderId(orderId);
         }
+        #endregion
     }
 }
