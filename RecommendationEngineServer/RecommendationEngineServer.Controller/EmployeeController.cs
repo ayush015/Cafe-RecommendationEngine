@@ -102,7 +102,7 @@ namespace RecommendationEngineServer.Controller
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
                 }
-                List<UserOrderMenu> menuList = new List<UserOrderMenu>();
+                List<UserOrderMenuModel> menuList = new List<UserOrderMenuModel>();
                 menuList.AddRange(orderedMenuList);
                 return new UserOrderMenuListResponse
                 {

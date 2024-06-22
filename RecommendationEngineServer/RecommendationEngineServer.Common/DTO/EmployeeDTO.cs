@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Common.DTO
 {
+    #region Request DTO
     public class OrderRequest
     {
         public List<int> DailyMenuIds { get; set; }
@@ -20,15 +21,12 @@ namespace RecommendationEngineServer.Common.DTO
         public int Rating { get; set; }
         public string Comments { get; set; }
     }
+    #endregion
 
-    public class UserOrderMenu : MenuListViewModel
-    {
-        public int DailyMenuId { get; set; }
-    }
-
+    #region Response DTO
     public class UserOrderMenuListResponse : BaseResponseDTO
     {
-       public List<UserOrderMenu> UserOrderMenus { get; set; }
+       public List<UserOrderMenuModel> UserOrderMenus { get; set; }
     }
 
     public class NotificationResponse : BaseResponseDTO
@@ -41,6 +39,14 @@ namespace RecommendationEngineServer.Common.DTO
     { 
       public int OrderId { get; set; }  
     }
+    #endregion
 
+    #region Models
+    public class UserOrderMenuModel : MenuListModel
+    {
+        public int DailyMenuId { get; set; }
+    }
+
+    #endregion
 
 }

@@ -5,9 +5,9 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
 {
     public interface IMenu : IGenericRepository<Models.Menu>
     {
-        Task<List<MenuListViewModel>> GetMenuList();
-        Task<DailyMenuListViewModel> GetMenuItemById(int menuId);
-        Task<List<UserOrderMenu>> GetMenuItemsByOrderId(int orderId);
-        Task<RecommendedMenu> GetMenuDetailByMenuId(int menuId);
+        Task<List<MenuListModel>> GetMenuList();
+        Task<DailyMenuListModel> GetMenuItemById(int menuId);
+        Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId);
+        Task<RecommendedMenuModel> GetMenuDetailByMenuId(int menuId);
     }
 }

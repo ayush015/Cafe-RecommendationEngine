@@ -1,4 +1,4 @@
-﻿using RecommendationEngineClient._30_Services.Admin;
+﻿using RecommendationEngineClient._20_Services.Admin;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.Enum;
 

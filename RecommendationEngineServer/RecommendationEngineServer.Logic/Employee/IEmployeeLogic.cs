@@ -12,6 +12,6 @@ namespace RecommendationEngineServer.Logic.Employee
         Task<string> GetNotification(int userId);
         Task<int> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest);
         Task GiveFeedBack(List<GiveFeedBackRequest> giveFeedBackRequest);
-        Task<List<UserOrderMenu>> GetMenuItemsByOrderId(int orderId);
+        Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId);
     }
 }

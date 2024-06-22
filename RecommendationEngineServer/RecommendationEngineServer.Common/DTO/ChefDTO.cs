@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Common.DTO
 {
-    public class DailyMenuListViewModel : MenuListViewModel
-    {
-        public int DailyMenuId { get; set; }
+    #region Response DTO
+    public class RecommendedMenuResponse : BaseResponseDTO
+    { 
+      public List<RecommendedMenuModel> RecommendedMenus { get; set; }
     }
+    #endregion
 
-    public class UserOrderFrequency
-    {
-        public int DailyMenuId { get; set; }
-        public int MenuId { get; set; }
-        public int OrderFrequency { get; set; }
-    }
-
-    public class MenuRecommendation
+    #region Models
+    public class MenuRecommendationModel
     {
         public int MenuId { get; set; }
         public double AverageRating { get; set; }
@@ -27,17 +23,13 @@ namespace RecommendationEngineServer.Common.DTO
         public double RecommendationScore { get; set; }
     }
 
-    public class RecommendedMenu : MenuListViewModel
+    public class RecommendedMenuModel : MenuListModel
     {
         public double RecommendationScore { get; set; }
     }
 
-    public class RecommendedMenuResponse : BaseResponseDTO
-    { 
-      public List<RecommendedMenu> RecommendedMenus { get; set; }
-    }
 
-    public class Sentiment
+    public class SentimentModel
     { 
       public int PositiveSentimentScore { get; set; }
       public int NegativeSentimentScore { get; set; }
@@ -45,5 +37,17 @@ namespace RecommendationEngineServer.Common.DTO
     
     }
 
+    public class DailyMenuListModel : MenuListModel
+    {
+        public int DailyMenuId { get; set; }
+    }
 
+    public class UserOrderFrequencyModel
+    {
+        public int DailyMenuId { get; set; }
+        public int MenuId { get; set; }
+        public int OrderFrequency { get; set; }
+    }
+
+    #endregion
 }

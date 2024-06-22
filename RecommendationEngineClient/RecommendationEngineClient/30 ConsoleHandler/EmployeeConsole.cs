@@ -1,25 +1,27 @@
-﻿using RecommendationEngineClient._30_Services;
-using RecommendationEngineClient._30_Services.Chef;
+﻿using RecommendationEngineClient._20_Services.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.Enum;
+using RecommendationEngineClient._20_Services.Employee;
 
-namespace RecommendationEngineClient._20_ConsoleHandler
+namespace RecommendationEngineClient._30_ConsoleHandler
 {
-    public class ChefConsole
+    public class EmployeeConsole
     {
-        IChefService _chefService;
-        public ChefConsole(RequestServices requestServices)
+        private IEmployeeService _employeeService;
+
+        public EmployeeConsole(RequestServices requestServices)
         {
-            _chefService = new ChefService(requestServices);
+            _employeeService = new EmployeeService(requestServices);
         }
 
-        public async Task ChefConsoleHandler()
+        public async Task EmployeeConsoleHandler(int userId)
         {
             while (true)
             {
+                await _employeeService.GetNotification(userId);
                 Console.WriteLine("Enter Choice");
-                Console.WriteLine("1. Get All Menu List\n2. Roll out menu\n3. Send Notification\n5. Logout\n");
+                Console.WriteLine("1. Select item from Daily Menu\n2. Give FeedBack\n5. Logout\n");
                 Console.Write("Enter : ");
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -35,22 +37,17 @@ namespace RecommendationEngineClient._20_ConsoleHandler
                         break;
                     }
 
-                    ChefChoice chefChoice = (ChefChoice)choice;
-                    switch (chefChoice)
+                    EmployeeChoice employeeChoice = (EmployeeChoice)choice;
+                    switch (employeeChoice)
                     {
-                        case ChefChoice.MenuList:
+                        case EmployeeChoice.SelectItems:
                             {
-                                await _chefService.GetMenuList();
+                                await _employeeService.SelectFoodItemsFromDailyMenu(userId);
                                 break;
                             }
-                        case ChefChoice.AddDailyMenuItem:
+                        case EmployeeChoice.GiveFeedBack:
                             {
-                                await _chefService.AddDailyMenuItem();
-                                break;
-                            }
-                        case ChefChoice.SendNotification:
-                            {
-                                await _chefService.SendNotification();
+                                await _employeeService.GiveFeedBack(userId);
                                 break;
                             }
                         default:
@@ -60,7 +57,6 @@ namespace RecommendationEngineClient._20_ConsoleHandler
                             }
                     }
                 }
-                
             }
         }
     }

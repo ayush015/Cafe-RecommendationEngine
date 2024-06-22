@@ -112,7 +112,7 @@ namespace RecommendationEngineServer.Logic.Employee
            await _unitOfWork.Complete();
         }
 
-        public async Task<List<UserOrderMenu>> GetMenuItemsByOrderId(int orderId)
+        public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
         {
             return await _unitOfWork.Menu.GetMenuItemsByOrderId(orderId);
         }

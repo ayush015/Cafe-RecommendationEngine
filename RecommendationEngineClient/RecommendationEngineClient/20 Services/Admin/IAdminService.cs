@@ -1,4 +1,4 @@
-﻿namespace RecommendationEngineClient._30_Services.Admin
+﻿namespace RecommendationEngineClient._20_Services.Admin
 {
     public interface IAdminService
     {

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RecommendationEngineClient._30_Services.Login;
+using RecommendationEngineClient._20_Services.Login;
 using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient.Login

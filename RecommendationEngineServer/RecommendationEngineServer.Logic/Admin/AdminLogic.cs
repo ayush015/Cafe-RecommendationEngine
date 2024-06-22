@@ -52,7 +52,7 @@ namespace RecommendationEngineServer.Logic.Admin
             return addMenuItem.Id;
         }
 
-        public async Task<List<MenuListViewModel>> GetMenuList()
+        public async Task<List<MenuListModel>> GetMenuList()
         {
             var menuList = await _unitOfWork.Menu.GetMenuList();
             return menuList;

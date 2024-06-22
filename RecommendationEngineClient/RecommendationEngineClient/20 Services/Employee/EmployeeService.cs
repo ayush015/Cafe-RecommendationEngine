@@ -4,29 +4,20 @@ using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
 
-namespace RecommendationEngineClient._30_Services.Employee
+namespace RecommendationEngineClient._20_Services.Employee
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : BaseService,IEmployeeService
     {
-        private RequestServices _requestServices;
         private int currentOrderId;
 
-        public EmployeeService(RequestServices requestServices)
+        public EmployeeService(RequestServices requestServices) : base(requestServices) 
         {
-            _requestServices = requestServices;
         }
+
         public async Task GetNotification(int userId)
         {
-            DataObject requestData = new DataObject()
-            {
-                Controller = "Employee",
-                Action = "GetNotification",
-                Data = userId.ToString(),
-            };
-
-            var jsonRequest = JsonConvert.SerializeObject(requestData);
-            var response = await _requestServices.SendRequestAsync(jsonRequest);
-            var notificationMessage = JsonConvert.DeserializeObject<NotificationResponse>(response);
+            var notificationMessage = await SendRequestAsync<NotificationResponse>("Employee", "GetNotification", userId.ToString());
+           
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
                 Console.WriteLine($"New Notification : Menu Items for Today\n{notificationMessage.NotificationMessgae}");
@@ -52,19 +43,9 @@ namespace RecommendationEngineClient._30_Services.Employee
             var feedbackList = GetFeedbackDisplayMenu(userId, currentOrderList);
             if (feedbackList == null) return;
 
-            var requestObject = JsonConvert.SerializeObject(feedbackList);
-            DataObject requestData = new DataObject()
-            {
-                Controller = "Employee",
-                Action = "GiveFeedBack",
-                Data = requestObject
-            };
+            var response = await SendRequestAsync<BaseResponseDTO>("Employee", "GiveFeedBack", feedbackList);
 
-            var jsonRequest = JsonConvert.SerializeObject(requestData);
-            var jsonResponse = await _requestServices.SendRequestAsync(jsonRequest);
-            var response = JsonConvert.DeserializeObject<BaseResponseDTO>(jsonResponse);
-
-            BaseResponsePrint(response);
+            PrintBaseResponse(response);
 
         }
         public async Task SelectFoodItemsFromDailyMenu(int userId)
@@ -79,20 +60,11 @@ namespace RecommendationEngineClient._30_Services.Employee
               UserId = userId
             };
 
+            var response = await SendRequestAsync<OrderResponse>("Employee", "SelectFoodItemsFromDailyMenu", orderRequest);
 
-            var requestObject = JsonConvert.SerializeObject(orderRequest);
-            DataObject requestData = new DataObject()
-            {
-                Controller = "Employee",
-                Action = "SelectFoodItemsFromDailyMenu",
-                Data = requestObject
-            };
-
-            var jsonRequest = JsonConvert.SerializeObject(requestData);
-            var jsonResponse = await _requestServices.SendRequestAsync(jsonRequest);
-            var response = JsonConvert.DeserializeObject<OrderResponse>(jsonResponse);
+           
             currentOrderId = response.OrderId;
-            BaseResponsePrint(response);
+            PrintBaseResponse(response);
         }
 
         private List<int> SelectFoodItemDisplayMenu()
@@ -120,24 +92,9 @@ namespace RecommendationEngineClient._30_Services.Employee
             return dailyMenuIds;
         }
 
-        private void BaseResponsePrint(BaseResponseDTO response)
-        {
-            Console.WriteLine($"Status : {response.Status}, Message : {response.Message}\n");
-        }
-
         private async Task<List<UserOrderMenu>> GetOrderByOrderId()
         {
-            
-            DataObject requestData = new DataObject()
-            {
-                Controller = "Employee",
-                Action = "GetMenuItemByOrderId",
-                Data = currentOrderId.ToString(),
-            };
-
-            var jsonRequest = JsonConvert.SerializeObject(requestData);
-            var jsonResponse = await _requestServices.SendRequestAsync(jsonRequest);
-            var response = JsonConvert.DeserializeObject<UserOrderMenuListResponse>(jsonResponse);
+            var response = await SendRequestAsync<UserOrderMenuListResponse>("Employee", "GetMenuItemByOrderId", currentOrderId.ToString());
             return response.UserOrderMenus;
         }
 

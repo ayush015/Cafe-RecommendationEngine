@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineClient._30_Services.Employee
+namespace RecommendationEngineClient._20_Services.Employee
 {
     public interface IEmployeeService
     {

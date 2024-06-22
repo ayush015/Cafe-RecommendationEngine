@@ -11,6 +11,6 @@ namespace RecommendationEngineServer.Logic.Chef
     {
         Task SendNotification();
         Task<int> AddDailyMenuItem(List<int> menuIds);
-        Task<List<RecommendedMenu>> GetMenuListItems();
+        Task<List<RecommendedMenuModel>> GetMenuListItems();
     }
 }

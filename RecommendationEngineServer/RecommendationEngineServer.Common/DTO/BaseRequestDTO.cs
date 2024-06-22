@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Common.DTO
 {
-    public class DataObject
+    public class BaseRequestDTO
     {
         public string Controller { get; set; }
         public string Action { get; set; }

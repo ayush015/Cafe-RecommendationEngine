@@ -29,7 +29,7 @@ namespace RecommendationEngineClient._10_Common.DTO
         public int DailyMenuId { get; set; }
     }
 
-    public class UserOrderMenuListResponse
+    public class UserOrderMenuListResponse : BaseResponseDTO
     {
         public List<UserOrderMenu> UserOrderMenus { get; set; }
     }

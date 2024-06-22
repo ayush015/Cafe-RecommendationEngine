@@ -93,10 +93,10 @@ namespace RecommendationEngineServer.Logic.Chef
             await _unitOfWork.Complete();
         }
 
-        public async Task<List<RecommendedMenu>> GetMenuListItems()
+        public async Task<List<RecommendedMenuModel>> GetMenuListItems()
         {
             var recommendedMenuList = await GetRecommendedMenuList();
-            List<RecommendedMenu> recommendedMenus = new List<RecommendedMenu>();
+            List<RecommendedMenuModel> recommendedMenus = new List<RecommendedMenuModel>();
             foreach (var recommendedMenu in recommendedMenuList)
             {
                 var menuDetails = await _unitOfWork.Menu.GetMenuDetailByMenuId(recommendedMenu.MenuId);
@@ -106,7 +106,7 @@ namespace RecommendationEngineServer.Logic.Chef
             return recommendedMenus;
         }
 
-        public async Task<List<MenuRecommendation>> GetRecommendedMenuList()
+        public async Task<List<MenuRecommendationModel>> GetRecommendedMenuList()
         {
             var feedbacks = (await _unitOfWork.Feedback.GetAll()).ToList();
             var allMenuItems = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted).ToList();
@@ -128,7 +128,7 @@ namespace RecommendationEngineServer.Logic.Chef
                                    from rating in mr.DefaultIfEmpty()
                                    join orderFrequency in menuOrderFrequency on menu.Id equals orderFrequency.MenuId into of
                                    from orderFrequency in of.DefaultIfEmpty()
-                                   select new MenuRecommendation
+                                   select new MenuRecommendationModel
                                    {
                                        MenuId = menu.Id,
                                        AverageRating = rating?.AverageRating ?? 0,
@@ -141,11 +141,11 @@ namespace RecommendationEngineServer.Logic.Chef
         #endregion
 
         #region Private Methods
-        private async Task<List<UserOrderFrequency>> GetOrderFrequency(List<UserOrder> userOrders)
+        private async Task<List<UserOrderFrequencyModel>> GetOrderFrequency(List<UserOrder> userOrders)
         {
             int frequency = 0;
             int? currentDailyMenuId = null;
-            List<UserOrderFrequency> orderFrequencies = new List<UserOrderFrequency>();
+            List<UserOrderFrequencyModel> orderFrequencies = new List<UserOrderFrequencyModel>();
             userOrders = userOrders.OrderBy(uo => uo.DailyMenuId).ToList();
 
             foreach (var item in userOrders)
@@ -157,7 +157,7 @@ namespace RecommendationEngineServer.Logic.Chef
                 else
                 {
                     var dailyMenu = await _unitOfWork.DailyMenu.GetById(currentDailyMenuId.Value);
-                    UserOrderFrequency userOrder = new UserOrderFrequency()
+                    UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
                     {
                         DailyMenuId = currentDailyMenuId.Value,
                         OrderFrequency = frequency,
@@ -172,7 +172,7 @@ namespace RecommendationEngineServer.Logic.Chef
             if (currentDailyMenuId != null)
             {
                 var dailyMenu = await _unitOfWork.DailyMenu.GetById(currentDailyMenuId.Value);
-                UserOrderFrequency userOrder = new UserOrderFrequency()
+                UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
                 {
                     DailyMenuId = currentDailyMenuId.Value,
                     OrderFrequency = frequency,
@@ -186,7 +186,7 @@ namespace RecommendationEngineServer.Logic.Chef
 
             foreach (var menuId in missingMenuIds)
             {
-                orderFrequencies.Add(new UserOrderFrequency()
+                orderFrequencies.Add(new UserOrderFrequencyModel()
                 {
                     MenuId = menuId,
                     OrderFrequency = 0,

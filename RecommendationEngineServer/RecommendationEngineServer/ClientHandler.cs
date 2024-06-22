@@ -65,14 +65,14 @@ namespace RecommendationEngineServer
         #region Private Method
         private async Task HandleIncomingDataString(string data)
         {
-            var dataObject = JsonConvert.DeserializeObject<DataObject>(data);
+            var dataObject = JsonConvert.DeserializeObject<BaseRequestDTO>(data);
             if (dataObject != null)
             {
                 await ControllerHandler(dataObject);
             }
         }
 
-        private async Task ControllerHandler(DataObject data)
+        private async Task ControllerHandler(BaseRequestDTO data)
         {
             switch (data.Controller)
             {
@@ -95,7 +95,7 @@ namespace RecommendationEngineServer
             }
         }
 
-        private async Task AuthControllerActionHandler(DataObject data)
+        private async Task AuthControllerActionHandler(BaseRequestDTO data)
         {
             switch (data.Action)
             {
@@ -111,7 +111,7 @@ namespace RecommendationEngineServer
             }
         }
 
-        private async Task AdminControllerActionHandler(DataObject data)
+        private async Task AdminControllerActionHandler(BaseRequestDTO data)
         {
             switch (data.Action)
             {
@@ -141,7 +141,7 @@ namespace RecommendationEngineServer
             }
         }
 
-        private async Task ChefControllerActionHandler(DataObject data)
+        private async Task ChefControllerActionHandler(BaseRequestDTO data)
         {
             switch (data.Action)
             {
@@ -165,7 +165,7 @@ namespace RecommendationEngineServer
             }
         }
 
-        private async Task EmployeeControllerActionHandler(DataObject data)
+        private async Task EmployeeControllerActionHandler(BaseRequestDTO data)
         {
             switch (data.Action)
             {

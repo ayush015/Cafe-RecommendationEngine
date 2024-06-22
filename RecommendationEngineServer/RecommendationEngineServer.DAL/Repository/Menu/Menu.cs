@@ -12,14 +12,14 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
             _dbContext = (RecommendationEngineDBContext)context;
         }
 
-        public async Task<List<MenuListViewModel>> GetMenuList()
+        public async Task<List<MenuListModel>> GetMenuList()
         {
             var result = (
                           from menu in _dbContext.Menu
                           join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id
                           join mealType in _dbContext.MealTypes on menu.MealTypeId equals mealType.Id
                           where menu.IsDeleted == false
-                          select new MenuListViewModel
+                          select new MenuListModel
                           {
                               MenuId = menu.Id,
                               FoodItemName = foodItem.FoodName,
@@ -30,7 +30,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
             return await result.ToListAsync();
         }
 
-        public async Task<DailyMenuListViewModel> GetMenuItemById(int menuId)
+        public async Task<DailyMenuListModel> GetMenuItemById(int menuId)
         {
             var result = (
                         from dailyMenu in _dbContext.DailyMenus
@@ -38,7 +38,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                         join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id
                         join mealType in _dbContext.MealTypes on menu.MealTypeId equals mealType.Id
                         where menu.IsDeleted == false && menu.Id == menuId
-                        select new DailyMenuListViewModel
+                        select new DailyMenuListModel
                         {
                             MenuId = menu.Id,
                             DailyMenuId = dailyMenu.Id,
@@ -51,7 +51,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
             return  await result;
         }
 
-        public async Task<List<UserOrderMenu>> GetMenuItemsByOrderId(int orderId)
+        public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
         {
             var result = (
                 from order in _dbContext.Orders
@@ -61,7 +61,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                 join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id
                 join mealType in _dbContext.MealTypes on menu.MealTypeId equals mealType.Id
                 where order.Id == orderId && order.IsFeedbackGiven == false
-                select new UserOrderMenu
+                select new UserOrderMenuModel
                 {
                     MenuId = menu.Id,
                     DailyMenuId = dailyMenu.Id,
@@ -73,14 +73,14 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
             return await result.ToListAsync();  
         }
 
-       public async Task<RecommendedMenu> GetMenuDetailByMenuId(int menuId)
+       public async Task<RecommendedMenuModel> GetMenuDetailByMenuId(int menuId)
        {
             var result = (
                          from menu in _dbContext.Menu
                          join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id
                          join mealType in _dbContext.MealTypes on menu.MealTypeId equals mealType.Id
                          where menu.IsDeleted == false && menu.Id == menuId
-                         select new RecommendedMenu
+                         select new RecommendedMenuModel
                          {
                              MenuId = menu.Id,
                              FoodItemName = foodItem.FoodName,

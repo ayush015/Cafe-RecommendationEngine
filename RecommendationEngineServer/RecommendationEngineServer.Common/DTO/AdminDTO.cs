@@ -25,13 +25,13 @@ namespace RecommendationEngineServer.Common.DTO
     #region Response DTO
     public class MenuListResponse : BaseResponseDTO
     { 
-        public List<MenuListViewModel> MenuList { get; set; }
+        public List<MenuListModel> MenuList { get; set; }
     }
 
     #endregion
 
     #region View Model
-    public class MenuListViewModel
+    public class MenuListModel
     {
         public int MenuId { get; set; }
         public int FoodItemId { get; set; }

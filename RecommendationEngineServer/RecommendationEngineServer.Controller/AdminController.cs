@@ -55,7 +55,7 @@ namespace RecommendationEngineServer.Controller
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
                 }
-                List<MenuListViewModel> menuList = new List<MenuListViewModel>();
+                List<MenuListModel> menuList = new List<MenuListModel>();
                 menuList.AddRange(result);
                 return new MenuListResponse
                 {
