@@ -23,6 +23,11 @@ namespace RecommendationEngineClient.Common
         public const string InvalidChoice = "Invalid Choice";
         #endregion
 
-
+        #region Controllers
+        public const string LoginController = "Login";
+        public const string AdminController = "Admin";
+        public const string EmployeeController = "Employee";
+        public const string ChefController = "Chef";
+        #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace RecommendationEngineClient._20_Services.Login
         #region Public Method
         public async Task<LoggedInUserResponse> LoginHandler(UserLoginRequest request)
         {
-            var jsonResponse = await SendRequestAsync<LoggedInUserResponse>("Login", "Login", request);
+            var jsonResponse = await SendRequestAsync<LoggedInUserResponse>(ApplicationConstants.LoginController, "Login", request);
           
             Console.WriteLine($"{jsonResponse.Message}\n");
 

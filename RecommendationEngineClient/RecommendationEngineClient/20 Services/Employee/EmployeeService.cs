@@ -14,9 +14,10 @@ namespace RecommendationEngineClient._20_Services.Employee
         {
         }
 
+        #region Public Method
         public async Task GetNotification(int userId)
         {
-            var notificationMessage = await SendRequestAsync<NotificationResponse>("Employee", "GetNotification", userId.ToString());
+            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApplicationConstants.EmployeeController, "GetNotification", userId.ToString());
            
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
@@ -43,11 +44,12 @@ namespace RecommendationEngineClient._20_Services.Employee
             var feedbackList = GetFeedbackDisplayMenu(userId, currentOrderList);
             if (feedbackList == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>("Employee", "GiveFeedBack", feedbackList);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.EmployeeController, "GiveFeedBack", feedbackList);
 
             PrintBaseResponse(response);
 
         }
+
         public async Task SelectFoodItemsFromDailyMenu(int userId)
         {
             var selectedFoodItemIds = SelectFoodItemDisplayMenu();
@@ -60,13 +62,15 @@ namespace RecommendationEngineClient._20_Services.Employee
               UserId = userId
             };
 
-            var response = await SendRequestAsync<OrderResponse>("Employee", "SelectFoodItemsFromDailyMenu", orderRequest);
+            var response = await SendRequestAsync<OrderResponse>(ApplicationConstants.EmployeeController, "SelectFoodItemsFromDailyMenu", orderRequest);
 
            
             currentOrderId = response.OrderId;
             PrintBaseResponse(response);
         }
+        #endregion
 
+        #region Private Method
         private List<int> SelectFoodItemDisplayMenu()
         {
             string numberOfMenuItemInput;
@@ -94,7 +98,7 @@ namespace RecommendationEngineClient._20_Services.Employee
 
         private async Task<List<UserOrderMenu>> GetOrderByOrderId()
         {
-            var response = await SendRequestAsync<UserOrderMenuListResponse>("Employee", "GetMenuItemByOrderId", currentOrderId.ToString());
+            var response = await SendRequestAsync<UserOrderMenuListResponse>(ApplicationConstants.EmployeeController, "GetMenuItemByOrderId", currentOrderId.ToString());
             return response.UserOrderMenus;
         }
 
@@ -138,7 +142,7 @@ namespace RecommendationEngineClient._20_Services.Employee
 
             return giveFeedBackList;
         }
+        #endregion
 
-       
     }
 }

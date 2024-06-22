@@ -16,7 +16,7 @@ namespace RecommendationEngineClient._20_Services.Chef
         #region Public Methods
         public async Task GetMenuList()
         {
-            var menuList = await SendRequestAsync<RecommendedMenuResponse>("Chef", "GetMenuListItems");
+            var menuList = await SendRequestAsync<RecommendedMenuResponse>(ApplicationConstants.ChefController, "GetMenuListItems");
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -43,13 +43,13 @@ namespace RecommendationEngineClient._20_Services.Chef
             var menuItemIds = RollOutMenuDisplay();
             if (menuItemIds == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>("Chef", "AddDailyMenuItem", menuItemIds);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "AddDailyMenuItem", menuItemIds);
             PrintBaseResponse(response);
         }
 
         public async Task SendNotification()
         {
-            var response = await SendRequestAsync<BaseResponseDTO>("Chef", "SendNotification");
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "SendNotification");
             PrintBaseResponse(response);
         }
         #endregion
