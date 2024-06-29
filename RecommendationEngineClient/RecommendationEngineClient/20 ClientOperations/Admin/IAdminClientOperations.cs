@@ -1,6 +1,6 @@
-﻿namespace RecommendationEngineClient._20_Services.Admin
+﻿namespace RecommendationEngineClient._20_ClientOperations.Admin
 {
-    public interface IAdminService
+    public interface IAdminClientOperations
     {
         Task GetMenuList();
         Task AddMenuItem();

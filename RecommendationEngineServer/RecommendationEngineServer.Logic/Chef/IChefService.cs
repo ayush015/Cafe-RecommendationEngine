@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineServer.Logic.Chef
+namespace RecommendationEngineServer.Service.Chef
 {
-    public interface IChefLogic
+    public interface IChefService
     {
         Task SendNotification();
         Task<int> AddDailyMenuItem(List<int> menuIds);

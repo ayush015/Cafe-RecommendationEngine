@@ -4,10 +4,10 @@ using Microsoft.Extensions.Hosting;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.DAL;
 using RecommendationEngineServer.DAL.UnitOfWork;
-using RecommendationEngineServer.Logic.Admin;
-using RecommendationEngineServer.Logic.Chef;
-using RecommendationEngineServer.Logic.Employee;
-using RecommendationEngineServer.Logic.Login;
+using RecommendationEngineServer.Service.Login;
+using RecommendationEngineServer.Service.Admin;
+using RecommendationEngineServer.Service.Chef;
+using RecommendationEngineServer.Service.Employee;
 
 namespace RecommendationEngineServer
 {
@@ -41,10 +41,10 @@ namespace RecommendationEngineServer
                     services.AddScoped<EmployeeController>();
 
                     // Logic Config
-                    services.AddScoped<IAuthLogic, AuthLogic>();
-                    services.AddScoped<IAdminLogic, AdminLogic>();
-                    services.AddScoped<IChefLogic, ChefLogic>();
-                    services.AddScoped<IEmployeeLogic, EmployeeLogic>();
+                    services.AddScoped<IAuthService, AuthService>();
+                    services.AddScoped<IAdminService, AdminService>();
+                    services.AddScoped<IChefService, ChefService>();
+                    services.AddScoped<IEmployeeService, EmployeeService>();
                 });
         }
     }

@@ -1,14 +1,14 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Common.Exceptions;
-using RecommendationEngineServer.Logic.Chef;
+using RecommendationEngineServer.Service.Chef;
 
 namespace RecommendationEngineServer.Controller
 {
     public class ChefController
     {
-        private IChefLogic _chefLogic;
-        public ChefController(IChefLogic chefLogic)
+        private IChefService _chefLogic;
+        public ChefController(IChefService chefLogic)
         {
             _chefLogic = chefLogic;
         }

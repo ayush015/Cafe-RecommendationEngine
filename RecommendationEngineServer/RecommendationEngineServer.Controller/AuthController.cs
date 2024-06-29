@@ -1,5 +1,5 @@
 ﻿using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Logic.Login;
+using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.Common;
 
@@ -7,8 +7,8 @@ namespace RecommendationEngineServer.Controller
 {
     public class AuthController
     {
-        private IAuthLogic _authLogic; 
-        public AuthController(IAuthLogic authLogic) 
+        private IAuthService _authLogic; 
+        public AuthController(IAuthService authLogic) 
         { 
           _authLogic = authLogic;
         }

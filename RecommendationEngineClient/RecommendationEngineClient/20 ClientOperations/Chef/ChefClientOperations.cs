@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RecommendationEngineClient._10_Common.DTO;
 
-namespace RecommendationEngineClient._20_Services.Chef
+namespace RecommendationEngineClient._20_ClientOperations.Chef
 {
-    public class ChefService : BaseService, IChefService
+    public class ChefClientOperations : BaseClientOperations, IChefClientOperations
     {
-        public ChefService(RequestServices requestServices) : base(requestServices)
+        public ChefClientOperations(RequestServices requestServices) : base(requestServices)
         {
         }
 

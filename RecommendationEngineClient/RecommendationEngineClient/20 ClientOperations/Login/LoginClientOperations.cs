@@ -8,11 +8,11 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineClient._20_Services.Login
+namespace RecommendationEngineClient._20_ClientOperations.Login
 {
-    public class LoginService :BaseService, ILoginService
+    public class LoginClientOperations :BaseClientOperations, ILoginClientOperations
     {
-        public LoginService(RequestServices requestServices) : base(requestServices) 
+        public LoginClientOperations(RequestServices requestServices) : base(requestServices) 
         { 
         }
 

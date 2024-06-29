@@ -9,12 +9,12 @@ using System.Text;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace RecommendationEngineServer.Logic.Chef
+namespace RecommendationEngineServer.Service.Chef
 {
-    public class ChefLogic : IChefLogic
+    public class ChefService : IChefService
     {
         private IUnitOfWork _unitOfWork;
-        public ChefLogic(IUnitOfWork unitOfWork) 
+        public ChefService(IUnitOfWork unitOfWork) 
         { 
           _unitOfWork = unitOfWork;
         }

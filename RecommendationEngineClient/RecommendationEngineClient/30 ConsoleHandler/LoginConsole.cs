@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
-using RecommendationEngineClient._20_Services.Login;
+using RecommendationEngineClient._20_ClientOperations.Login;
 using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient.Login
 {
     public class LoginConsole
     {
-        private ILoginService _loginService;
+        private ILoginClientOperations _loginService;
         public LoginConsole(RequestServices requestServices) 
         { 
-            _loginService = new LoginService(requestServices);
+            _loginService = new LoginClientOperations(requestServices);
         }
 
         public async Task<LoggedInUserResponse> AttemptLogin()

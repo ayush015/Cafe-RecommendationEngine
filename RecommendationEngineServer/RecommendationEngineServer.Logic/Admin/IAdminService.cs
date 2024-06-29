@@ -1,8 +1,8 @@
 ﻿using RecommendationEngineServer.Common.DTO;
 
-namespace RecommendationEngineServer.Logic.Admin
+namespace RecommendationEngineServer.Service.Admin
 {
-    public interface IAdminLogic
+    public interface IAdminService
     {
         Task<int> AddMenuItem(AddMenuItemRequest addMenuItemRequest);
         Task RemoveMenuItem(int menuId);

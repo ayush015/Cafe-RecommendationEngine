@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineClient._20_Services.Admin
+namespace RecommendationEngineClient._20_ClientOperations.Admin
 {
-    public class AdminService : BaseService, IAdminService
+    public class AdminClientOperations : BaseClientOperations, IAdminClientOperations
     {
-        public AdminService(RequestServices requestServices) : base(requestServices)
+        public AdminClientOperations(RequestServices requestServices) : base(requestServices)
         {
         }
 

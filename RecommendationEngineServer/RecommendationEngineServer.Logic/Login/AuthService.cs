@@ -4,12 +4,12 @@ using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.DAL.UnitOfWork;
 
-namespace RecommendationEngineServer.Logic.Login
+namespace RecommendationEngineServer.Service.Login
 {
-    public class AuthLogic : IAuthLogic
+    public class AuthService : IAuthService
     {
         private IUnitOfWork _unitOfWork;
-        public AuthLogic(IUnitOfWork unitOfWork)
+        public AuthService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

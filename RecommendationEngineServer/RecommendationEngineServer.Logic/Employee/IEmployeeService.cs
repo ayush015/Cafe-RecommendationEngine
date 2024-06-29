@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineServer.Logic.Employee
+namespace RecommendationEngineServer.Service.Employee
 {
-    public interface IEmployeeLogic
+    public interface IEmployeeService
     {
         Task<string> GetNotification(int userId);
         Task<int> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest);

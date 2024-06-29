@@ -4,12 +4,12 @@ using RecommendationEngineServer.Common.Exceptions;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.DAL.UnitOfWork;
 
-namespace RecommendationEngineServer.Logic.Admin
+namespace RecommendationEngineServer.Service.Admin
 {
-    public class AdminLogic : IAdminLogic
+    public class AdminService : IAdminService
     {
         private IUnitOfWork _unitOfWork;
-        public AdminLogic(IUnitOfWork unitOfWork)
+        public AdminService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

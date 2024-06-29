@@ -1,7 +1,7 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Logic.Chef;
-using RecommendationEngineServer.Logic.Employee;
+using RecommendationEngineServer.Service.Chef;
+using RecommendationEngineServer.Service.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +12,8 @@ namespace RecommendationEngineServer.Controller
 {
     public class EmployeeController
     {
-        private IEmployeeLogic _employeeLogic;
-        public EmployeeController(IEmployeeLogic employeeLogic)
+        private IEmployeeService _employeeLogic;
+        public EmployeeController(IEmployeeService employeeLogic)
         {
             _employeeLogic = employeeLogic;
         }

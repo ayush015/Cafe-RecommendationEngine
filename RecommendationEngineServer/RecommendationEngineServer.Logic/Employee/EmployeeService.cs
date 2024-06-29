@@ -2,18 +2,14 @@
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.DAL.Repository.DailyMenu;
 using RecommendationEngineServer.DAL.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RecommendationEngineServer.Logic.Employee
+
+namespace RecommendationEngineServer.Service.Employee
 {
-    public class EmployeeLogic : IEmployeeLogic
+    public class EmployeeService : IEmployeeService
     {
         private IUnitOfWork _unitOfWork;
-        public EmployeeLogic(IUnitOfWork unitOfWork)
+        public EmployeeService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

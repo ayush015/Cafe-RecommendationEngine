@@ -1,18 +1,18 @@
-﻿using RecommendationEngineClient._20_Services.Admin;
+﻿using RecommendationEngineClient._20_ClientOperations.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.Enum;
-using RecommendationEngineClient._20_Services.Employee;
+using RecommendationEngineClient._20_ClientOperations.Employee;
 
 namespace RecommendationEngineClient._30_ConsoleHandler
 {
     public class EmployeeConsole
     {
-        private IEmployeeService _employeeService;
+        private IEmployeeClientOperations _employeeService;
 
         public EmployeeConsole(RequestServices requestServices)
         {
-            _employeeService = new EmployeeService(requestServices);
+            _employeeService = new EmployeeClientOperations(requestServices);
         }
 
         public async Task EmployeeConsoleHandler(int userId)

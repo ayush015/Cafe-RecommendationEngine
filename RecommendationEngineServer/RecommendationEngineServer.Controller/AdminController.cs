@@ -1,8 +1,8 @@
 ﻿using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Logic.Login;
+using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.Common;
-using RecommendationEngineServer.Logic.Admin;
+using RecommendationEngineServer.Service.Admin;
 using RecommendationEngineServer.Common.Exceptions;
 
 namespace RecommendationEngineServer.Controller
@@ -10,9 +10,9 @@ namespace RecommendationEngineServer.Controller
     public class AdminController
     {
 
-        private IAdminLogic _adminLogic;
+        private IAdminService _adminLogic;
 
-        public AdminController(IAdminLogic adminLogic) 
+        public AdminController(IAdminService adminLogic) 
         { 
           _adminLogic = adminLogic;
         }

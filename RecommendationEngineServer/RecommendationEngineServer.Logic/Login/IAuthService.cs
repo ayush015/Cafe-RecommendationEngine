@@ -1,9 +1,9 @@
 ﻿using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.DAL.Models;
 
-namespace RecommendationEngineServer.Logic.Login
+namespace RecommendationEngineServer.Service.Login
 {
-    public interface IAuthLogic
+    public interface IAuthService
     {
         Task<User> Login(UserLoginRequest userLoginRequest);
     }
