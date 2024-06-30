@@ -15,15 +15,19 @@ namespace RecommendationEngineServer
         private readonly AdminController _adminController;
         private readonly ChefController _chefController;
         private readonly EmployeeController _employeeController;
+        private readonly NotificationController _notificationController;
         private IServiceScope _scope;
 
         public ClientHandler(AuthController authController, AdminController adminController,
-                             ChefController chefController, EmployeeController employeeController)
+                             ChefController chefController, EmployeeController employeeController,
+                             NotificationController notificationController)
         {
             _authController = authController;
             _adminController = adminController;
             _chefController = chefController;
             _employeeController = employeeController;
+            _notificationController = notificationController;
+
         }
 
         #region Public Method
@@ -87,6 +91,9 @@ namespace RecommendationEngineServer
                     break;
                 case "Employee":
                     await EmployeeControllerActionHandler(data);
+                    break;
+                case "Notification":
+                    await NotificationControllerActionHandler(data);
                     break;
                 // Add other controllers here
                 default:
@@ -188,6 +195,22 @@ namespace RecommendationEngineServer
                 case "GetMenuItemByOrderId":
                     var orderId = JsonConvert.DeserializeObject<int>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuItemByOrderId(orderId));
+                    await SendResponseAsync(jsonResponse);
+                    break;
+                // Handle other actions here
+                default:
+                    Console.WriteLine($"Unknown action: {data.Action} for EmployeeController");
+                    break;
+            }
+        }
+
+        private async Task NotificationControllerActionHandler(BaseRequestDTO data)
+        {
+            switch (data.Action)
+            {
+                case "GetMonthlyNotification":
+                    var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
+                    var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyNotification(date));
                     await SendResponseAsync(jsonResponse);
                     break;
                 // Handle other actions here
