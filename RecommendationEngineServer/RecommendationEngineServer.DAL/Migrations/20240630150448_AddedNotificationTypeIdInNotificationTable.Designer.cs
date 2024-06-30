@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecommendationEngineServer.DAL;
 
@@ -11,9 +12,10 @@ using RecommendationEngineServer.DAL;
 namespace RecommendationEngineServer.DAL.Migrations
 {
     [DbContext(typeof(RecommendationEngineDBContext))]
-    partial class RecommendationEngineDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240630150448_AddedNotificationTypeIdInNotificationTable")]
+    partial class AddedNotificationTypeIdInNotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,9 +136,6 @@ namespace RecommendationEngineServer.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDiscarded")
                         .HasColumnType("bit");
 
                     b.Property<int>("MealTypeId")

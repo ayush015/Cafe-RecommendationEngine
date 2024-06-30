@@ -7,17 +7,17 @@ namespace RecommendationEngineServer.Controller
 {
     public class ChefController
     {
-        private IChefService _chefLogic;
-        public ChefController(IChefService chefLogic)
+        private IChefService _chefService;
+        public ChefController(IChefService chefService)
         {
-            _chefLogic = chefLogic;
+            _chefService = chefService;
         }
 
         public async Task<BaseResponseDTO> AddDailyMenuItem(MenuItem menuItem)
         {
             try
             {
-                var result = await _chefLogic.AddDailyMenuItem(menuItem);
+                var result = await _chefService.AddDailyMenuItem(menuItem);
                 if(result == 0)
                 {
                     return new BaseResponseDTO
@@ -55,7 +55,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                await _chefLogic.SendNotification(currentDate);
+                await _chefService.SendNotification(currentDate);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,
@@ -76,7 +76,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                var recommendedMenuList = await _chefLogic.GetMenuListItems();
+                var recommendedMenuList = await _chefService.GetMenuListItems();
                 return new RecommendedMenuResponse
                 { 
                     RecommendedMenus = recommendedMenuList,
@@ -92,6 +92,19 @@ namespace RecommendationEngineServer.Controller
                     Status = ApplicationConstants.StatusSuccess,
                 };
 
+            }
+        }
+
+        public async Task<BaseResponseDTO> DiscardMenuItem(int menuId)
+        {
+            try
+            {
+                await _chefService.DiscardMenuItem(menuId);
+                return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess };
+            }
+            catch (Exception ex) 
+            { 
+              return new BaseResponseDTO() { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
             }
         }
     }

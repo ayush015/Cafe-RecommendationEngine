@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecommendationEngineServer.DAL;
 
@@ -11,9 +12,10 @@ using RecommendationEngineServer.DAL;
 namespace RecommendationEngineServer.DAL.Migrations
 {
     [DbContext(typeof(RecommendationEngineDBContext))]
-    partial class RecommendationEngineDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240630144902_AddedNotificationTypeTable")]
+    partial class AddedNotificationTypeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,9 +138,6 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDiscarded")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MealTypeId")
                         .HasColumnType("int");
 
@@ -165,12 +164,7 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NotificationTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("NotificationTypeId");
 
                     b.ToTable("Notifications");
                 });
@@ -358,17 +352,6 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Navigation("FoodItem");
 
                     b.Navigation("MealType");
-                });
-
-            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Notification", b =>
-                {
-                    b.HasOne("RecommendationEngineServer.DAL.Models.NotificationType", "NotificationType")
-                        .WithMany()
-                        .HasForeignKey("NotificationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NotificationType");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Order", b =>

@@ -10,6 +10,7 @@ namespace RecommendationEngineServer.DAL.Models
         public int FoodItemId { get; set; }
         public int MealTypeId { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsDiscarded { get; set; }
         public virtual FoodItem FoodItem { get; set; }
         public virtual MealType MealType { get; set; }
     }
