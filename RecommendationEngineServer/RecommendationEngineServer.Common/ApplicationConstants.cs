@@ -28,6 +28,8 @@
         #region Chef Constants
         public const string DailyMenuListCannotbeEmpty = "Daily Menu List Item cannot be empty";
         public const string DailyMenuAddedSuccessfully = "Daily Menu has been added successfully";
+        public const int DailyMenuDateAlreadyExist = 0;
+        public const string DailyMenuDateAlreadyExistError = "Daily menu for the current date already exists.";
         #endregion
 
         #region Notification Constants

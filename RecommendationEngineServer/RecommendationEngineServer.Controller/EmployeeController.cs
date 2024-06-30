@@ -18,11 +18,11 @@ namespace RecommendationEngineServer.Controller
             _employeeLogic = employeeLogic;
         }
 
-        public async Task<NotificationResponse> GetNotification(int userId)
+        public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
         {
             try
             {
-                var notification = await _employeeLogic.GetNotification(userId);
+                var notification = await _employeeLogic.GetNotification(notificationRequest);
                 if(string.IsNullOrEmpty(notification))
                 {
                     return new NotificationResponse

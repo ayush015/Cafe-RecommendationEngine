@@ -40,22 +40,29 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         public async Task AddDailyMenuItem()
         {
-            var menuItemIds = RollOutMenuDisplay();
-            if (menuItemIds == null) return;
+            await SetDateFromChef();
+            var menuItem = await RollOutMenuDisplay();
+            if (menuItem.MenuItemsIds == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "AddDailyMenuItem", menuItemIds);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "AddDailyMenuItem", menuItem);
             PrintBaseResponse(response);
         }
 
         public async Task SendNotification()
         {
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "SendNotification");
+            var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "SendNotification", currentDate);
             PrintBaseResponse(response);
+          
+
+            
         }
         #endregion
 
         #region Private Methods
-        private List<int> RollOutMenuDisplay()
+
+
+        private async Task<MenuItem> RollOutMenuDisplay()
         {
             Console.WriteLine("Enter the Number of Menu Items you want to roll out:");
             if (!int.TryParse(Console.ReadLine(), out int numberOfMenuItems))
@@ -64,13 +71,17 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
                 return null;
             }
 
-            List<int> menuItemsIds = new List<int>();
+            MenuItem menuItem = new MenuItem();
+
+            menuItem.CurrentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+
+            menuItem.MenuItemsIds = new List<int>();
             Console.WriteLine("Enter the Menu Ids:");
             for (int itemsId = 0; itemsId < numberOfMenuItems; itemsId++)
             {
                 if (int.TryParse(Console.ReadLine(), out int menuId))
                 {
-                    menuItemsIds.Add(menuId);
+                    menuItem.MenuItemsIds.Add(menuId);
                 }
                 else
                 {
@@ -78,7 +89,27 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
                     return null;
                 }
             }
-            return menuItemsIds;
+            return menuItem;
+        }
+
+        private static async Task SetDateFromChef()
+        {
+            Console.Write("Please enter the date (yyyy-MM-dd): ");
+            if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+            {
+                DateDTO newdate = new DateDTO { CurrentDate = date };
+                await DateStore.SaveDataAsync(newdate);
+                Console.WriteLine("Date saved successfully");
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format.");
+            }
+
+            var currentDate = await DateStore.LoadDataAsync();
+
+            Console.WriteLine(currentDate.CurrentDate);
+
         }
         #endregion
     }

@@ -13,11 +13,19 @@ namespace RecommendationEngineServer.Controller
             _chefLogic = chefLogic;
         }
 
-        public async Task<BaseResponseDTO> AddDailyMenuItem(List<int> menuIds)
+        public async Task<BaseResponseDTO> AddDailyMenuItem(MenuItem menuItem)
         {
             try
             {
-                await _chefLogic.AddDailyMenuItem(menuIds);
+                var result = await _chefLogic.AddDailyMenuItem(menuItem);
+                if(result == 0)
+                {
+                    return new BaseResponseDTO
+                    {
+                        Status = ApplicationConstants.StatusFailed,
+                        Message = ApplicationConstants.DailyMenuDateAlreadyExistError
+                    };
+                }
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,
@@ -43,11 +51,11 @@ namespace RecommendationEngineServer.Controller
             }
         }
 
-        public async Task<BaseResponseDTO> SendNotification()
+        public async Task<BaseResponseDTO> SendNotification(DateTime currentDate)
         {
             try
             {
-                await _chefLogic.SendNotification();
+                await _chefLogic.SendNotification(currentDate);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,

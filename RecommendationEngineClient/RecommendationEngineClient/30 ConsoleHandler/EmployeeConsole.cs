@@ -19,9 +19,10 @@ namespace RecommendationEngineClient._30_ConsoleHandler
         {
             while (true)
             {
-                await _employeeService.GetNotification(userId);
+               var notification =  await _employeeService.GetNotification(userId);
+               
                 Console.WriteLine("Enter Choice");
-                Console.WriteLine("1. Select item from Daily Menu\n2. Give FeedBack\n5. Logout\n");
+                Console.WriteLine("1. Select item from Daily Menu\n5. Logout\n");
                 Console.Write("Enter : ");
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -42,11 +43,13 @@ namespace RecommendationEngineClient._30_ConsoleHandler
                     {
                         case EmployeeChoice.SelectItems:
                             {
+                                if (notification != 1)
+                                {
+                                    await Console.Out.WriteLineAsync("Option not available at the moment\nWait for new notification\n");
+                                    break;
+                                }
                                 await _employeeService.SelectFoodItemsFromDailyMenu(userId);
-                                break;
-                            }
-                        case EmployeeChoice.GiveFeedBack:
-                            {
+                                await Task.Delay(5000);
                                 await _employeeService.GiveFeedBack(userId);
                                 break;
                             }

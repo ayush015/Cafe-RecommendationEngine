@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Common.DTO
 {
+    public class MenuItem
+    {
+        public DateTime CurrentDate { get; set; }
+        public List<int> MenuItemsIds { get; set; }
+
+    }
+
     #region Response DTO
     public class RecommendedMenuResponse : BaseResponseDTO
     { 

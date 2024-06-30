@@ -15,23 +15,31 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
         }
 
         #region Public Method
-        public async Task GetNotification(int userId)
+        public async Task<int> GetNotification(int userId)
         {
-            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApplicationConstants.EmployeeController, "GetNotification", userId.ToString());
+            var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+            NotificationRequest notificationRequest = new NotificationRequest()
+            {
+                UserId = userId,
+                CurrentDate = currentDate,
+            };
+            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApplicationConstants.EmployeeController, "GetNotification", notificationRequest);
            
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
                 Console.WriteLine($"New Notification : Menu Items for Today\n{notificationMessage.NotificationMessgae}");
+                return 1;
             }
             else if(!notificationMessage.IsNewNotification)
             {
                 Console.WriteLine("No New Notifications\n");
+                return 0;
             }
             else
             {
                 Console.WriteLine($"{notificationMessage.Message}\n");
+                return 0;
             }
-            Console.ReadKey();
         }
 
         public async Task GiveFeedBack(int userId)

@@ -146,12 +146,13 @@ namespace RecommendationEngineServer
             switch (data.Action)
             {
                 case "AddDailyMenuItem":
-                    var menuIds = JsonConvert.DeserializeObject<List<int>>(data.Data);
+                    var menuIds = JsonConvert.DeserializeObject<MenuItem>(data.Data);
                     var jsonResponse = JsonConvert.SerializeObject(await _chefController.AddDailyMenuItem(menuIds));
                     await SendResponseAsync(jsonResponse);
                     break;
                 case "SendNotification":
-                    jsonResponse = JsonConvert.SerializeObject(await _chefController.SendNotification());
+                    var currentDate = JsonConvert.DeserializeObject<DateTime>(data.Data);
+                    jsonResponse = JsonConvert.SerializeObject(await _chefController.SendNotification(currentDate));
                     await SendResponseAsync(jsonResponse);
                     break;
                 case "GetMenuListItems":
@@ -170,8 +171,8 @@ namespace RecommendationEngineServer
             switch (data.Action)
             {
                 case "GetNotification":
-                    var userId = JsonConvert.DeserializeObject<int>(data.Data);
-                    var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetNotification(userId));
+                    var notification = JsonConvert.DeserializeObject<NotificationRequest>(data.Data);
+                    var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetNotification(notification));
                     await SendResponseAsync(jsonResponse);
                     break;
                 case "SelectFoodItemsFromDailyMenu":

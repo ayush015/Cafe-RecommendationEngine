@@ -15,13 +15,14 @@ namespace RecommendationEngineServer.Service.Employee
         }
 
         #region Public Methods
-        public async Task<string> GetNotification(int userId)
+        public async Task<string> GetNotification(NotificationRequest notificationRequest)
         {
             var lastSeenUserNotification = (await _unitOfWork.UserNotification.GetAll())
-                                            .Where(x => x.UserId == userId)
+                                            .Where(x => x.UserId == notificationRequest.UserId)
                                             .FirstOrDefault();
+
             int? lastSeenNotificationId = lastSeenUserNotification?.LastSeenNotificationId;
-            var allNotification = await _unitOfWork.Notification.GetAll();
+            var allNotification = (await _unitOfWork.Notification.GetAll()).Where(d => d.CreatedDate == notificationRequest.CurrentDate);
 
             var latestNotification = allNotification
                                     .Where(n => lastSeenNotificationId == null || n.Id > lastSeenNotificationId)
@@ -36,7 +37,7 @@ namespace RecommendationEngineServer.Service.Employee
             {
                 UserNotification userNotification = new UserNotification()
                 {
-                  UserId = userId,
+                  UserId = notificationRequest.UserId,
                   LastSeenNotificationId = latestNotification.Id
                 };
 

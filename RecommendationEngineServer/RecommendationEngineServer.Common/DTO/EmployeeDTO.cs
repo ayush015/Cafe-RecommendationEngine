@@ -21,6 +21,13 @@ namespace RecommendationEngineServer.Common.DTO
         public int Rating { get; set; }
         public string Comments { get; set; }
     }
+
+    public class NotificationRequest
+    {
+        public int UserId { get; set; }
+        public DateTime CurrentDate { get; set; }
+
+    }
     #endregion
 
     #region Response DTO

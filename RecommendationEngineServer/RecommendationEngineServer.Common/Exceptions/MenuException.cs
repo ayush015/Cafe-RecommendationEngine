@@ -14,4 +14,5 @@
     {
         public MenuItemAlreadyPresentException() : base(ApplicationConstants.MenuItemALreadyPresent) { }
     }
+
 }

@@ -20,41 +20,30 @@ namespace RecommendationEngineServer.Service.Chef
         }
 
         #region Public Methods
-        public async Task<int> AddDailyMenuItem(List<int> menuIds)
+        public async Task<int> AddDailyMenuItem(MenuItem menuItem)
         {
             List<DailyMenu> menuList = new List<DailyMenu>();
 
-            if (menuIds.Count <= 0)
+            if (menuItem.MenuItemsIds.Count <= 0)
                 throw new MenuException(ApplicationConstants.MenuListIsEmpty);
 
-            var allDailyMenu =  (await _unitOfWork.DailyMenu.GetAll()).ToList();
+            var allDailyMenu =  (await _unitOfWork.DailyMenu.GetAll()).ToList().LastOrDefault();
 
-            foreach (var item in menuIds)
+            if(allDailyMenu.Date == menuItem.CurrentDate)
             {
-               if(allDailyMenu == null || allDailyMenu.Count == 0)
-               {
-                    DailyMenu menu = new DailyMenu()
-                    {
-                        Date = DateTime.Now,
-                        IsDeleted = false,
-                        MenuId = item,
-                        IsNotificationSent = false,
-                    };
-                    menuList.Add(menu);
-               }
-               else
-               {
-                    var previousDate = allDailyMenu.LastOrDefault().Date;
-                    var newDate = previousDate.AddDays(1);
-                    DailyMenu menu = new DailyMenu()
-                    {
-                        Date = newDate,
-                        IsDeleted = false,
-                        MenuId = item,
-                        IsNotificationSent = false,
-                    };
-                    menuList.Add(menu);
-               }
+                return ApplicationConstants.DailyMenuDateAlreadyExist;
+            }
+
+            foreach (var item in menuItem.MenuItemsIds)
+            {
+                DailyMenu menu = new DailyMenu()
+                {
+                    Date = menuItem.CurrentDate,
+                    IsDeleted = false,
+                    MenuId = item,
+                    IsNotificationSent = false,
+                };
+                menuList.Add(menu);
             }
 
             await _unitOfWork.DailyMenu.AddDailyMenuList(menuList);
@@ -62,11 +51,11 @@ namespace RecommendationEngineServer.Service.Chef
             return await _unitOfWork.Complete();
         }
 
-        public async Task SendNotification()
+        public async Task SendNotification(DateTime currentDate)
         {
             
             var allDailyMenu = (await _unitOfWork.DailyMenu.GetAll())
-                              .Where(m => m.IsNotificationSent == false)
+                              .Where(m => m.IsNotificationSent == false && m.Date == currentDate)
                               .OrderBy(m => m.Menu.MealTypeId)
                               .ToList();
             if(allDailyMenu.Count == 0)
@@ -77,11 +66,13 @@ namespace RecommendationEngineServer.Service.Chef
             StringBuilder notificationMessage = new StringBuilder();
             foreach (var item in allDailyMenu) 
             { 
-                var menuItem = await _unitOfWork.Menu.GetMenuItemById(item.MenuId);
+                var menuItem = await _unitOfWork.Menu.GetMenuItemById(item.MenuId,currentDate);
                 item.IsNotificationSent = true;
-                string message = $"{menuItem.DailyMenuId} {menuItem.FoodItemName} {menuItem.MealTypeName},";
+                string message = $"\n{menuItem.DailyMenuId} {menuItem.FoodItemName} {menuItem.MealTypeName},";
                 notificationMessage.AppendLine(message);
             }
+
+            notificationMessage.Insert(0, $"For Date: {date.ToShortDateString()}\n");
 
             Notification addNotification = new Notification()
             {
@@ -157,13 +148,22 @@ namespace RecommendationEngineServer.Service.Chef
                 else
                 {
                     var dailyMenu = await _unitOfWork.DailyMenu.GetById(currentDailyMenuId.Value);
-                    UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
+                    var existingOrderFrequency = orderFrequencies.FirstOrDefault(of => of.MenuId == dailyMenu.MenuId);
+
+                    if (existingOrderFrequency != null)
                     {
-                        DailyMenuId = currentDailyMenuId.Value,
-                        OrderFrequency = frequency,
-                        MenuId = dailyMenu.MenuId
-                    };
-                    orderFrequencies.Add(userOrder);
+                        existingOrderFrequency.OrderFrequency += frequency;
+                    }
+                    else
+                    {
+                        UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
+                        {
+                            DailyMenuId = currentDailyMenuId.Value,
+                            OrderFrequency = frequency,
+                            MenuId = dailyMenu.MenuId
+                        };
+                        orderFrequencies.Add(userOrder);
+                    }
                     frequency = 1;
                 }
 

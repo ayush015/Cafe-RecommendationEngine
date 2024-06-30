@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace RecommendationEngineClient._10_Common.DTO
 {
+    public class NotificationRequest
+    { 
+      public int UserId { get; set; }
+      public DateTime CurrentDate { get; set; }
+    
+    }
+
+
     public class NotificationResponse : BaseResponseDTO
     {
         public string NotificationMessgae { get; set; }

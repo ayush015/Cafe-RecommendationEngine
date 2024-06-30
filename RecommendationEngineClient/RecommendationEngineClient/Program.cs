@@ -1,4 +1,5 @@
-﻿using RecommendationEngineClient._30_ConsoleHandler;
+﻿using RecommendationEngineClient._10_Common.DTO;
+using RecommendationEngineClient._30_ConsoleHandler;
 using RecommendationEngineClient.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Login;
@@ -16,7 +17,7 @@ namespace RecommendationEngineClient
             Console.ReadLine();
         }
 
-        public static async Task Start()
+        private static async Task Start()
         {
             try
             {
