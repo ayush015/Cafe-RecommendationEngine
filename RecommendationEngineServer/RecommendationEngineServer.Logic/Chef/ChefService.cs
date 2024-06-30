@@ -100,7 +100,7 @@ namespace RecommendationEngineServer.Service.Chef
         public async Task<List<MenuRecommendationModel>> GetRecommendedMenuList()
         {
             var feedbacks = (await _unitOfWork.Feedback.GetAll()).ToList();
-            var allMenuItems = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted).ToList();
+            var allMenuItems = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted && !m.IsDiscarded).ToList();
             var allOrders = (await _unitOfWork.UserOrder.GetAll()).OrderBy(o => o.DailyMenuId).ToList();
 
             var averageRating = feedbacks
@@ -128,6 +128,16 @@ namespace RecommendationEngineServer.Service.Chef
                                        RecommendationScore = CalculateRecommendationScore(rating?.AverageRating ?? 0, rating?.Comments ?? new List<string>(), orderFrequency?.OrderFrequency ?? 0)
                                    }).OrderByDescending(r => r.RecommendationScore).ToList();
             return recommendations;
+        }
+
+        public async Task DiscardMenuItem(int menuId)
+        {
+            var menuItem = await _unitOfWork.Menu.GetById(menuId);
+
+            if(menuItem == null) throw new MenuItemNotFoundException();
+
+            menuItem.IsDiscarded = true;
+
         }
         #endregion
 
@@ -180,7 +190,7 @@ namespace RecommendationEngineServer.Service.Chef
                 };
                 orderFrequencies.Add(userOrder);
             }
-            var allMenuIds = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted).Select(menu => menu.Id).ToList();
+            var allMenuIds = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted && !m.IsDiscarded).Select(menu => menu.Id).ToList();
             var existingMenuIds = orderFrequencies.Select(of => of.MenuId).ToList();
             var missingMenuIds = allMenuIds.Except(existingMenuIds);
 

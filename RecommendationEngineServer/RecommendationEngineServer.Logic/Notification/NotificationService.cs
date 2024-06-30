@@ -1,4 +1,6 @@
-﻿using RecommendationEngineServer.DAL.UnitOfWork;
+﻿using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.DAL.UnitOfWork;
+using RecommendationEngineServer.Service.Chef;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,30 @@ namespace RecommendationEngineServer.Logic.Notification
         {
             _unitOfWork = unitOfWork;
         }
-        public Task<string> GetMonthlyNotification(DateTime currentDate)
+        public async Task<List<RecommendedMenuModel>> GetMonthlyDiscardedMenuNotification(DateTime currentDate, List<RecommendedMenuModel> recommendedMenus)
         {
-            throw new NotImplementedException();
+            var firstDailyMenuDate = await GetFirstDailyMenuDate();
+
+            double daysDifference = (currentDate - firstDailyMenuDate).TotalDays;
+
+            if(daysDifference % 30 == 0)
+            {
+                return recommendedMenus.Where(m => m.RecommendationScore <= 2.0 && m.RecommendationScore > 0.0).ToList();
+            }
+
+           return new List<RecommendedMenuModel>(); 
+        }
+
+        private async Task<DateTime> GetFirstDailyMenuDate()
+        {
+            var firstDailyMenu = (await _unitOfWork.DailyMenu.GetAll())
+                                 .OrderBy(dm => dm.Date)
+                                 .FirstOrDefault();
+            if (firstDailyMenu == null)
+            {
+                throw new Exception("No daily menu found.");
+            }
+            return firstDailyMenu.Date;
         }
     }
 }

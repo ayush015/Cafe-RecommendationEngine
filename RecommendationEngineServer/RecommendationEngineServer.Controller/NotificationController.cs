@@ -1,6 +1,7 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Logic.Notification;
+using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
 
 namespace RecommendationEngineServer.Controller
@@ -8,40 +9,43 @@ namespace RecommendationEngineServer.Controller
     public class NotificationController
     {
         private INotificationService _notificationService;
-        public NotificationController(INotificationService notificationService)
+        private IChefService _chefService;
+        public NotificationController(INotificationService notificationService,IChefService chefService)
         {
             _notificationService = notificationService;
+            _chefService = chefService;
         }
 
-        public async Task<NotificationResponse> GetMonthlyNotification(DateTime currentDate)
+        public async Task<DiscardedMenuResponse> GetMonthlyDiscardedMenuNotification(DateTime currentDate)
         {
+
+            var recommendedMenus = await _chefService.GetMenuListItems();
             try
             {
-                var notification = await _notificationService.GetMonthlyNotification(currentDate);
-                if(string.IsNullOrEmpty(notification))
+                var discardedMenus = await _notificationService.GetMonthlyDiscardedMenuNotification(currentDate, recommendedMenus);
+
+                if(discardedMenus.Count < 0)
                 {
-                    return new NotificationResponse
+                    return new DiscardedMenuResponse
                     {
                         Status = ApplicationConstants.StatusSuccess,
-                        IsNewNotification = false,
                     };
                 }
-
-                return new NotificationResponse
+                return new DiscardedMenuResponse
                 {
+                    DiscardedMenus = discardedMenus,
                     Status = ApplicationConstants.StatusSuccess,
-                    NotificationMessgae = notification,
-                    Message = ApplicationConstants.SentNotificationSuccessfully,
-                    IsNewNotification = true,
                 };
+
             }
             catch (Exception ex)
             {
-                return new NotificationResponse
+                return new DiscardedMenuResponse
                 {
-                    Status = ApplicationConstants.StatusFailed,
-                    Message = ex.Message
+                    Message = ex.Message,
+                    Status = ApplicationConstants.StatusSuccess,
                 };
+
             }
         }
     }

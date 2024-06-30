@@ -23,7 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RecommendationEngineServer.Common\RecommendationEngineServer.Common.csproj" />
     <ProjectReference Include="..\RecommendationEngineServer.DAL\RecommendationEngineServer.DAL.csproj" />
-    <ProjectReference Include="..\RecommendationEngineServer.Logic\RecommendationEngineServer.Logic.csproj" />
+    <ProjectReference Include="..\RecommendationEngineServer.Logic\RecommendationEngineServer.Service.csproj" />
   </ItemGroup>
 
 </Project>

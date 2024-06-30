@@ -166,6 +166,11 @@ namespace RecommendationEngineServer
                     jsonResponse = JsonConvert.SerializeObject(await _chefController.GetMenuListItems());
                     await SendResponseAsync(jsonResponse);
                     break;
+                case "DiscardMenu":
+                    int menuId = JsonConvert.DeserializeObject<int>(data.Data);
+                    jsonResponse = JsonConvert.SerializeObject(await _chefController.GetMenuListItems());
+                    await SendResponseAsync(jsonResponse);
+                    break;
                 // Handle other actions here
                 default:
                     Console.WriteLine($"Unknown action: {data.Action} for ChefController");
@@ -210,7 +215,7 @@ namespace RecommendationEngineServer
             {
                 case "GetMonthlyNotification":
                     var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
-                    var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyNotification(date));
+                    var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyDiscardedMenuNotification(date));
                     await SendResponseAsync(jsonResponse);
                     break;
                 // Handle other actions here
