@@ -25,6 +25,7 @@ namespace RecommendationEngineServer.DAL
         public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<MenuFeedbackQuestion> MenuFeedbackQuestion { get; set; }
         public DbSet<UserMenuFeedbackAnswer> UserMenuFeedbackAnswer { get; set; }
+        public DbSet<UserFoodPreference> UserFoodPreferences { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
