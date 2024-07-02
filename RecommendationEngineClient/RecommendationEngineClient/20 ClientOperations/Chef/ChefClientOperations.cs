@@ -1,8 +1,5 @@
 ﻿using RecommendationEngineClient.Common.DTO;
 using RecommendationEngineClient.Common;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
 using RecommendationEngineClient._10_Common;
@@ -42,21 +39,18 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         public async Task AddDailyMenuItem()
         {
-            var menuItem = await RollOutMenuDisplay();
+            var menuItem = await DisplayRollOutMenuOptions();
             if (menuItem.MenuItemsIds == null) return;
 
             var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "AddDailyMenuItem", menuItem);
             PrintBaseResponse(response);
         }
 
-        public async Task SendNotification()
+        public async Task SendDailyMenuNotification()
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "SendNotification", currentDate);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "SendDailyMenuNotification", currentDate);
             PrintBaseResponse(response);
-          
-
-            
         }
 
         public async Task GetMonthlyNotification()
@@ -75,7 +69,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
         #region Private Methods
 
 
-        private async Task<MenuItem> RollOutMenuDisplay()
+        private async Task<MenuItem> DisplayRollOutMenuOptions()
         {
             Console.WriteLine("Enter the Number of Menu Items you want to roll out:");
             if (!int.TryParse(Console.ReadLine(), out int numberOfMenuItems))
@@ -105,8 +99,6 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
             return menuItem;
         }
 
-       
-
         private void DisplayDiscardedMenuItems(List<RecommendedMenu> recommendedMenus)
         {
             if(recommendedMenus.Count == 0) { return; }
@@ -119,7 +111,6 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
                 Console.WriteLine($"{item.MenuId,-10} {item.FoodItemName,-30} {item.MealTypeName,-20} {item.RecommendationScore,-10:F1}\n");
             }
         }
-
 
         private async Task DisplayActionsForDiscardedMenuItems()
         {

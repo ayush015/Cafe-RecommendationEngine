@@ -33,6 +33,10 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 {
                   await SendMenuImprovement(userId);
                 }
+                else if(notificationMessage.NotificationTypeId == (int)NotificationType.NewDailyMenuItem)
+                {
+                    await GetRolledOutMenu(userId);
+                }
                 return 1;
             }
             else if(!notificationMessage.IsNewNotification)
@@ -80,6 +84,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
 
            
             currentOrderId = response.OrderId;
+            PrintBaseResponse(response);
+        }
+
+        public async Task AddUserFoodPreference(int userId)
+        {
+            var userPreference = DisplayUserPreferenceOptions(userId);
+
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.AddUserPreference, userPreference);
             PrintBaseResponse(response);
         }
         #endregion
@@ -186,6 +198,54 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.AddMenuImprovementFeedbacks, menuImprovementFeedbackRequest);
 
             PrintBaseResponse(response);
+        }
+
+        private UserPreferenceRequest DisplayUserPreferenceOptions(int userId)
+        {
+            Console.WriteLine("1) Please select Food Type\n1. Vegetarian\n2. Non Vegetarian\n3. Eggetarian");
+            int userFoodTypePreference = GetUserInputChoice();
+
+            Console.WriteLine("2) Please select your spice level\n1. High\n2. Medium\n3. Low");
+            int userSpiceLevelPreference = GetUserInputChoice();
+
+            Console.WriteLine("3) What do you prefer most?\n1. North Indian\n2. South Indian\n3. Others");
+            int userPreferredCuisinePreference = GetUserInputChoice();
+
+            Console.WriteLine("4) Do you have a sweet tooth\n1. Yes\n2. No");
+            int userSweetToothPreference = GetUserInputChoice();
+
+            return new UserPreferenceRequest
+            {
+                UserId = userId,
+                FoodTypeId = userFoodTypePreference,
+                SpiceLevelId = userSpiceLevelPreference,
+                PreferredCuisineId = userPreferredCuisinePreference,
+                HasSweetTooth = userSweetToothPreference == 1 ? true : false,
+            };
+        }
+
+        private async Task GetRolledOutMenu(int userId)
+        {
+            var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+            DailyRolledOutMenuRequest dailyRolledOutMenuRequest = new DailyRolledOutMenuRequest()
+            {
+                CurrentDate = currentDate,
+                UserId = userId,
+            };
+            var response = await SendRequestAsync<DailyRolledOutMenuResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetDailyRolledOutMenu, dailyRolledOutMenuRequest);
+            PrintBaseResponse(response);
+            printDailyRolledOutMenu(response.RolledOutMenu);
+        }
+
+        private void printDailyRolledOutMenu(List<RolledOutMenu> rolledOutMenu)
+        {
+            Console.WriteLine("{0,-20} {1,-15} {2,-15}", "Food Item Name", "Daily Menu Id", "Meal Type");
+            Console.WriteLine(new string('-', 60));
+
+            foreach (var menu in rolledOutMenu)
+            {
+                Console.WriteLine("{0,-20} {1,-15} {2,-15}", menu.FoodItemName, menu.DailyMenuId, menu.MealType);
+            }
         }
         #endregion
 

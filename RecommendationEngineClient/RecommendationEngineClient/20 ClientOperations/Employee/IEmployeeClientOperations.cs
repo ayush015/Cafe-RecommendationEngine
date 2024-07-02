@@ -11,5 +11,6 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
         Task<int> GetNotification(int userId);
         Task SelectFoodItemsFromDailyMenu(int userId);
         Task GiveFeedBack(int userId);
+        Task AddUserFoodPreference(int userId);
     }
 }

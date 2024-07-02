@@ -51,7 +51,7 @@ namespace RecommendationEngineClient._30_ConsoleHandler
                             {
                                 await _chefService.AddDailyMenuItem();
                                 await Task.Delay(3000);
-                                await _chefService.SendNotification();
+                                await _chefService.SendDailyMenuNotification();
                                 break;
                             }
                         default:

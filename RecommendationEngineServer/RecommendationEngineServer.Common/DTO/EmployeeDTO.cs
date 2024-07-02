@@ -36,7 +36,20 @@ namespace RecommendationEngineServer.Common.DTO
         public List<ImprovementFeedback> ImprovementFeedbacks { get; set; }
     }
 
+    public class UserPreferenceRequest
+    { 
+      public int UserId { get; set; }
+      public int FoodTypeId { get; set; }
+      public int SpiceLevelId { get; set; }
+      public int PreferredCuisineId { get; set; }
+      public bool HasSweetTooth { get; set; }
+    }
 
+    public class DailyRolledOutMenuRequest
+    {
+        public DateTime CurrentDate { get; set; }
+        public int UserId { get; set; }
+    }
     #endregion
 
     #region Response DTO
@@ -54,8 +67,15 @@ namespace RecommendationEngineServer.Common.DTO
 
     public class OrderResponse : BaseResponseDTO
     { 
-      public int OrderId { get; set; }  
+      public int OrderId { get; set; }
     }
+
+    public class DailyRolledOutMenuResponse : BaseResponseDTO
+    { 
+      public List<RolledOutMenu> RolledOutMenu { get; set; }
+    }
+
+
     #endregion
 
     #region Models
@@ -80,6 +100,16 @@ namespace RecommendationEngineServer.Common.DTO
     {
         public int QuestionId { get; set; }
         public string Question { get; set; }
+    }
+
+
+    public class RolledOutMenu
+    {
+        public int DailyMenuId { get; set; }
+        public string FoodItemName { get; set; }
+        public int MenuId { get; set; }
+        public string MealType { get; set; }
+        public int PreferenceScore { get; set; }
     }
 
 

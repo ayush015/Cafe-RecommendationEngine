@@ -16,4 +16,12 @@ namespace RecommendationEngineServer.Common.DTO
         public DateTime CurrentDate { get; set; }
         public int MenuId { get; set; }
     }
+
+    public class DailyMenuItemModel
+    { 
+      public int MenuId { get; set; }
+      public int DailyMenuId { get; set; }
+      public int PreferenceScore { get; set; }
+    }
+
 }

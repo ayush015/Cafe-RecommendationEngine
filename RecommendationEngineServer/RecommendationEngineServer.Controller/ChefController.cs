@@ -51,11 +51,11 @@ namespace RecommendationEngineServer.Controller
             }
         }
 
-        public async Task<BaseResponseDTO> SendNotification(DateTime currentDate)
+        public async Task<BaseResponseDTO> SendDailyMenuNotification(DateTime currentDate)
         {
             try
             {
-                await _chefService.SendNotification(currentDate);
+                await _chefService.SendDailyMenuNotification(currentDate);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,

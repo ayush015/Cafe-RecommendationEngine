@@ -9,7 +9,7 @@ namespace RecommendationEngineServer.Service.Chef
 {
     public interface IChefService
     {
-        Task SendNotification(DateTime currentDate);
+        Task SendDailyMenuNotification(DateTime currentDate);
         Task<int> AddDailyMenuItem(MenuItem menuItem);
         Task<List<RecommendedMenuModel>> GetMenuListItems();
         Task DiscardMenuItem(int menuId);

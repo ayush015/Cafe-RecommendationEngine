@@ -12,13 +12,20 @@ namespace RecommendationEngineClient.Common.DTO
     {
         public string FoodItemName { get; set; }
         public int MealTypeId { get; set; }
+        public int FoodTypeId { get; set; }
+        public int SpiceLevelId { get; set; }
+        public int CuisineId { get; set; }
+        public bool IsSweet { get; set; }
     }
-
     public class UpdateMenuItemRequest
     {
         public int MenuId { get; set; }
         public string FoodItemName { get; set; }
         public int MealTypeId { get; set; }
+        public int FoodTypeId { get; set; }
+        public int SpiceLevelId { get; set; }
+        public int CuisineId { get; set; }
+        public bool IsSweet { get; set; }
     }
     #endregion
 
