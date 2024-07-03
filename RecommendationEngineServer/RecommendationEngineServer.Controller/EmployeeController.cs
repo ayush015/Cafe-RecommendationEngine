@@ -23,22 +23,19 @@ namespace RecommendationEngineServer.Controller
             try
             {
                 var notification = await _employeeLogic.GetNotification(notificationRequest);
-                if(string.IsNullOrEmpty(notification))
+                if(string.IsNullOrEmpty(notification.NotificationMessgae))
                 {
-                    return new NotificationResponse
-                    {
-                        Status = ApplicationConstants.StatusSuccess,
-                        IsNewNotification = false,
-                    };
+                    
+                    notification.Status = ApplicationConstants.StatusSuccess;
+                    notification.IsNewNotification = false;
+                    return notification;
                 }
 
-                return new NotificationResponse
-                {
-                    Status = ApplicationConstants.StatusSuccess,
-                    NotificationMessgae = notification,
-                    Message = ApplicationConstants.SentNotificationSuccessfully,
-                    IsNewNotification = true,
-                };
+
+                notification.Status = ApplicationConstants.StatusSuccess;
+                notification.IsNewNotification = true;
+                notification.Message = ApplicationConstants.NotificationReceivedSuccessfully; 
+                return notification;
             }
             catch (Exception ex)
             {
@@ -120,6 +117,19 @@ namespace RecommendationEngineServer.Controller
                 };
             }
 
+        }
+
+        public async Task<BaseResponseDTO> AddMenuImprovementFeedbacks(MenuImprovementFeedbackRequest menuImprovementFeedbackRequest)
+        {
+            try
+            {
+                await _employeeLogic.AddUserMenuImprovementFeedback(menuImprovementFeedbackRequest);
+                return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess, Message = "Added Successfully" };
+            }
+            catch (Exception ex) 
+            { 
+                return new BaseResponseDTO { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
+            }
         }
 
     }

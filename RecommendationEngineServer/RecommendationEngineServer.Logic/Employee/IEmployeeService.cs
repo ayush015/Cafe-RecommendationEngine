@@ -9,9 +9,10 @@ namespace RecommendationEngineServer.Service.Employee
 {
     public interface IEmployeeService
     {
-        Task<string> GetNotification(NotificationRequest notificationRequest);
+        Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest);
         Task<int> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest);
         Task GiveFeedBack(List<GiveFeedBackRequest> giveFeedBackRequest);
         Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId);
+        Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback);
     }
 }

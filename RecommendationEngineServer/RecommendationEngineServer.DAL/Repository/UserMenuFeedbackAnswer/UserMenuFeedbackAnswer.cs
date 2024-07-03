@@ -5,8 +5,17 @@ namespace RecommendationEngineServer.DAL.Repository.ImprovementRecord
 {
     public class UserMenuFeedbackAnswer : GenericRepository<Models.UserMenuFeedbackAsnwer>, IUserMenuFeedbackAnswer
     {
+        private RecommendationEngineDBContext _dbContext;
         public UserMenuFeedbackAnswer(DbContext context) : base(context)
         {
+            _dbContext = (RecommendationEngineDBContext)context;
         }
+
+        public async Task AddMenuImprovementFeedbacks(IEnumerable<Models.UserMenuFeedbackAsnwer> imporvementFeedbacks)
+        {
+            await _dbContext.AddRangeAsync(imporvementFeedbacks);
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

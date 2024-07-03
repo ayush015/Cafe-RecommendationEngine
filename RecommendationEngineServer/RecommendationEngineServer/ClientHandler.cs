@@ -202,6 +202,11 @@ namespace RecommendationEngineServer
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuItemByOrderId(orderId));
                     await SendResponseAsync(jsonResponse);
                     break;
+                case "AddMenuImprovementFeedbacks":
+                    var improvementFeedback = JsonConvert.DeserializeObject<MenuImprovementFeedbackRequest>(data.Data);
+                    jsonResponse = JsonConvert.SerializeObject(await _employeeController.AddMenuImprovementFeedbacks(improvementFeedback));
+                    await SendResponseAsync(jsonResponse);
+                    break;
                 // Handle other actions here
                 default:
                     Console.WriteLine($"Unknown action: {data.Action} for EmployeeController");

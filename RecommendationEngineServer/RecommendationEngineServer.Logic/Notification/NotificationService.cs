@@ -1,13 +1,9 @@
 ﻿using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.DAL.UnitOfWork;
-using RecommendationEngineServer.Service.Chef;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using RecommendationEngineServer.DAL.Models;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace RecommendationEngineServer.Logic.Notification
+namespace RecommendationEngineServer.Logic.Notifications
 {
     public class NotificationService : INotificationService
     {
@@ -16,6 +12,8 @@ namespace RecommendationEngineServer.Logic.Notification
         {
             _unitOfWork = unitOfWork;
         }
+
+        #region Public Methods
         public async Task<List<RecommendedMenuModel>> GetMonthlyDiscardedMenuNotification(DateTime currentDate, List<RecommendedMenuModel> recommendedMenus)
         {
             var firstDailyMenuDate = await GetFirstDailyMenuDate();
@@ -30,6 +28,35 @@ namespace RecommendationEngineServer.Logic.Notification
            return new List<RecommendedMenuModel>(); 
         }
 
+        public async Task AddNewNotificationForDiscardedMenuFeedback(DateTime currentDate,int menuId)
+        {
+            var feedBackQuestions = (await _unitOfWork.MenuFeedbackQuestion.GetAll()).ToList();
+            var improveMenuItem = "We are trying to improve your experience with <Food Item>. Please provide your feedback and help us.";
+            var menuItem = await _unitOfWork.Menu.GetById(menuId);
+            StringBuilder notificationMessage = new StringBuilder();
+
+            foreach (var question in feedBackQuestions)
+            {
+                string message = $"{question.Question.Replace("<Food Item>",menuItem.FoodItem.FoodName)}";
+                notificationMessage.AppendLine(message);
+            }
+
+            notificationMessage.Insert(0, $"\n{improveMenuItem.Replace("<Food Item>",menuItem.FoodItem.FoodName)}\n");
+
+            Notification addNotification = new Notification()
+            {
+                Message = notificationMessage.ToString(),
+                CreatedDate = currentDate,
+                NotificationTypeId = 4
+            };
+
+            await _unitOfWork.Notification.Create(addNotification);
+            await _unitOfWork.Complete();
+        }
+
+        #endregion
+
+        #region Private Methods
         private async Task<DateTime> GetFirstDailyMenuDate()
         {
             var firstDailyMenu = (await _unitOfWork.DailyMenu.GetAll())
@@ -41,5 +68,8 @@ namespace RecommendationEngineServer.Logic.Notification
             }
             return firstDailyMenu.Date;
         }
+        #endregion
+
+
     }
 }
