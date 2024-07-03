@@ -138,6 +138,8 @@ namespace RecommendationEngineServer.Service.Chef
 
             menuItem.IsDiscarded = true;
 
+           await _unitOfWork.Complete();
+
         }
         #endregion
 
@@ -315,7 +317,6 @@ namespace RecommendationEngineServer.Service.Chef
 
             return negativeWords;
         }
-
         #endregion
     }
 }
