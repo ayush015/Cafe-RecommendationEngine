@@ -25,4 +25,9 @@ namespace RecommendationEngineClient._10_Common.DTO
     {
         public List<RecommendedMenu> RecommendedMenus { get; set; }
     }
+
+    public class DiscardedMenuResponse : BaseResponseDTO
+    {
+        public List<RecommendedMenu> DiscardedMenus { get; set; }
+    }
 }

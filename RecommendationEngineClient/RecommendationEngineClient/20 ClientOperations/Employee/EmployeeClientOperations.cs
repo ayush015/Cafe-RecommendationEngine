@@ -24,10 +24,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 CurrentDate = currentDate,
             };
             var notificationMessage = await SendRequestAsync<NotificationResponse>(ApplicationConstants.EmployeeController, "GetNotification", notificationRequest);
-           
+
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
-                Console.WriteLine($"New Notification : Menu Items for Today\n{notificationMessage.NotificationMessgae}");
+                Console.WriteLine($"New Notification : \n{notificationMessage.NotificationMessgae}");
+                if (notificationMessage.NotificationTypeId == (int)NotificationType.MenuImprovement)
+                {
+                  await SendMenuImprovement(userId);
+                }
                 return 1;
             }
             else if(!notificationMessage.IsNewNotification)
@@ -40,6 +44,8 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 Console.WriteLine($"{notificationMessage.Message}\n");
                 return 0;
             }
+
+            
         }
 
         public async Task GiveFeedBack(int userId)
@@ -55,7 +61,6 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.EmployeeController, "GiveFeedBack", feedbackList);
 
             PrintBaseResponse(response);
-
         }
 
         public async Task SelectFoodItemsFromDailyMenu(int userId)
@@ -149,6 +154,37 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             }
 
             return giveFeedBackList;
+        }
+
+        private async Task SendMenuImprovement(int userId)
+        {
+            var menuFeedbackQuestions = await SendRequestAsync<FeedbackQuestionResponse>(ApplicationConstants.EmployeeController, "GetMenuFeedBackQuestions");
+            List<ImprovementFeedback> improvementFeedbackList = new List<ImprovementFeedback>();
+            Console.Write("Enter Item Name : ");
+            string foodItemName = Console.ReadLine();
+            Console.WriteLine();
+            foreach (var item in menuFeedbackQuestions.FeedbackQuestions) 
+            {
+                Console.Write($" Answer to Q{item.QuestionId} : ");
+                string answer = Console.ReadLine();
+                ImprovementFeedback improvementFeedback = new ImprovementFeedback()
+                {
+                     QuestionId = item.QuestionId,
+                     Answer = answer,
+                };
+                improvementFeedbackList.Add(improvementFeedback);
+            }
+
+            MenuImprovementFeedbackRequest menuImprovementFeedbackRequest = new MenuImprovementFeedbackRequest()
+            {
+                FoodItemName = foodItemName,
+                UserId = userId,
+                ImprovementFeedbacks = improvementFeedbackList
+            };
+
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.EmployeeController, "AddMenuImprovementFeedbacks", menuImprovementFeedbackRequest);
+
+            PrintBaseResponse(response);
         }
         #endregion
 

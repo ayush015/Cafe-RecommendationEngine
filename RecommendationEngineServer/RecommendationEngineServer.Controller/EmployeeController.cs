@@ -1,5 +1,6 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
 using System;
@@ -129,6 +130,27 @@ namespace RecommendationEngineServer.Controller
             catch (Exception ex) 
             { 
                 return new BaseResponseDTO { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
+            }
+        }
+
+        public async Task<FeedbackQuestionResponse> GetMenuFeedBackQuestions()
+        {
+            try
+            {
+                var result = await _employeeLogic.GetMenuFeedBackQuestions();
+                return new FeedbackQuestionResponse
+                {
+                    FeedbackQuestions = result,
+                    Status = ApplicationConstants.StatusSuccess,
+
+                };
+            }
+            catch(Exception ex)
+            {
+                return new FeedbackQuestionResponse
+                {
+                    Status = ApplicationConstants.StatusFailed
+                };
             }
         }
 

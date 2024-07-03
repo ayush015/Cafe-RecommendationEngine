@@ -3,6 +3,7 @@ using RecommendationEngineClient._20_ClientOperations.Chef;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.Enum;
+using RecommendationEngineClient._10_Common.DTO;
 
 namespace RecommendationEngineClient._30_ConsoleHandler
 {
@@ -16,6 +17,9 @@ namespace RecommendationEngineClient._30_ConsoleHandler
 
         public async Task ChefConsoleHandler()
         {
+            await SetDateFromChef();
+            await _chefService.GetMonthlyNotification();
+
             while (true)
             {
                 Console.WriteLine("Enter Choice");
@@ -59,6 +63,26 @@ namespace RecommendationEngineClient._30_ConsoleHandler
                 }
                 
             }
+        }
+
+        private static async Task SetDateFromChef()
+        {
+            Console.Write("Please enter the date (yyyy-MM-dd): ");
+            if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+            {
+                DateDTO newdate = new DateDTO { CurrentDate = date };
+                await DateStore.SaveDataAsync(newdate);
+                Console.WriteLine("Date saved successfully");
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format.");
+            }
+
+            var currentDate = await DateStore.LoadDataAsync();
+
+            Console.WriteLine(currentDate.CurrentDate);
+
         }
     }
 }

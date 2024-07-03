@@ -3,7 +3,7 @@ using RecommendationEngineServer.DAL.Repository.Generic;
 
 namespace RecommendationEngineServer.DAL.Repository.ImprovementRecord
 {
-    public class UserMenuFeedbackAnswer : GenericRepository<Models.UserMenuFeedbackAsnwer>, IUserMenuFeedbackAnswer
+    public class UserMenuFeedbackAnswer : GenericRepository<Models.UserMenuFeedbackAnswer>, IUserMenuFeedbackAnswer
     {
         private RecommendationEngineDBContext _dbContext;
         public UserMenuFeedbackAnswer(DbContext context) : base(context)
@@ -11,7 +11,7 @@ namespace RecommendationEngineServer.DAL.Repository.ImprovementRecord
             _dbContext = (RecommendationEngineDBContext)context;
         }
 
-        public async Task AddMenuImprovementFeedbacks(IEnumerable<Models.UserMenuFeedbackAsnwer> imporvementFeedbacks)
+        public async Task AddMenuImprovementFeedbacks(IEnumerable<Models.UserMenuFeedbackAnswer> imporvementFeedbacks)
         {
             await _dbContext.AddRangeAsync(imporvementFeedbacks);
             await _dbContext.SaveChangesAsync();

@@ -4,13 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecommendationEngineServer.Common.DTO
+namespace RecommendationEngineClient._10_Common.DTO
 {
-    public class DiscardedMenuResponse : BaseResponseDTO
-    {
-        public List<RecommendedMenuModel> DiscardedMenus { get; set; }
-    }
-
     public class MenuImprovementNotification
     {
         public DateTime CurrentDate { get; set; }

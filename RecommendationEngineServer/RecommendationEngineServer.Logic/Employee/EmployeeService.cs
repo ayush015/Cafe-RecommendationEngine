@@ -63,14 +63,14 @@ namespace RecommendationEngineServer.Service.Employee
 
         public async Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback)
         {
-            List<UserMenuFeedbackAsnwer> userMenuFeedbackAsnwers = new List<UserMenuFeedbackAsnwer>();
+            List<UserMenuFeedbackAnswer> userMenuFeedbackAsnwers = new List<UserMenuFeedbackAnswer>();
             var menuItem = (await _unitOfWork.Menu.GetAll()).Where(m => m.FoodItem.FoodName.ToLower() == menuImprovementFeedback.FoodItemName.ToLower()).FirstOrDefault();
            foreach(var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
            {
-                UserMenuFeedbackAsnwer newAnswer = new UserMenuFeedbackAsnwer()
+                UserMenuFeedbackAnswer newAnswer = new UserMenuFeedbackAnswer()
                 {
                    MenuId = menuItem.Id,
-                   ImprovementQuestionId = improvementFeedback.QuestionId,
+                    MenuFeedbackQuestionId = improvementFeedback.QuestionId,
                    UserId = menuImprovementFeedback.UserId,
                    Answer = improvementFeedback.Answer
                 };
@@ -142,6 +142,24 @@ namespace RecommendationEngineServer.Service.Employee
         public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
         {
             return await _unitOfWork.Menu.GetMenuItemsByOrderId(orderId);
+        }
+
+        public async Task<List<FeedbackQuestion>> GetMenuFeedBackQuestions()
+        {
+            List<FeedbackQuestion> feedbackQuestionList = new List<FeedbackQuestion>();
+            var allFeedbackQuestion = (await _unitOfWork.MenuFeedbackQuestion.GetAll()).ToList();
+            foreach (var question in allFeedbackQuestion)
+            {
+                FeedbackQuestion feedbackQuestion = new FeedbackQuestion()
+                {
+                     QuestionId = question.Id,
+                      Question = question.Question
+                };
+
+                feedbackQuestionList.Add(feedbackQuestion);
+            }
+
+            return feedbackQuestionList;
         }
         #endregion
     }

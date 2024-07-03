@@ -3,7 +3,7 @@ using RecommendationEngineServer.DAL.UnitOfWork;
 using RecommendationEngineServer.DAL.Models;
 using System.Text;
 
-namespace RecommendationEngineServer.Logic.Notifications
+namespace RecommendationEngineServer.Service.Notifications
 {
     public class NotificationService : INotificationService
     {
@@ -28,16 +28,16 @@ namespace RecommendationEngineServer.Logic.Notifications
            return new List<RecommendedMenuModel>(); 
         }
 
-        public async Task AddNewNotificationForDiscardedMenuFeedback(DateTime currentDate,int menuId)
+        public async Task AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotification menuImprovement)
         {
             var feedBackQuestions = (await _unitOfWork.MenuFeedbackQuestion.GetAll()).ToList();
             var improveMenuItem = "We are trying to improve your experience with <Food Item>. Please provide your feedback and help us.";
-            var menuItem = await _unitOfWork.Menu.GetById(menuId);
+            var menuItem = await _unitOfWork.Menu.GetById(menuImprovement.MenuId);
             StringBuilder notificationMessage = new StringBuilder();
 
             foreach (var question in feedBackQuestions)
             {
-                string message = $"{question.Question.Replace("<Food Item>",menuItem.FoodItem.FoodName)}";
+                string message = $"Q{question.Id} {question.Question.Replace("<Food Item>",menuItem.FoodItem.FoodName)}";
                 notificationMessage.AppendLine(message);
             }
 
@@ -46,7 +46,7 @@ namespace RecommendationEngineServer.Logic.Notifications
             Notification addNotification = new Notification()
             {
                 Message = notificationMessage.ToString(),
-                CreatedDate = currentDate,
+                CreatedDate = menuImprovement.CurrentDate,
                 NotificationTypeId = 4
             };
 

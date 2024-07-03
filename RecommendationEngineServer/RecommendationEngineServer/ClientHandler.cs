@@ -168,7 +168,7 @@ namespace RecommendationEngineServer
                     break;
                 case "DiscardMenu":
                     int menuId = JsonConvert.DeserializeObject<int>(data.Data);
-                    jsonResponse = JsonConvert.SerializeObject(await _chefController.GetMenuListItems());
+                    jsonResponse = JsonConvert.SerializeObject(await _chefController.DiscardMenuItem(menuId));
                     await SendResponseAsync(jsonResponse);
                     break;
                 // Handle other actions here
@@ -207,6 +207,10 @@ namespace RecommendationEngineServer
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.AddMenuImprovementFeedbacks(improvementFeedback));
                     await SendResponseAsync(jsonResponse);
                     break;
+                case "GetMenuFeedBackQuestions":
+                    jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuFeedBackQuestions());
+                    await SendResponseAsync(jsonResponse);
+                    break;
                 // Handle other actions here
                 default:
                     Console.WriteLine($"Unknown action: {data.Action} for EmployeeController");
@@ -219,10 +223,21 @@ namespace RecommendationEngineServer
             switch (data.Action)
             {
                 case "GetMonthlyNotification":
-                    var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
-                    var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyDiscardedMenuNotification(date));
-                    await SendResponseAsync(jsonResponse);
-                    break;
+                    {
+                        var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyDiscardedMenuNotification(date));
+                        await SendResponseAsync(jsonResponse);
+                        break;
+                    }
+                   
+                case "AddNewNotificationForDiscardedMenuFeedback":
+                    {
+                        var improveMenu = JsonConvert.DeserializeObject<MenuImprovementNotification>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _notificationController.AddNewNotificationForDiscardedMenuFeedback(improveMenu));
+                        await SendResponseAsync(jsonResponse);
+                        break;
+                    }
+                   
                 // Handle other actions here
                 default:
                     Console.WriteLine($"Unknown action: {data.Action} for EmployeeController");

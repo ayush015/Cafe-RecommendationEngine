@@ -70,6 +70,19 @@ namespace RecommendationEngineServer.Common.DTO
       public string Answer { get; set; }
 
     }
+
+    public class FeedbackQuestionResponse : BaseResponseDTO
+    {
+        public List<FeedbackQuestion> FeedbackQuestions { get; set; }
+    }
+
+    public class FeedbackQuestion
+    {
+        public int QuestionId { get; set; }
+        public string Question { get; set; }
+    }
+
+
     #endregion
 
 }

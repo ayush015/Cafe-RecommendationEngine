@@ -1,8 +1,9 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Logic.Notification;
+using RecommendationEngineServer.Service.Notifications;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
+
 
 namespace RecommendationEngineServer.Controller
 {
@@ -46,6 +47,21 @@ namespace RecommendationEngineServer.Controller
                     Status = ApplicationConstants.StatusSuccess,
                 };
 
+            }
+        }
+
+        public async Task<BaseResponseDTO> AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotification menuImprovement)
+        {
+            try
+            {
+                await _notificationService.AddNewNotificationForDiscardedMenuFeedback(menuImprovement);
+                return new BaseResponseDTO
+                { Status = ApplicationConstants.StatusSuccess };
+            }
+            catch(Exception ex) 
+            {
+                return new BaseResponseDTO
+                { Status = ApplicationConstants.StatusFailed, Message=ex.Message };
             }
         }
     }

@@ -8,7 +8,7 @@ using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.Service.Admin;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
-using RecommendationEngineServer.Logic.Notification;
+using RecommendationEngineServer.Service.Notifications;
 
 namespace RecommendationEngineServer
 {

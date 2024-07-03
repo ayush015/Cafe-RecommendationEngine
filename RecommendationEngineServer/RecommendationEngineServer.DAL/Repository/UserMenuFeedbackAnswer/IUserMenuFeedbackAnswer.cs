@@ -2,8 +2,8 @@
 
 namespace RecommendationEngineServer.DAL.Repository.ImprovementRecord
 {
-    public interface IUserMenuFeedbackAnswer : IGenericRepository<Models.UserMenuFeedbackAsnwer>
+    public interface IUserMenuFeedbackAnswer : IGenericRepository<Models.UserMenuFeedbackAnswer>
     {
-        Task AddMenuImprovementFeedbacks(IEnumerable<Models.UserMenuFeedbackAsnwer> imporvementFeedbacks);
+        Task AddMenuImprovementFeedbacks(IEnumerable<Models.UserMenuFeedbackAnswer> imporvementFeedbacks);
     }
 }

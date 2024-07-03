@@ -1,4 +1,5 @@
 ﻿using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace RecommendationEngineServer.Service.Employee
         Task GiveFeedBack(List<GiveFeedBackRequest> giveFeedBackRequest);
         Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId);
         Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback);
+        Task<List<FeedbackQuestion>> GetMenuFeedBackQuestions();
     }
 }
