@@ -1,6 +1,8 @@
 ﻿using RecommendationEngineServer.DAL.Repository.DailyMenu;
 using RecommendationEngineServer.DAL.Repository.Feedback;
 using RecommendationEngineServer.DAL.Repository.FoodItem;
+using RecommendationEngineServer.DAL.Repository.ImprovementQuestion;
+using RecommendationEngineServer.DAL.Repository.ImprovementRecord;
 using RecommendationEngineServer.DAL.Repository.MealType;
 using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.Repository.Notification;
@@ -27,6 +29,8 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         public IDailyMenu DailyMenu { get; }
         public INotification Notification { get; }
         public IUserNotification UserNotification { get; }
+        public IMenuFeedbackQuestion MenuFeedbackQuestion { get; }
+        public IUserMenuFeedbackAnswer UserMenuFeedbackAnswer { get; }
         public UnitOfWork(RecommendationEngineDBContext dbContext)
         {
             _dbContext = dbContext;
@@ -41,6 +45,8 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
             DailyMenu = new DailyMenu(_dbContext);
             Notification = new Notification(_dbContext);
             UserNotification = new UserNotification(_dbContext);
+            MenuFeedbackQuestion = new MenuFeedbackQuestion(_dbContext);
+            UserMenuFeedbackAnswer = new UserMenuFeedbackAnswer(_dbContext);    
         }
 
         public async Task<int> Complete()

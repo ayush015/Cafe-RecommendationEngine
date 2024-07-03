@@ -22,6 +22,8 @@ namespace RecommendationEngineServer.DAL
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<NotificationType> NotificationTypes { get; set; }
+        public DbSet<MenuFeedbackQuestion> MenuFeedbackQuestion { get; set; }
+        public DbSet<UserMenuFeedbackAsnwer> UserMenuFeedbackAsnwer { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=ITT-AYUSH-SRIV\\SQLEXPRESS;Database=RecommendationEngineDB;Trusted_Connection=True;TrustServerCertificate=True");
