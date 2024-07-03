@@ -1,8 +1,6 @@
 ﻿using RecommendationEngineClient.Common.DTO;
 using RecommendationEngineClient.Common;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using RecommendationEngineClient._10_Common;
 
 namespace RecommendationEngineClient._20_ClientOperations.Admin
 {
@@ -15,7 +13,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
         #region Public methods
         public async Task GetMenuList()
         {
-            var menuList = await SendRequestAsync<MenuListResponse>(ApplicationConstants.AdminController, "GetMenuList");
+            var menuList = await SendRequestAsync<MenuListResponse>(ApiEndpoints.AdminController, "GetMenuList");
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -38,7 +36,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
 
             if (addMenuItemRequest == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.AdminController, "AddMenuItem", addMenuItemRequest);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "AddMenuItem", addMenuItemRequest);
             PrintBaseResponse(response);
         }
 
@@ -47,7 +45,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
             int menuId = GetMenuIdInput();
             if (menuId == 0) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.AdminController, "RemoveMenuItem", menuId);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "RemoveMenuItem", menuId);
             PrintBaseResponse(response);
         }
 
@@ -56,7 +54,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
             var updateMenuItemRequest = UpdateMenuDisplay();
             if (updateMenuItemRequest == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.AdminController, "UpdateMenuItem", updateMenuItemRequest);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "UpdateMenuItem", updateMenuItemRequest);
             PrintBaseResponse(response);
         }
         #endregion

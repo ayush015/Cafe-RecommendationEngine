@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
+using RecommendationEngineClient._10_Common;
 
 namespace RecommendationEngineClient._20_ClientOperations.Chef
 {
@@ -17,7 +18,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
         #region Public Methods
         public async Task GetMenuList()
         {
-            var menuList = await SendRequestAsync<RecommendedMenuResponse>(ApplicationConstants.ChefController, "GetMenuListItems");
+            var menuList = await SendRequestAsync<RecommendedMenuResponse>(ApiEndpoints.ChefController, "GetMenuListItems");
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -44,14 +45,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
             var menuItem = await RollOutMenuDisplay();
             if (menuItem.MenuItemsIds == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "AddDailyMenuItem", menuItem);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "AddDailyMenuItem", menuItem);
             PrintBaseResponse(response);
         }
 
         public async Task SendNotification()
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "SendNotification", currentDate);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "SendNotification", currentDate);
             PrintBaseResponse(response);
           
 
@@ -61,7 +62,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
         public async Task GetMonthlyNotification()
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            var response = await SendRequestAsync<DiscardedMenuResponse>(ApplicationConstants.NotificationController, "GetMonthlyNotification", currentDate);
+            var response = await SendRequestAsync<DiscardedMenuResponse>(ApiEndpoints.NotificationController, "GetMonthlyNotification", currentDate);
             DisplayDiscardedMenuItems(response.DiscardedMenus);
 
             if(response.DiscardedMenus.Count > 0)
@@ -151,7 +152,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         private async Task DisacrdMenuItem(int menuId)
         {
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "DiscardMenu", menuId);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "DiscardMenu", menuId);
             PrintBaseResponse(response);
 
         }
@@ -164,7 +165,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
                  CurrentDate = currentDate,
                   MenuId = menuId
             };
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.NotificationController, "AddNewNotificationForDiscardedMenuFeedback", menuImprovementNotification);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.NotificationController, "AddNewNotificationForDiscardedMenuFeedback", menuImprovementNotification);
             PrintBaseResponse(response);
         }
         #endregion
