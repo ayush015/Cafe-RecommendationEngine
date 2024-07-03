@@ -13,17 +13,17 @@ namespace RecommendationEngineServer.Controller
 {
     public class EmployeeController
     {
-        private IEmployeeService _employeeLogic;
+        private IEmployeeService _employeeService;
         public EmployeeController(IEmployeeService employeeLogic)
         {
-            _employeeLogic = employeeLogic;
+            _employeeService = employeeLogic;
         }
 
         public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
         {
             try
             {
-                var notification = await _employeeLogic.GetNotification(notificationRequest);
+                var notification = await _employeeService.GetNotification(notificationRequest);
                 if(string.IsNullOrEmpty(notification.NotificationMessgae))
                 {
                     
@@ -52,7 +52,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                var orderId = await _employeeLogic.SelectFoodItemsFromDailyMenu(orderRequest);
+                var orderId = await _employeeService.SelectFoodItemsFromDailyMenu(orderRequest);
                 return new OrderResponse
                 {
                     OrderId = orderId,
@@ -74,7 +74,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                await _employeeLogic.GiveFeedBack(giveFeedBackRequest);
+                await _employeeService.GiveFeedBack(giveFeedBackRequest);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,
@@ -95,7 +95,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-               var orderedMenuList =  await _employeeLogic.GetMenuItemsByOrderId(orderId);
+               var orderedMenuList =  await _employeeService.GetMenuItemsByOrderId(orderId);
                 if (orderedMenuList == null || orderedMenuList.Count < 1)
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
@@ -124,7 +124,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                await _employeeLogic.AddUserMenuImprovementFeedback(menuImprovementFeedbackRequest);
+                await _employeeService.AddUserMenuImprovementFeedback(menuImprovementFeedbackRequest);
                 return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess, Message = "Added Successfully" };
             }
             catch (Exception ex) 
@@ -137,7 +137,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                var result = await _employeeLogic.GetMenuFeedBackQuestions();
+                var result = await _employeeService.GetMenuFeedBackQuestions();
                 return new FeedbackQuestionResponse
                 {
                     FeedbackQuestions = result,
