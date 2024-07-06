@@ -3,6 +3,7 @@ using RecommendationEngineClient.Common.DTO;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
+using RecommendationEngineClient._10_Common;
 
 namespace RecommendationEngineClient._20_ClientOperations.Employee
 {
@@ -23,7 +24,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 UserId = userId,
                 CurrentDate = currentDate,
             };
-            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApplicationConstants.EmployeeController, "GetNotification", notificationRequest);
+            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetNotification, notificationRequest);
 
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
@@ -35,7 +36,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 return 1;
             }
             else if(!notificationMessage.IsNewNotification)
-            {
+            { 
                 Console.WriteLine("No New Notifications\n");
                 return 0;
             }
@@ -58,7 +59,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             var feedbackList = GetFeedbackDisplayMenu(userId, currentOrderList);
             if (feedbackList == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.EmployeeController, "GiveFeedBack", feedbackList);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.GiveFeedBack, feedbackList);
 
             PrintBaseResponse(response);
         }
@@ -75,7 +76,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
               UserId = userId
             };
 
-            var response = await SendRequestAsync<OrderResponse>(ApplicationConstants.EmployeeController, "SelectFoodItemsFromDailyMenu", orderRequest);
+            var response = await SendRequestAsync<OrderResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.SelectFoodItemsFromDailyMenu, orderRequest);
 
            
             currentOrderId = response.OrderId;
@@ -111,7 +112,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
 
         private async Task<List<UserOrderMenu>> GetOrderByOrderId()
         {
-            var response = await SendRequestAsync<UserOrderMenuListResponse>(ApplicationConstants.EmployeeController, "GetMenuItemByOrderId", currentOrderId.ToString());
+            var response = await SendRequestAsync<UserOrderMenuListResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetMenuItemByOrderId, currentOrderId.ToString());
             return response.UserOrderMenus;
         }
 
@@ -158,7 +159,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
 
         private async Task SendMenuImprovement(int userId)
         {
-            var menuFeedbackQuestions = await SendRequestAsync<FeedbackQuestionResponse>(ApplicationConstants.EmployeeController, "GetMenuFeedBackQuestions");
+            var menuFeedbackQuestions = await SendRequestAsync<FeedbackQuestionResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetMenuFeedBackQuestions);
             List<ImprovementFeedback> improvementFeedbackList = new List<ImprovementFeedback>();
             Console.Write("Enter Item Name : ");
             string foodItemName = Console.ReadLine();
@@ -182,7 +183,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 ImprovementFeedbacks = improvementFeedbackList
             };
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.EmployeeController, "AddMenuImprovementFeedbacks", menuImprovementFeedbackRequest);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.AddMenuImprovementFeedbacks, menuImprovementFeedbackRequest);
 
             PrintBaseResponse(response);
         }

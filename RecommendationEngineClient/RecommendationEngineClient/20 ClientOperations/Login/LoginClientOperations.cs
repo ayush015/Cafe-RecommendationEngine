@@ -1,12 +1,5 @@
-﻿using Newtonsoft.Json;
-using RecommendationEngineClient.Common;
+﻿using RecommendationEngineClient._10_Common;
 using RecommendationEngineClient.Common.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecommendationEngineClient._20_ClientOperations.Login
 {
@@ -19,7 +12,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Login
         #region Public Method
         public async Task<LoggedInUserResponse> LoginHandler(UserLoginRequest request)
         {
-            var jsonResponse = await SendRequestAsync<LoggedInUserResponse>(ApplicationConstants.LoginController, "Login", request);
+            var jsonResponse = await SendRequestAsync<LoggedInUserResponse>(ApiEndpoints.LoginController, "Login", request);
           
             Console.WriteLine($"{jsonResponse.Message}\n");
 
