@@ -37,6 +37,17 @@ namespace RecommendationEngineClient._20_ClientOperations
             Console.WriteLine($"Status: {response.Status}, Message: {response.Message}\n");
         }
 
+        protected int GetUserInputChoice()
+        {
+            Console.Write("Enter : ");
+            string userChoiceInput = Console.ReadLine();
+            Console.WriteLine();
+            if (!int.TryParse(userChoiceInput, out int choice) || choice < 0)
+            {
+                Console.WriteLine("Invalit Input\n");
+            }
+            return choice;
+        }
       
     }
 }

@@ -1,5 +1,6 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
 using System;
@@ -12,33 +13,30 @@ namespace RecommendationEngineServer.Controller
 {
     public class EmployeeController
     {
-        private IEmployeeService _employeeLogic;
+        private IEmployeeService _employeeService;
         public EmployeeController(IEmployeeService employeeLogic)
         {
-            _employeeLogic = employeeLogic;
+            _employeeService = employeeLogic;
         }
 
         public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
         {
             try
             {
-                var notification = await _employeeLogic.GetNotification(notificationRequest);
-                if(string.IsNullOrEmpty(notification))
+                var notification = await _employeeService.GetNotification(notificationRequest);
+                if(string.IsNullOrEmpty(notification.NotificationMessgae))
                 {
-                    return new NotificationResponse
-                    {
-                        Status = ApplicationConstants.StatusSuccess,
-                        IsNewNotification = false,
-                    };
+                    
+                    notification.Status = ApplicationConstants.StatusSuccess;
+                    notification.IsNewNotification = false;
+                    return notification;
                 }
 
-                return new NotificationResponse
-                {
-                    Status = ApplicationConstants.StatusSuccess,
-                    NotificationMessgae = notification,
-                    Message = ApplicationConstants.SentNotificationSuccessfully,
-                    IsNewNotification = true,
-                };
+
+                notification.Status = ApplicationConstants.StatusSuccess;
+                notification.IsNewNotification = true;
+                notification.Message = ApplicationConstants.NotificationReceivedSuccessfully; 
+                return notification;
             }
             catch (Exception ex)
             {
@@ -54,7 +52,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                var orderId = await _employeeLogic.SelectFoodItemsFromDailyMenu(orderRequest);
+                var orderId = await _employeeService.SelectFoodItemsFromDailyMenu(orderRequest);
                 return new OrderResponse
                 {
                     OrderId = orderId,
@@ -76,7 +74,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-                await _employeeLogic.GiveFeedBack(giveFeedBackRequest);
+                await _employeeService.GiveFeedBack(giveFeedBackRequest);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,
@@ -97,7 +95,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-               var orderedMenuList =  await _employeeLogic.GetMenuItemsByOrderId(orderId);
+               var orderedMenuList =  await _employeeService.GetMenuItemsByOrderId(orderId);
                 if (orderedMenuList == null || orderedMenuList.Count < 1)
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
@@ -120,6 +118,40 @@ namespace RecommendationEngineServer.Controller
                 };
             }
 
+        }
+
+        public async Task<BaseResponseDTO> AddMenuImprovementFeedbacks(MenuImprovementFeedbackRequest menuImprovementFeedbackRequest)
+        {
+            try
+            {
+                await _employeeService.AddUserMenuImprovementFeedback(menuImprovementFeedbackRequest);
+                return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess, Message = "Added Successfully" };
+            }
+            catch (Exception ex) 
+            { 
+                return new BaseResponseDTO { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
+            }
+        }
+
+        public async Task<FeedbackQuestionResponse> GetMenuFeedBackQuestions()
+        {
+            try
+            {
+                var result = await _employeeService.GetMenuFeedBackQuestions();
+                return new FeedbackQuestionResponse
+                {
+                    FeedbackQuestions = result,
+                    Status = ApplicationConstants.StatusSuccess,
+
+                };
+            }
+            catch(Exception ex)
+            {
+                return new FeedbackQuestionResponse
+                {
+                    Status = ApplicationConstants.StatusFailed
+                };
+            }
         }
 
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RecommendationEngineClient._10_Common.DTO;
+using RecommendationEngineClient._10_Common.Enum;
 
 namespace RecommendationEngineClient._20_ClientOperations.Chef
 {
@@ -40,7 +41,6 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         public async Task AddDailyMenuItem()
         {
-            await SetDateFromChef();
             var menuItem = await RollOutMenuDisplay();
             if (menuItem.MenuItemsIds == null) return;
 
@@ -56,6 +56,18 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
           
 
             
+        }
+
+        public async Task GetMonthlyNotification()
+        {
+            var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+            var response = await SendRequestAsync<DiscardedMenuResponse>(ApplicationConstants.NotificationController, "GetMonthlyNotification", currentDate);
+            DisplayDiscardedMenuItems(response.DiscardedMenus);
+
+            if(response.DiscardedMenus.Count > 0)
+            {
+               await DisplayActionsForDiscardedMenuItems();
+            }
         }
         #endregion
 
@@ -92,24 +104,68 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
             return menuItem;
         }
 
-        private static async Task SetDateFromChef()
+       
+
+        private void DisplayDiscardedMenuItems(List<RecommendedMenu> recommendedMenus)
         {
-            Console.Write("Please enter the date (yyyy-MM-dd): ");
-            if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+            if(recommendedMenus.Count == 0) { return; }
+
+            Console.WriteLine("\nNew Notification");
+            Console.WriteLine("Time to review some menu Items with low rating\n");
+            Console.WriteLine($"{"MenuId",-10} {"Item Name",-30} {"MealType",-20} {"Rating",-10}\n");
+            foreach (var item in recommendedMenus)
             {
-                DateDTO newdate = new DateDTO { CurrentDate = date };
-                await DateStore.SaveDataAsync(newdate);
-                Console.WriteLine("Date saved successfully");
+                Console.WriteLine($"{item.MenuId,-10} {item.FoodItemName,-30} {item.MealTypeName,-20} {item.RecommendationScore,-10:F1}\n");
             }
-            else
+        }
+
+
+        private async Task DisplayActionsForDiscardedMenuItems()
+        {
+            Console.WriteLine("Choose an action for DiscardedMenuItem");
+            while (true)
             {
-                Console.WriteLine("Invalid date format.");
+                Console.WriteLine("1. Discard a menu Item\n2. Improve a menu Item\n");
+                int choice = GetUserInputChoice();
+                if(choice == (int)DiscardedMenuChoice.DiscardedMenuItem)
+                {
+                    Console.WriteLine("Enter the Menu Id\n");
+                    int menuId = GetUserInputChoice();
+                    await DisacrdMenuItem(menuId);
+                    break;
+                }
+                else if(choice == (int)DiscardedMenuChoice.ImproveMenuItem)
+                {
+                    Console.WriteLine("Enter the Menu Id\n");
+                    int menuId = GetUserInputChoice();
+                    await SendNotificationForImprovingMenuItem(menuId);
+                    break;
+
+                }
+                else
+                {
+                    await Console.Out.WriteLineAsync("Invalid Choice");
+                }
             }
+        }
 
-            var currentDate = await DateStore.LoadDataAsync();
+        private async Task DisacrdMenuItem(int menuId)
+        {
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.ChefController, "DiscardMenu", menuId);
+            PrintBaseResponse(response);
 
-            Console.WriteLine(currentDate.CurrentDate);
+        }
 
+        private async Task SendNotificationForImprovingMenuItem(int menuId)
+        {
+            var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
+            MenuImprovementNotification menuImprovementNotification = new MenuImprovementNotification()
+            {
+                 CurrentDate = currentDate,
+                  MenuId = menuId
+            };
+            var response = await SendRequestAsync<BaseResponseDTO>(ApplicationConstants.NotificationController, "AddNewNotificationForDiscardedMenuFeedback", menuImprovementNotification);
+            PrintBaseResponse(response);
         }
         #endregion
     }

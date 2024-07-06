@@ -8,6 +8,7 @@ using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.Service.Admin;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
+using RecommendationEngineServer.Service.Notifications;
 
 namespace RecommendationEngineServer
 {
@@ -39,12 +40,14 @@ namespace RecommendationEngineServer
                     services.AddScoped<AdminController>();
                     services.AddScoped<ChefController>();
                     services.AddScoped<EmployeeController>();
+                    services.AddScoped<NotificationController>();
 
                     // Logic Config
                     services.AddScoped<IAuthService, AuthService>();
                     services.AddScoped<IAdminService, AdminService>();
                     services.AddScoped<IChefService, ChefService>();
                     services.AddScoped<IEmployeeService, EmployeeService>();
+                    services.AddScoped<INotificationService, NotificationService>();
                 });
         }
     }

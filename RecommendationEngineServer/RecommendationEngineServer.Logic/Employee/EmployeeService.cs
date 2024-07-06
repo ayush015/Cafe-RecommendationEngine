@@ -15,7 +15,7 @@ namespace RecommendationEngineServer.Service.Employee
         }
 
         #region Public Methods
-        public async Task<string> GetNotification(NotificationRequest notificationRequest)
+        public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
         {
             var lastSeenUserNotification = (await _unitOfWork.UserNotification.GetAll())
                                             .Where(x => x.UserId == notificationRequest.UserId)
@@ -30,10 +30,15 @@ namespace RecommendationEngineServer.Service.Employee
 
             if(latestNotification == null)
             {
-                return string.Empty;
+                return new NotificationResponse
+                { 
+                 NotificationMessgae = string.Empty
+                
+                };
+
             }
-            
-            if(lastSeenNotificationId == null)
+
+            if (lastSeenNotificationId == null)
             {
                 UserNotification userNotification = new UserNotification()
                 {
@@ -48,7 +53,32 @@ namespace RecommendationEngineServer.Service.Employee
                 lastSeenUserNotification.LastSeenNotificationId = latestNotification.Id;
             }
             await _unitOfWork.Complete();
-            return latestNotification.Message;
+            return new NotificationResponse
+            { 
+              NotificationMessgae = latestNotification.Message,
+              NotificationTypeId = latestNotification.NotificationTypeId,
+            };
+           
+        }
+
+        public async Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback)
+        {
+            List<UserMenuFeedbackAnswer> userMenuFeedbackAsnwers = new List<UserMenuFeedbackAnswer>();
+            var menuItem = (await _unitOfWork.Menu.GetAll()).Where(m => m.FoodItem.FoodName.ToLower() == menuImprovementFeedback.FoodItemName.ToLower()).FirstOrDefault();
+           foreach(var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
+           {
+                UserMenuFeedbackAnswer newAnswer = new UserMenuFeedbackAnswer()
+                {
+                   MenuId = menuItem.Id,
+                    MenuFeedbackQuestionId = improvementFeedback.QuestionId,
+                   UserId = menuImprovementFeedback.UserId,
+                   Answer = improvementFeedback.Answer
+                };
+
+                userMenuFeedbackAsnwers.Add(newAnswer);
+           }
+
+           await _unitOfWork.UserMenuFeedbackAnswer.AddMenuImprovementFeedbacks(userMenuFeedbackAsnwers);
         }
 
         public async Task<int> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest)
@@ -112,6 +142,24 @@ namespace RecommendationEngineServer.Service.Employee
         public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
         {
             return await _unitOfWork.Menu.GetMenuItemsByOrderId(orderId);
+        }
+
+        public async Task<List<FeedbackQuestion>> GetMenuFeedBackQuestions()
+        {
+            List<FeedbackQuestion> feedbackQuestionList = new List<FeedbackQuestion>();
+            var allFeedbackQuestion = (await _unitOfWork.MenuFeedbackQuestion.GetAll()).ToList();
+            foreach (var question in allFeedbackQuestion)
+            {
+                FeedbackQuestion feedbackQuestion = new FeedbackQuestion()
+                {
+                     QuestionId = question.Id,
+                      Question = question.Question
+                };
+
+                feedbackQuestionList.Add(feedbackQuestion);
+            }
+
+            return feedbackQuestionList;
         }
         #endregion
     }

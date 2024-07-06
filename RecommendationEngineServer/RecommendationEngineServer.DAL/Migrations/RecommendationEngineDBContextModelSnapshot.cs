@@ -136,6 +136,9 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDiscarded")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MealTypeId")
                         .HasColumnType("int");
 
@@ -146,6 +149,22 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.HasIndex("MealTypeId");
 
                     b.ToTable("Menu");
+                });
+
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.MenuFeedbackQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MenuFeedbackQuestion");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Notification", b =>
@@ -162,9 +181,33 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NotificationTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("NotificationTypeId");
+
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.NotificationType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NotificationTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationTypes");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Order", b =>
@@ -219,6 +262,37 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserMenuFeedbackAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MenuFeedbackQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuFeedbackQuestionId");
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserMenuFeedbackAnswer");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserNotification", b =>
@@ -333,6 +407,17 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Navigation("MealType");
                 });
 
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Notification", b =>
+                {
+                    b.HasOne("RecommendationEngineServer.DAL.Models.NotificationType", "NotificationType")
+                        .WithMany()
+                        .HasForeignKey("NotificationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NotificationType");
+                });
+
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.Order", b =>
                 {
                     b.HasOne("RecommendationEngineServer.DAL.Models.User", "User")
@@ -353,6 +438,33 @@ namespace RecommendationEngineServer.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserMenuFeedbackAnswer", b =>
+                {
+                    b.HasOne("RecommendationEngineServer.DAL.Models.MenuFeedbackQuestion", "MenuFeedbackQuestion")
+                        .WithMany()
+                        .HasForeignKey("MenuFeedbackQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecommendationEngineServer.DAL.Models.Menu", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecommendationEngineServer.DAL.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("MenuFeedbackQuestion");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RecommendationEngineServer.DAL.Models.UserNotification", b =>

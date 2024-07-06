@@ -1,6 +1,8 @@
 ﻿using RecommendationEngineServer.DAL.Repository.DailyMenu;
 using RecommendationEngineServer.DAL.Repository.Feedback;
 using RecommendationEngineServer.DAL.Repository.FoodItem;
+using RecommendationEngineServer.DAL.Repository.ImprovementQuestion;
+using RecommendationEngineServer.DAL.Repository.ImprovementRecord;
 using RecommendationEngineServer.DAL.Repository.MealType;
 using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.Repository.Notification;
@@ -25,6 +27,8 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         IDailyMenu DailyMenu { get; }
         INotification Notification { get; }
         IUserNotification UserNotification { get; }
+        IMenuFeedbackQuestion MenuFeedbackQuestion { get; }
+        IUserMenuFeedbackAnswer UserMenuFeedbackAnswer { get; }
         Task<int> Complete();
     }
 }

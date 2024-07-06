@@ -28,6 +28,15 @@ namespace RecommendationEngineServer.Common.DTO
         public DateTime CurrentDate { get; set; }
 
     }
+
+    public class MenuImprovementFeedbackRequest
+    {
+        public string FoodItemName { get; set; }
+        public int UserId { get; set; }
+        public List<ImprovementFeedback> ImprovementFeedbacks { get; set; }
+    }
+
+
     #endregion
 
     #region Response DTO
@@ -39,6 +48,7 @@ namespace RecommendationEngineServer.Common.DTO
     public class NotificationResponse : BaseResponseDTO
     {
         public string NotificationMessgae { get; set; }
+        public int NotificationTypeId { get; set; }
         public bool IsNewNotification { get; set; }
     }
 
@@ -53,6 +63,25 @@ namespace RecommendationEngineServer.Common.DTO
     {
         public int DailyMenuId { get; set; }
     }
+
+    public class ImprovementFeedback
+    { 
+      public int QuestionId { get; set; }
+      public string Answer { get; set; }
+
+    }
+
+    public class FeedbackQuestionResponse : BaseResponseDTO
+    {
+        public List<FeedbackQuestion> FeedbackQuestions { get; set; }
+    }
+
+    public class FeedbackQuestion
+    {
+        public int QuestionId { get; set; }
+        public string Question { get; set; }
+    }
+
 
     #endregion
 

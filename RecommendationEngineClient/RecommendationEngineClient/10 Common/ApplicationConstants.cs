@@ -28,6 +28,7 @@ namespace RecommendationEngineClient.Common
         public const string AdminController = "Admin";
         public const string EmployeeController = "Employee";
         public const string ChefController = "Chef";
+        public const string NotificationController = "Notification";
         #endregion
     }
 }

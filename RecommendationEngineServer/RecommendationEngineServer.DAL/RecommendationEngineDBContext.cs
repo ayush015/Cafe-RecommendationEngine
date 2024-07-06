@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecommendationEngineServer.DAL.Models;
+using Microsoft.EntityFrameworkCore.Proxies;
 using System.Data;
 
 namespace RecommendationEngineServer.DAL
@@ -21,9 +22,14 @@ namespace RecommendationEngineServer.DAL
         public DbSet<FoodItem> FoodItems { get; set; }  
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; }
+        public DbSet<MenuFeedbackQuestion> MenuFeedbackQuestion { get; set; }
+        public DbSet<UserMenuFeedbackAnswer> UserMenuFeedbackAnswer { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=ITT-AYUSH-SRIV\\SQLEXPRESS;Database=RecommendationEngineDB;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder
+                .UseSqlServer("Server=ITT-AYUSH-SRIV\\SQLEXPRESS;Database=RecommendationEngineDB;Trusted_Connection=True;TrustServerCertificate=True")
+                .UseLazyLoadingProxies();
         }
 
     }
