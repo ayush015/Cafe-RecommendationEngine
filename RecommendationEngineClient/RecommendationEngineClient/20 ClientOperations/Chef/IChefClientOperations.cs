@@ -4,7 +4,7 @@
     {
         Task GetMenuList();
         Task AddDailyMenuItem();
-        Task SendNotification();
+        Task SendDailyMenuNotification();
         Task GetMonthlyNotification();
     }
 }

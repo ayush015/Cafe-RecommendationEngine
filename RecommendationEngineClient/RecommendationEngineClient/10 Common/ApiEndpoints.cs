@@ -24,6 +24,8 @@ namespace RecommendationEngineClient._10_Common
         public const string GetMenuItemByOrderId = "GetMenuItemByOrderId";
         public const string GetMenuFeedBackQuestions = "GetMenuFeedBackQuestions";
         public const string AddMenuImprovementFeedbacks = "AddMenuImprovementFeedbacks";
+        public const string AddUserPreference = "AddUserPreference";
+        public const string GetDailyRolledOutMenu = "GetDailyRolledOutMenu";
         #endregion
     }
 }

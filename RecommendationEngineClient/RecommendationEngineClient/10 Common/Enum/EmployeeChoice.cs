@@ -13,7 +13,7 @@ namespace RecommendationEngineClient._10_Common.Enum
         [Description("Select Items")]
         SelectItems = 1,
 
-        [Description("Give FeedBack")]
-        GiveFeedBack = 2,
+        [Description("Update Profile")]
+        UpdateProfile = 2,
     }
 }

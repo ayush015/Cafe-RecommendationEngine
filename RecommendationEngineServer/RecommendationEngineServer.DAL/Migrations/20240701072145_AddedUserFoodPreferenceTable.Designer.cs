@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecommendationEngineServer.DAL;
 
@@ -11,9 +12,10 @@ using RecommendationEngineServer.DAL;
 namespace RecommendationEngineServer.DAL.Migrations
 {
     [DbContext(typeof(RecommendationEngineDBContext))]
-    partial class RecommendationEngineDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240701072145_AddedUserFoodPreferenceTable")]
+    partial class AddedUserFoodPreferenceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,13 +132,7 @@ namespace RecommendationEngineServer.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CuisineTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FoodItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FoodTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -145,13 +141,7 @@ namespace RecommendationEngineServer.DAL.Migrations
                     b.Property<bool>("IsDiscarded")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsSweet")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MealTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpiceLevelId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -1,6 +1,4 @@
-﻿using RecommendationEngineClient._20_ClientOperations.Admin;
-using RecommendationEngineClient.Common.Enum;
-using RecommendationEngineClient.Common;
+﻿using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common.Enum;
 using RecommendationEngineClient._20_ClientOperations.Employee;
 
@@ -8,21 +6,21 @@ namespace RecommendationEngineClient._30_ConsoleHandler
 {
     public class EmployeeConsole
     {
-        private IEmployeeClientOperations _employeeService;
+        private IEmployeeClientOperations _employeeClientOperation;
 
         public EmployeeConsole(RequestServices requestServices)
         {
-            _employeeService = new EmployeeClientOperations(requestServices);
+            _employeeClientOperation = new EmployeeClientOperations(requestServices);
         }
 
         public async Task EmployeeConsoleHandler(int userId)
         {
             while (true)
             {
-               var notification =  await _employeeService.GetNotification(userId);
+               var notification =  await _employeeClientOperation.GetNotification(userId);
                
                 Console.WriteLine("Enter Choice");
-                Console.WriteLine("1. Select item from Daily Menu\n5. Logout\n");
+                Console.WriteLine("1. Select item from Daily Menu\n2. Update Your Profile\n5. Logout\n");
                 Console.Write("Enter : ");
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -48,9 +46,14 @@ namespace RecommendationEngineClient._30_ConsoleHandler
                                     await Console.Out.WriteLineAsync("Option not available at the moment\nWait for new notification\n");
                                     break;
                                 }
-                                await _employeeService.SelectFoodItemsFromDailyMenu(userId);
+                                await _employeeClientOperation.SelectFoodItemsFromDailyMenu(userId);
                                 await Task.Delay(5000);
-                                await _employeeService.GiveFeedBack(userId);
+                                await _employeeClientOperation.GiveFeedBack(userId);
+                                break;
+                            }
+                        case EmployeeChoice.UpdateProfile:
+                            {
+                                await _employeeClientOperation.AddUserFoodPreference(userId);
                                 break;
                             }
                         default:

@@ -1,5 +1,6 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.Common.Enum;
 using RecommendationEngineServer.Common.Exceptions;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.DAL.UnitOfWork;
@@ -28,28 +29,42 @@ namespace RecommendationEngineServer.Service.Admin
                             f => f.FoodName.ToLower().Equals(addMenuItemRequest.FoodItemName.ToLower())
                             );
 
-            if (foodItem != null)
+            var IsMenuItemPresent = foodItem != null ? (await _unitOfWork.Menu.GetAll()).Any(m => m.FoodItemId == foodItem.Id && m.MealTypeId == addMenuItemRequest.MealTypeId) : false;
+             
+            if (IsMenuItemPresent)
             {
                 throw new MenuItemAlreadyPresentException();
             }
-
-            FoodItem newFoodItem = new FoodItem()
-            { 
-              FoodName = addMenuItemRequest.FoodItemName,
-            };
-            var addFoodItem =  await _unitOfWork.FoodItem.Create(newFoodItem);
-            await _unitOfWork.Complete();
-
-            Menu newMenuItem = new Menu()
+            else if(foodItem != null && foodItem.IsDeleted && !IsMenuItemPresent)
             {
-                FoodItemId = addFoodItem.Id,
-                MealTypeId = addMenuItemRequest.MealTypeId,
-                IsDeleted = false,
-            };
+                foodItem.IsDeleted = false;
+                await _unitOfWork.Complete(); 
+                return foodItem.Id;
+            }
+            else
+            {
+                FoodItem newFoodItem = new FoodItem()
+                {
+                    FoodName = addMenuItemRequest.FoodItemName,
+                };
+                var addFoodItem = await _unitOfWork.FoodItem.Create(newFoodItem);
+                await _unitOfWork.Complete();
 
-            var addMenuItem = await _unitOfWork.Menu.Create(newMenuItem);
-            await _unitOfWork.Complete();
-            return addMenuItem.Id;
+                Menu newMenuItem = new Menu()
+                {
+                    FoodItemId = addFoodItem.Id,
+                    MealTypeId = addMenuItemRequest.MealTypeId,
+                    CuisineTypeId =(int)(CuisineType)addMenuItemRequest.CuisineId,
+                    FoodTypeId = (int)(FoodType)addMenuItemRequest.FoodTypeId,
+                    SpiceLevelId = (int)(SpiceLevel)addMenuItemRequest.SpiceLevelId,
+                    IsSweet = addMenuItemRequest.IsSweet,
+                    IsDeleted = false,
+                };
+
+                var addMenuItem = await _unitOfWork.Menu.Create(newMenuItem);
+                await _unitOfWork.Complete();
+                return addMenuItem.Id;
+            }
         }
 
         public async Task<List<MenuListModel>> GetMenuList()

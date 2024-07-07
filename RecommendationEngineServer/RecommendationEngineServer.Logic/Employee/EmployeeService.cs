@@ -1,6 +1,7 @@
 ﻿using RecommendationEngineServer.Common.DTO;
+using RecommendationEngineServer.Common.Enum;
+using RecommendationEngineServer.Common.Exceptions;
 using RecommendationEngineServer.DAL.Models;
-using RecommendationEngineServer.DAL.Repository.DailyMenu;
 using RecommendationEngineServer.DAL.UnitOfWork;
 
 
@@ -32,8 +33,7 @@ namespace RecommendationEngineServer.Service.Employee
             {
                 return new NotificationResponse
                 { 
-                 NotificationMessgae = string.Empty
-                
+                 NotificationMessgae = string.Empty   
                 };
 
             }
@@ -65,7 +65,10 @@ namespace RecommendationEngineServer.Service.Employee
         {
             List<UserMenuFeedbackAnswer> userMenuFeedbackAsnwers = new List<UserMenuFeedbackAnswer>();
             var menuItem = (await _unitOfWork.Menu.GetAll()).Where(m => m.FoodItem.FoodName.ToLower() == menuImprovementFeedback.FoodItemName.ToLower()).FirstOrDefault();
-           foreach(var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
+
+            if (menuItem == null) throw new MenuItemNotFoundException();
+
+           foreach (var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
            {
                 UserMenuFeedbackAnswer newAnswer = new UserMenuFeedbackAnswer()
                 {
@@ -161,6 +164,102 @@ namespace RecommendationEngineServer.Service.Employee
 
             return feedbackQuestionList;
         }
+
+        public async Task AddUserPreference(UserPreferenceRequest userPreferenceRequest)
+        {
+            var userPreference = (await _unitOfWork.UserFoodPreference.GetAll()).Where(u => u.UserId == userPreferenceRequest.UserId).FirstOrDefault();
+
+            if(userPreference != null)
+            {
+                userPreference.FoodTypeId = (int)(FoodType)userPreferenceRequest.FoodTypeId;
+                userPreference.PreferredCuisineId = (int)(CuisineType)userPreferenceRequest.PreferredCuisineId;
+                userPreference.SpiceLevelId = (int)(SpiceLevel)userPreferenceRequest.SpiceLevelId;
+                userPreference.HasSweetTooth = userPreferenceRequest.HasSweetTooth;
+                await _unitOfWork.Complete();
+                return;
+            }
+
+            UserFoodPreference userFoodPreference = new UserFoodPreference()
+            { 
+              UserId = userPreferenceRequest.UserId,
+              FoodTypeId = (int)(FoodType)userPreferenceRequest.FoodTypeId, 
+              PreferredCuisineId = (int)(CuisineType)userPreferenceRequest.PreferredCuisineId,
+              SpiceLevelId = (int)(SpiceLevel)userPreferenceRequest.SpiceLevelId,
+              HasSweetTooth = userPreferenceRequest.HasSweetTooth
+            };
+
+            await _unitOfWork.UserFoodPreference.Create(userFoodPreference);
+            await _unitOfWork.Complete();
+
+        }
+
+        public async Task<List<RolledOutMenu>> GetRolledOutMenus(DailyRolledOutMenuRequest dailyRolledOutMenuRequest)
+        {
+            List<RolledOutMenu> dailyMenuList = new List<RolledOutMenu>();
+            var allDailyMenuItem = (await _unitOfWork.DailyMenu.GetAll())
+                              .Where(m => m.IsNotificationSent == false && m.Date == dailyRolledOutMenuRequest.CurrentDate)
+                              .OrderBy(m => m.Menu.MealTypeId)
+                              .ToList();
+
+            if (allDailyMenuItem.Count == 0)
+            {
+                throw new NoNewDailyMenuItemAddedException();
+            }
+
+            foreach (var dailyMenuItem in allDailyMenuItem)
+            {
+                int preferenceSocre = await GetPreferenceScore(dailyRolledOutMenuRequest.UserId, dailyMenuItem);
+                RolledOutMenu dailyMenu = new RolledOutMenu()
+                {
+                    DailyMenuId = dailyMenuItem.Id,
+                    MenuId = dailyMenuItem.MenuId,
+                    PreferenceScore = preferenceSocre,
+                };
+
+                dailyMenuList.Add(dailyMenu);
+            }
+
+            dailyMenuList.OrderBy(d => d.PreferenceScore);
+            foreach (var dailyMenuItem in dailyMenuList)
+            {
+                var menuItem = await _unitOfWork.Menu.GetMenuItemById(dailyMenuItem.MenuId, dailyRolledOutMenuRequest.CurrentDate);
+                var dailyMenu = await _unitOfWork.DailyMenu.GetById(dailyMenuItem.MenuId);
+                dailyMenu.IsNotificationSent = true;
+                dailyMenuItem.FoodItemName = menuItem.FoodItemName;
+                dailyMenuItem.MealType = menuItem.MealTypeName;
+            }
+
+            await _unitOfWork.Complete();
+            return dailyMenuList;
+        }
         #endregion
+
+
+        private async Task<int> GetPreferenceScore(int userId, DailyMenu dailyMenu)
+        {
+            var userPreference = (await _unitOfWork.UserFoodPreference.GetAll()).Where(u => u.UserId == userId).FirstOrDefault();
+
+            int preferenceScore = 0;
+
+            if (userPreference.FoodTypeId == dailyMenu.Menu.FoodTypeId)
+            {
+                preferenceScore += 10;
+            }
+            if (userPreference.PreferredCuisineId == dailyMenu.Menu.CuisineTypeId)
+            {
+                preferenceScore += 5;
+            }
+            if (userPreference.SpiceLevelId == dailyMenu.Menu.SpiceLevelId)
+            {
+                preferenceScore += 3;
+            }
+            if (userPreference.HasSweetTooth == dailyMenu.Menu.IsSweet)
+            {
+                preferenceScore += 2;
+            }
+
+            return preferenceScore;
+        }
+
     }
 }

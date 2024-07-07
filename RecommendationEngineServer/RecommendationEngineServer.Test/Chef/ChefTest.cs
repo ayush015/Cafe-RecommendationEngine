@@ -55,10 +55,10 @@ namespace RecommendationEngineServer.Test
                 Message = ApplicationConstants.SentNotificationSuccessfully
             };
 
-            _chefServiceMock.Setup(s => s.SendNotification(It.IsAny<DateTime>())).Returns(Task.CompletedTask);
+            _chefServiceMock.Setup(s => s.SendDailyMenuNotification(It.IsAny<DateTime>())).Returns(Task.CompletedTask);
 
             // Act
-            var result = await _chefController.SendNotification(currentDate);
+            var result = await _chefController.SendDailyMenuNotification(currentDate);
 
             // Assert
             Assert.NotNull(result);

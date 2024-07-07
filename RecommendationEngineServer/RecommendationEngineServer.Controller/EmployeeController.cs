@@ -1,13 +1,6 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.DAL.Models;
-using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecommendationEngineServer.Controller
 {
@@ -19,7 +12,7 @@ namespace RecommendationEngineServer.Controller
             _employeeService = employeeLogic;
         }
 
-        public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
+        public async Task<NotificationResponse> GetNotifcation(NotificationRequest notificationRequest)
         {
             try
             {
@@ -149,11 +142,54 @@ namespace RecommendationEngineServer.Controller
             {
                 return new FeedbackQuestionResponse
                 {
-                    Status = ApplicationConstants.StatusFailed
+                    Status = ApplicationConstants.StatusFailed,
+                    Message = ex.Message
                 };
             }
         }
 
+        public async Task<BaseResponseDTO> AddUserPreference(UserPreferenceRequest userPreferenceRequest)
+        {
+            try
+            {
+                await _employeeService.AddUserPreference(userPreferenceRequest);
+                return new BaseResponseDTO
+                { 
+                     Status = ApplicationConstants.StatusSuccess,
+                     Message = "Added Successfully"
+                };
+            }
+            catch (Exception ex) 
+            {
+                return new BaseResponseDTO
+                {
+                    Status = ApplicationConstants.StatusFailed,
+                    Message = ex.Message    
+                };
+            }
+        }
+
+        public async Task<DailyRolledOutMenuResponse> GetDailyRolledOutMenu(DailyRolledOutMenuRequest dialyRolledOutMenuRequest)
+        {
+            try
+            {
+                var result = await _employeeService.GetRolledOutMenus(dialyRolledOutMenuRequest);
+                return new DailyRolledOutMenuResponse
+                {
+                    Status = ApplicationConstants.StatusSuccess,
+                    RolledOutMenu = result
+                };
+            }
+            catch(Exception ex)
+            {
+                return new DailyRolledOutMenuResponse
+                { 
+                   Status = ApplicationConstants.StatusFailed,  
+                   Message = ex.Message 
+                };
+
+            }
+        }
     }
 }
 

@@ -10,8 +10,12 @@ namespace RecommendationEngineServer.Common.DTO
     #region Request DTO
     public class AddMenuItemRequest
     { 
-      public string FoodItemName { get; set; }
-      public int MealTypeId { get; set; }
+        public string FoodItemName { get; set; }
+        public int MealTypeId { get; set; }
+        public int FoodTypeId { get; set; }
+        public int SpiceLevelId { get; set; }
+        public int CuisineId { get; set; }
+        public bool IsSweet { get; set; }
     }
    
     public class UpdateMenuItemRequest

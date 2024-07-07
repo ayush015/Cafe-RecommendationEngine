@@ -16,5 +16,7 @@ namespace RecommendationEngineServer.Service.Employee
         Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId);
         Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback);
         Task<List<FeedbackQuestion>> GetMenuFeedBackQuestions();
+        Task AddUserPreference(UserPreferenceRequest userPreferenceRequest);
+        Task<List<RolledOutMenu>> GetRolledOutMenus(DailyRolledOutMenuRequest dailyRolledOutMenuRequest);
     }
 }

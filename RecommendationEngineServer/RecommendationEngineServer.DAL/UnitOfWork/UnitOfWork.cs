@@ -8,6 +8,7 @@ using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.Repository.Notification;
 using RecommendationEngineServer.DAL.Repository.Order;
 using RecommendationEngineServer.DAL.Repository.User;
+using RecommendationEngineServer.DAL.Repository.UserFoodPreference;
 using RecommendationEngineServer.DAL.Repository.UserNotification;
 using RecommendationEngineServer.DAL.Repository.UserOrder;
 using RecommendationEngineServer.DAL.Repository.UserRole;
@@ -31,6 +32,7 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         public IUserNotification UserNotification { get; }
         public IMenuFeedbackQuestion MenuFeedbackQuestion { get; }
         public IUserMenuFeedbackAnswer UserMenuFeedbackAnswer { get; }
+        public IUserFoodPreference UserFoodPreference { get; }
         public UnitOfWork(RecommendationEngineDBContext dbContext)
         {
             _dbContext = dbContext;
@@ -46,7 +48,8 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
             Notification = new Notification(_dbContext);
             UserNotification = new UserNotification(_dbContext);
             MenuFeedbackQuestion = new MenuFeedbackQuestion(_dbContext);
-            UserMenuFeedbackAnswer = new UserMenuFeedbackAnswer(_dbContext);    
+            UserMenuFeedbackAnswer = new UserMenuFeedbackAnswer(_dbContext);
+            UserFoodPreference = new UserFoodPreference(_dbContext);
         }
 
         public async Task<int> Complete()

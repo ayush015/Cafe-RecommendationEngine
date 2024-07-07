@@ -1,6 +1,7 @@
 ﻿using RecommendationEngineClient.Common.DTO;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient._10_Common;
+using RecommendationEngineClient._10_Common.DTO;
 
 namespace RecommendationEngineClient._20_ClientOperations.Admin
 {
@@ -78,10 +79,27 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
                 return null;
             }
 
+            Console.WriteLine("1) Add the Food Type\n1. Vegetarian\n2. Non Vegetarian\n3. Eggetarian");
+            int foodType = GetUserInputChoice();
+
+            Console.WriteLine("2) Add spice level\n1. High\n2. Medium\n3. Low");
+            int spiceLevel = GetUserInputChoice();
+
+            Console.WriteLine("3) What type of Cuisine is this?\n1. North Indian\n2. South Indian\n3. Others");
+            int cuisineType = GetUserInputChoice();
+
+            Console.WriteLine("4) Is the food item sweet\n1. Yes\n2. No");
+            int sweetType = GetUserInputChoice();
+
+
             return new AddMenuItemRequest
             {
                 FoodItemName = foodItemInput,
-                MealTypeId = mealInputId
+                MealTypeId = mealInputId,
+                FoodTypeId = foodType,
+                SpiceLevelId = spiceLevel,
+                CuisineId = cuisineType,
+                IsSweet = sweetType == 1 ? true : false,
             };
         }
 
@@ -109,11 +127,27 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
                 return null;
             }
 
+            Console.WriteLine("1) Add the Food Type\n1. Vegetarian\n2. Non Vegetarian\n3. Eggetarian");
+            int foodType = GetUserInputChoice();
+
+            Console.WriteLine("2) Add spice level\n1. High\n2. Medium\n3. Low");
+            int spiceLevel = GetUserInputChoice();
+
+            Console.WriteLine("3) What type of Cuisine is this?\n1. North Indian\n2. South Indian\n3. Others");
+            int cuisineType = GetUserInputChoice();
+
+            Console.WriteLine("4) Is the food item sweet\n1. Yes\n2. No");
+            int sweetType = GetUserInputChoice();
+
             return new UpdateMenuItemRequest
             {
                 MenuId = menuId,
                 FoodItemName = foodItemInput,
-                MealTypeId = mealInputId
+                MealTypeId = mealInputId,
+                FoodTypeId = foodType,
+                SpiceLevelId = spiceLevel,
+                CuisineId = cuisineType,
+                IsSweet = sweetType == 1 ? true : false,
             };
         }
 

@@ -8,6 +8,7 @@ using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.Repository.Notification;
 using RecommendationEngineServer.DAL.Repository.Order;
 using RecommendationEngineServer.DAL.Repository.User;
+using RecommendationEngineServer.DAL.Repository.UserFoodPreference;
 using RecommendationEngineServer.DAL.Repository.UserNotification;
 using RecommendationEngineServer.DAL.Repository.UserOrder;
 using RecommendationEngineServer.DAL.Repository.UserRole;
@@ -29,6 +30,7 @@ namespace RecommendationEngineServer.DAL.UnitOfWork
         IUserNotification UserNotification { get; }
         IMenuFeedbackQuestion MenuFeedbackQuestion { get; }
         IUserMenuFeedbackAnswer UserMenuFeedbackAnswer { get; }
+        IUserFoodPreference UserFoodPreference { get; }
         Task<int> Complete();
     }
 }

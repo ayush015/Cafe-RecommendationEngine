@@ -2,8 +2,10 @@
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Common.Exceptions;
 using RecommendationEngineServer.DAL.Models;
+using RecommendationEngineServer.DAL.Repository.Menu;
 using RecommendationEngineServer.DAL.UnitOfWork;
 using System.Text;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace RecommendationEngineServer.Service.Chef
 {
@@ -47,33 +49,14 @@ namespace RecommendationEngineServer.Service.Chef
             return await _unitOfWork.Complete();
         }
 
-        public async Task SendNotification(DateTime currentDate)
+        public async Task SendDailyMenuNotification(DateTime currentDate)
         {
-            
-            var allDailyMenu = (await _unitOfWork.DailyMenu.GetAll())
-                              .Where(m => m.IsNotificationSent == false && m.Date == currentDate)
-                              .OrderBy(m => m.Menu.MealTypeId)
-                              .ToList();
-            if(allDailyMenu.Count == 0)
-            {
-                throw new NoNewDailyMenuItemAddedException();   
-            }
-            DateTime date = allDailyMenu.FirstOrDefault().Date;
-            StringBuilder notificationMessage = new StringBuilder();
-            foreach (var item in allDailyMenu) 
-            { 
-                var menuItem = await _unitOfWork.Menu.GetMenuItemById(item.MenuId,currentDate);
-                item.IsNotificationSent = true;
-                string message = $"\n{menuItem.DailyMenuId} {menuItem.FoodItemName} {menuItem.MealTypeName},";
-                notificationMessage.AppendLine(message);
-            }
-
-            notificationMessage.Insert(0, $"For Date: {date.ToShortDateString()}\n");
 
             Notification addNotification = new Notification()
             {
-                Message = notificationMessage.ToString(),
-                CreatedDate = date,
+                Message = $"New Daily Menu has been Added for {currentDate}",
+                CreatedDate = currentDate,
+                NotificationTypeId = 2
             };
 
             await _unitOfWork.Notification.Create(addNotification);
