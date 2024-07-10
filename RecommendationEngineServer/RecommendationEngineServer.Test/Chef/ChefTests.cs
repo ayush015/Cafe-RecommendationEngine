@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RecommendationEngineServer.Test
+namespace RecommendationEngineServer.Test.Chef
 {
     public class ChefTests : TestBase
     {

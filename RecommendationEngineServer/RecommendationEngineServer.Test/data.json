@@ -91,23 +91,6 @@
       "RecommendationScore": 4.5
     }
   ],
-  "RecommendedMenuResponse": {
-    "Status": "Success",
-    "RecommendedMenus": [
-      {
-        "MenuId": 1,
-        "MenuName": "Menu Item 1",
-        "Price": 100,
-        "RecommendationScore": 4.5
-      },
-      {
-        "MenuId": 2,
-        "MenuName": "Menu Item 2",
-        "Price": 200,
-        "RecommendationScore": 3.8
-      }
-    ]
-  },
   "AddMenuItemRequests": {
     "foodItemName": "Pizza",
     "mealTypeId": 1,
@@ -143,5 +126,46 @@
       "mealTypeId": 2,
       "mealTypeName": "Dinner"
     }
-  ]
+  ],
+  "MenuImprovementNotificationRequest": {
+    "CurrentDate": "2024-07-11T00:00:00",
+    "MenuId": 1
+  },
+  "DiscardedMenuResponse": {
+    "Status": "Success",
+    "DiscardedMenus": [
+      {
+        "MenuId": 1,
+        "FoodItemName": "Discarded Item"
+      }
+    ]
+  },
+  "RecommendedMenuModel": {
+    "RecommendedMenus": [
+      {
+        "MenuId": 1,
+        "FoodItemId": 101,
+        "FoodItemName": "Paneer Tikka",
+        "MealTypeId": 1,
+        "MealTypeName": "Dinner",
+        "RecommendationScore": 4.5
+      },
+      {
+        "MenuId": 2,
+        "FoodItemId": 102,
+        "FoodItemName": "Dal Makhani",
+        "MealTypeId": 2,
+        "MealTypeName": "Lunch",
+        "RecommendationScore": 4.0
+      },
+      {
+        "MenuId": 3,
+        "FoodItemId": 103,
+        "FoodItemName": "Aloo Paratha",
+        "MealTypeId": 3,
+        "MealTypeName": "Breakfast",
+        "RecommendationScore": 3.8
+      }
+    ]
+  }
 }

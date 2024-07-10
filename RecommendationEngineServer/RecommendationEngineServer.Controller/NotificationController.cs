@@ -12,6 +12,13 @@ namespace RecommendationEngineServer.Controller
         private INotificationService _notificationService;
         private IChefService _chefService;
 
+      
+        public NotificationController(INotificationService notificationService,IChefService chefService)
+        {
+            _notificationService = notificationService;
+            _chefService = chefService;
+        }
+
         public async Task<NotificationResponse> GetNotifcation(NotificationRequest notificationRequest)
         {
             try
@@ -39,12 +46,6 @@ namespace RecommendationEngineServer.Controller
                     Message = ex.Message
                 };
             }
-        }
-
-        public NotificationController(INotificationService notificationService,IChefService chefService)
-        {
-            _notificationService = notificationService;
-            _chefService = chefService;
         }
 
         public async Task<DiscardedMenuResponse> GetMonthlyDiscardedMenuNotification(DateTime currentDate)
