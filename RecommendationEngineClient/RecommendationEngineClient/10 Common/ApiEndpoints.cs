@@ -16,6 +16,17 @@ namespace RecommendationEngineClient._10_Common
         public const string NotificationController = "Notification";
         #endregion
 
+        #region ChefController Action Methods
+        public const string GetMenuListItems = "GetMenuListItems";
+        public const string AddDailyMenuItem = "AddDailyMenuItem";
+        public const string SendDailyMenuNotification = "SendDailyMenuNotification";
+        public const string DiscardMenu = "DiscardMenu";
+        #endregion
+
+        #region NotificationController Action Methods
+        public const string GetMonthlyNotification = "GetMonthlyNotification";
+        public const string AddNewNotificationForDiscardedMenuFeedback = "AddNewNotificationForDiscardedMenuFeedback";
+        #endregion
 
         #region EmployeeController Action Method
         public const string GetNotification = "GetNotification";

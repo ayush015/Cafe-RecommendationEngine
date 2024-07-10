@@ -15,7 +15,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
         #region Public Methods
         public async Task GetMenuList()
         {
-            var menuList = await SendRequestAsync<RecommendedMenuResponse>(ApiEndpoints.ChefController, "GetMenuListItems");
+            var menuList = await SendRequestAsync<RecommendedMenuResponse>(ApiEndpoints.ChefController, ApiEndpoints.GetMenuListItems);
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -42,32 +42,31 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
             var menuItem = await DisplayRollOutMenuOptions();
             if (menuItem.MenuItemsIds == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "AddDailyMenuItem", menuItem);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, ApiEndpoints.AddDailyMenuItem, menuItem);
             PrintBaseResponse(response);
         }
 
         public async Task SendDailyMenuNotification()
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "SendDailyMenuNotification", currentDate);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, ApiEndpoints.SendDailyMenuNotification, currentDate);
             PrintBaseResponse(response);
         }
 
         public async Task GetMonthlyNotification()
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            var response = await SendRequestAsync<DiscardedMenuResponse>(ApiEndpoints.NotificationController, "GetMonthlyNotification", currentDate);
+            var response = await SendRequestAsync<DiscardedMenuResponse>(ApiEndpoints.NotificationController, ApiEndpoints.GetMonthlyNotification, currentDate);
             DisplayDiscardedMenuItems(response.DiscardedMenus);
 
-            if(response.DiscardedMenus.Count > 0)
+            if (response.DiscardedMenus.Count > 0)
             {
-               await DisplayActionsForDiscardedMenuItems();
+                await DisplayActionsForDiscardedMenuItems();
             }
         }
         #endregion
 
         #region Private Methods
-
 
         private async Task<MenuItem> DisplayRollOutMenuOptions()
         {
@@ -78,11 +77,12 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
                 return null;
             }
 
-            MenuItem menuItem = new MenuItem();
+            MenuItem menuItem = new MenuItem
+            {
+                CurrentDate = (await DateStore.LoadDataAsync()).CurrentDate,
+                MenuItemsIds = new List<int>()
+            };
 
-            menuItem.CurrentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-
-            menuItem.MenuItemsIds = new List<int>();
             Console.WriteLine("Enter the Menu Ids:");
             for (int itemsId = 0; itemsId < numberOfMenuItems; itemsId++)
             {
@@ -101,7 +101,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         private void DisplayDiscardedMenuItems(List<RecommendedMenu> recommendedMenus)
         {
-            if(recommendedMenus.Count == 0) { return; }
+            if (recommendedMenus.Count == 0) return;
 
             Console.WriteLine("\nNew Notification");
             Console.WriteLine("Time to review some menu Items with low rating\n");
@@ -119,20 +119,19 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
             {
                 Console.WriteLine("1. Discard a menu Item\n2. Improve a menu Item\n");
                 int choice = GetUserInputChoice();
-                if(choice == (int)DiscardedMenuChoice.DiscardedMenuItem)
+                if (choice == (int)DiscardedMenuChoice.DiscardedMenuItem)
                 {
                     Console.WriteLine("Enter the Menu Id\n");
                     int menuId = GetUserInputChoice();
                     await DisacrdMenuItem(menuId);
                     break;
                 }
-                else if(choice == (int)DiscardedMenuChoice.ImproveMenuItem)
+                else if (choice == (int)DiscardedMenuChoice.ImproveMenuItem)
                 {
                     Console.WriteLine("Enter the Menu Id\n");
                     int menuId = GetUserInputChoice();
                     await SendNotificationForImprovingMenuItem(menuId);
                     break;
-
                 }
                 else
                 {
@@ -143,20 +142,19 @@ namespace RecommendationEngineClient._20_ClientOperations.Chef
 
         private async Task DisacrdMenuItem(int menuId)
         {
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, "DiscardMenu", menuId);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.ChefController, ApiEndpoints.DiscardMenu, menuId);
             PrintBaseResponse(response);
-
         }
 
         private async Task SendNotificationForImprovingMenuItem(int menuId)
         {
             var currentDate = (await DateStore.LoadDataAsync()).CurrentDate;
-            MenuImprovementNotification menuImprovementNotification = new MenuImprovementNotification()
+            MenuImprovementNotification menuImprovementNotification = new MenuImprovementNotification
             {
-                 CurrentDate = currentDate,
-                  MenuId = menuId
+                CurrentDate = currentDate,
+                MenuId = menuId
             };
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.NotificationController, "AddNewNotificationForDiscardedMenuFeedback", menuImprovementNotification);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.NotificationController, ApiEndpoints.AddNewNotificationForDiscardedMenuFeedback, menuImprovementNotification);
             PrintBaseResponse(response);
         }
         #endregion

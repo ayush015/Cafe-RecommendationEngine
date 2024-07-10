@@ -82,30 +82,10 @@ namespace RecommendationEngineServer.Service.Chef
             var allMenuItems = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted && !m.IsDiscarded).ToList();
             var allOrders = (await _unitOfWork.UserOrder.GetAll()).OrderBy(o => o.DailyMenuId).ToList();
 
-            var averageRating = feedbacks
-                                .Where(f => !f.IsDeleted)
-                                .GroupBy(f => f.MenuId)
-                                .Select(g => new
-                                {
-                                    MenuId = g.Key,
-                                    AverageRating = g.Average(f => f.Rating),
-                                    Comments = g.Select(f => f.Comment).ToList()
-                                });
+            var averageRating = CalculateAverageRatings(feedbacks);
             var menuOrderFrequency = await GetOrderFrequency(allOrders);
 
-            var recommendations = (from menu in allMenuItems
-                                   join rating in averageRating on menu.Id equals rating.MenuId into mr
-                                   from rating in mr.DefaultIfEmpty()
-                                   join orderFrequency in menuOrderFrequency on menu.Id equals orderFrequency.MenuId into of
-                                   from orderFrequency in of.DefaultIfEmpty()
-                                   select new MenuRecommendationModel
-                                   {
-                                       MenuId = menu.Id,
-                                       AverageRating = rating?.AverageRating ?? 0,
-                                       Comments = rating?.Comments ?? new List<string>(),
-                                       OrderFrequency = orderFrequency?.OrderFrequency ?? 0,
-                                       RecommendationScore = CalculateRecommendationScore(rating?.AverageRating ?? 0, rating?.Comments ?? new List<string>(), orderFrequency?.OrderFrequency ?? 0)
-                                   }).OrderByDescending(r => r.RecommendationScore).ToList();
+            var recommendations = CreateMenuRecommendations(allMenuItems, averageRating, menuOrderFrequency);
             return recommendations;
         }
 
@@ -123,55 +103,74 @@ namespace RecommendationEngineServer.Service.Chef
         #endregion
 
         #region Private Methods
+        private List<AverageRatingModel> CalculateAverageRatings(List<Feedback> feedbacks)
+        {
+            return feedbacks
+                .Where(f => !f.IsDeleted)
+                .GroupBy(f => f.MenuId)
+                .Select(g => new AverageRatingModel
+                {
+                    MenuId = g.Key,
+                    AverageRating = g.Average(f => f.Rating),
+                    Comments = g.Select(f => f.Comment).ToList()
+                }).ToList();
+        }
+
         private async Task<List<UserOrderFrequencyModel>> GetOrderFrequency(List<UserOrder> userOrders)
         {
+            var orderFrequencies = CalculateOrderFrequencies(userOrders);
+            var allMenuIds = await GetAllMenuIds();
+            return MergeOrderFrequenciesWithAllMenus(orderFrequencies, allMenuIds);
+        }
+
+        private List<UserOrderFrequencyModel> CalculateOrderFrequencies(List<UserOrder> userOrders)
+        {
             int frequency = 0;
-            int? currentDailyMenuId = null;
+            int? currentMenuId = null;
             List<UserOrderFrequencyModel> orderFrequencies = new List<UserOrderFrequencyModel>();
-            userOrders = userOrders.OrderBy(uo => uo.DailyMenuId).ToList();
+            userOrders = userOrders.OrderBy(uo => uo.DailyMenu.MenuId).ToList();
 
             foreach (var item in userOrders)
             {
-                if (currentDailyMenuId == null || currentDailyMenuId == item.DailyMenuId)
+                if (currentMenuId == null || currentMenuId == item.DailyMenu.MenuId)
                 {
                     ++frequency;
                 }
                 else
                 {
-                    var dailyMenu = await _unitOfWork.DailyMenu.GetById(currentDailyMenuId.Value);
-                    var existingOrderFrequency = orderFrequencies.FirstOrDefault(of => of.MenuId == dailyMenu.MenuId);
-
-                    if (existingOrderFrequency != null)
+                    UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
                     {
-                        existingOrderFrequency.OrderFrequency += frequency;
-                    }
-                    else
-                    {
-                        UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
-                        {
-                            DailyMenuId = currentDailyMenuId.Value,
-                            OrderFrequency = frequency,
-                            MenuId = dailyMenu.MenuId
-                        };
-                        orderFrequencies.Add(userOrder);
-                    }
+                        OrderFrequency = frequency,
+                        MenuId = (int)currentMenuId
+                    };
+                    orderFrequencies.Add(userOrder);
                     frequency = 1;
                 }
+                currentMenuId = item.DailyMenu.MenuId;
+            }
 
-                currentDailyMenuId = item.DailyMenuId;
-            }
-            if (currentDailyMenuId != null)
+            if (currentMenuId != null)
             {
-                var dailyMenu = await _unitOfWork.DailyMenu.GetById(currentDailyMenuId.Value);
-                UserOrderFrequencyModel userOrder = new UserOrderFrequencyModel()
+                orderFrequencies.Add(new UserOrderFrequencyModel()
                 {
-                    DailyMenuId = currentDailyMenuId.Value,
                     OrderFrequency = frequency,
-                    MenuId = dailyMenu.MenuId
-                };
-                orderFrequencies.Add(userOrder);
+                    MenuId = (int)currentMenuId
+                });
             }
-            var allMenuIds = (await _unitOfWork.Menu.GetAll()).Where(m => !m.IsDeleted && !m.IsDiscarded).Select(menu => menu.Id).ToList();
+
+            return orderFrequencies;
+        }
+
+        private async Task<List<int>> GetAllMenuIds()
+        {
+            return (await _unitOfWork.Menu.GetAll())
+                .Where(m => !m.IsDeleted && !m.IsDiscarded)
+                .Select(menu => menu.Id)
+                .ToList();
+        }
+
+        private List<UserOrderFrequencyModel> MergeOrderFrequenciesWithAllMenus(List<UserOrderFrequencyModel> orderFrequencies, List<int> allMenuIds)
+        {
             var existingMenuIds = orderFrequencies.Select(of => of.MenuId).ToList();
             var missingMenuIds = allMenuIds.Except(existingMenuIds);
 
@@ -187,6 +186,7 @@ namespace RecommendationEngineServer.Service.Chef
 
             return orderFrequencies;
         }
+
         private double CalculateRecommendationScore(double averageRating, List<string> comments, int orderFrequency)
         {
             
@@ -295,6 +295,23 @@ namespace RecommendationEngineServer.Service.Chef
             };
 
             return negativeWords;
+        }
+
+        private List<MenuRecommendationModel> CreateMenuRecommendations(List<DAL.Models.Menu> allMenuItems, List<AverageRatingModel> averageRatings, List<UserOrderFrequencyModel> menuOrderFrequency)
+        {
+            return (from menu in allMenuItems
+                    join rating in averageRatings on menu.Id equals rating.MenuId into mr
+                    from rating in mr.DefaultIfEmpty()
+                    join orderFrequency in menuOrderFrequency on menu.Id equals orderFrequency.MenuId into of
+                    from orderFrequency in of.DefaultIfEmpty()
+                    select new MenuRecommendationModel
+                    {
+                        MenuId = menu.Id,
+                        AverageRating = rating?.AverageRating ?? 0,
+                        Comments = rating?.Comments ?? new List<string>(),
+                        OrderFrequency = orderFrequency?.OrderFrequency ?? 0,
+                        RecommendationScore = CalculateRecommendationScore(rating?.AverageRating ?? 0, rating?.Comments ?? new List<string>(), orderFrequency?.OrderFrequency ?? 0)
+                    }).OrderByDescending(r => r.RecommendationScore).ToList();
         }
         #endregion
     }

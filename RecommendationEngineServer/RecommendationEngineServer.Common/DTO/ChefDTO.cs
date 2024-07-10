@@ -30,6 +30,14 @@ namespace RecommendationEngineServer.Common.DTO
         public double RecommendationScore { get; set; }
     }
 
+    public class AverageRatingModel
+    { 
+      public int MenuId { get; set; }
+      public double AverageRating { get; set; }
+      public List<string> Comments { get; set; }  
+    }
+
+
     public class RecommendedMenuModel : MenuListModel
     {
         public double RecommendationScore { get; set; }
