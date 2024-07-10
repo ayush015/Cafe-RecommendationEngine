@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Controller;
 using System.Net.Sockets;
@@ -80,19 +81,19 @@ namespace RecommendationEngineServer
         {
             switch (data.Controller)
             {
-                case "Login":
+                case ControllerNames.Login:
                     await AuthControllerActionHandler(data);
                     break;
-                case "Admin":
+                case ControllerNames.Admin:
                     await AdminControllerActionHandler(data);
                     break;
-                case "Chef":
+                case ControllerNames.Chef:
                     await ChefControllerActionHandler(data);
                     break;
-                case "Employee":
+                case ControllerNames.Employee:
                     await EmployeeControllerActionHandler(data);
                     break;
-                case "Notification":
+                case ControllerNames.Notification:
                     await NotificationControllerActionHandler(data);
                     break;
                 // Add other controllers here
@@ -106,7 +107,7 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "Login":
+                case ControllerActions.AuthLogin:
                     var user = JsonConvert.DeserializeObject<UserLoginRequest>(data.Data);
                     var jsonResponse = JsonConvert.SerializeObject(await _authController.Login(user));
                     await SendResponseAsync(jsonResponse);
@@ -122,21 +123,21 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "AddMenuItem":
+                case ControllerActions.AddMenuItem:
                     var menuItem = JsonConvert.DeserializeObject<AddMenuItemRequest>(data.Data);
                     var jsonResponse = JsonConvert.SerializeObject(await _adminController.AddMenuItem(menuItem));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GetMenuList":
+                case ControllerActions.GetMenuList:
                     jsonResponse = JsonConvert.SerializeObject(await _adminController.GetMenuList());
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "RemoveMenuItem":
+                case ControllerActions.RemoveMenuItem:
                     var menuId = JsonConvert.DeserializeObject<int>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _adminController.RemoveMenuItem(menuId));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "UpdateMenuItem":
+                case ControllerActions.UpdateMenuItem:
                     var updateMenuItem = JsonConvert.DeserializeObject<UpdateMenuItemRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _adminController.UpdateMenuItem(updateMenuItem));
                     await SendResponseAsync(jsonResponse);
@@ -152,21 +153,21 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "AddDailyMenuItem":
+                case ControllerActions.AddDailyMenuItem:
                     var menuIds = JsonConvert.DeserializeObject<MenuItem>(data.Data);
                     var jsonResponse = JsonConvert.SerializeObject(await _chefController.AddDailyMenuItem(menuIds));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "SendDailyMenuNotification":
+                case ControllerActions.SendDailyMenuNotification:
                     var currentDate = JsonConvert.DeserializeObject<DateTime>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _chefController.SendDailyMenuNotification(currentDate));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GetMenuListItems":
+                case ControllerActions.GetMenuListItems:
                     jsonResponse = JsonConvert.SerializeObject(await _chefController.GetMenuListItems());
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "DiscardMenu":
+                case ControllerActions.DiscardMenu:
                     int menuId = JsonConvert.DeserializeObject<int>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _chefController.DiscardMenuItem(menuId));
                     await SendResponseAsync(jsonResponse);
@@ -182,41 +183,41 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "GetNotification":
+                case ControllerActions.GetNotification:
                     var notification = JsonConvert.DeserializeObject<NotificationRequest>(data.Data);
                     var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetNotifcation(notification));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "SelectFoodItemsFromDailyMenu":
+                case ControllerActions.SelectFoodItemsFromDailyMenu:
                     var order = JsonConvert.DeserializeObject<OrderRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.SelectFoodItemsFromDailyMenu(order));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GiveFeedBack":
+                case ControllerActions.GiveFeedback:
                     var feedbacks = JsonConvert.DeserializeObject<List<GiveFeedBackRequest>>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GiveFeedBack(feedbacks));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GetMenuItemByOrderId":
+                case ControllerActions.GetMenuItemByOrderId:
                     var orderId = JsonConvert.DeserializeObject<int>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuItemByOrderId(orderId));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "AddMenuImprovementFeedbacks":
+                case ControllerActions.AddMenuImprovementFeedbacks:
                     var improvementFeedback = JsonConvert.DeserializeObject<MenuImprovementFeedbackRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.AddMenuImprovementFeedbacks(improvementFeedback));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GetMenuFeedBackQuestions":
+                case ControllerActions.GetMenuFeedbackQuestions:
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetMenuFeedBackQuestions());
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "AddUserPreference":
+                case ControllerActions.AddUserPreference:
                     var userFoodPreference = JsonConvert.DeserializeObject<UserPreferenceRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.AddUserPreference(userFoodPreference));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case "GetDailyRolledOutMenu": 
+                case ControllerActions.GetDailyRolledOutMenu: 
                     var rolledOutMenuRequest = JsonConvert.DeserializeObject<DailyRolledOutMenuRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetDailyRolledOutMenu(rolledOutMenuRequest));
                     await SendResponseAsync(jsonResponse);
@@ -232,14 +233,14 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case "GetMonthlyNotification":
+                case ControllerActions.GetMonthlyNotification:
                     {
                         var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyDiscardedMenuNotification(date));
                         await SendResponseAsync(jsonResponse);
                         break;
                     }   
-                case "AddNewNotificationForDiscardedMenuFeedback":
+                case ControllerActions.AddNewNotificationForDiscardedMenuFeedback:
                     {
                         var improveMenu = JsonConvert.DeserializeObject<MenuImprovementNotificationRequest>(data.Data);
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.AddNewNotificationForDiscardedMenuFeedback(improveMenu));
