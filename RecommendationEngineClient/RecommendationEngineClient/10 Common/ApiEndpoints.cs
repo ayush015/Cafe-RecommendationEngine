@@ -16,6 +16,17 @@ namespace RecommendationEngineClient._10_Common
         public const string NotificationController = "Notification";
         #endregion
 
+        #region AuthController actions
+        public const string AuthLogin = "Login";
+        #endregion
+
+        #region AdminController Action Methods
+        public const string AddMenuItem = "AddMenuItem";
+        public const string GetMenuList = "GetMenuList";
+        public const string RemoveMenuItem = "RemoveMenuItem";
+        public const string UpdateMenuItem = "UpdateMenuItem";
+        #endregion
+
         #region ChefController Action Methods
         public const string GetMenuListItems = "GetMenuListItems";
         public const string AddDailyMenuItem = "AddDailyMenuItem";
@@ -30,11 +41,11 @@ namespace RecommendationEngineClient._10_Common
 
         #region EmployeeController Action Method
         public const string GetNotification = "GetNotification";
-        public const string GiveFeedBack = "GiveFeedBack";
         public const string SelectFoodItemsFromDailyMenu = "SelectFoodItemsFromDailyMenu";
+        public const string GiveFeedback = "GiveFeedBack";
         public const string GetMenuItemByOrderId = "GetMenuItemByOrderId";
-        public const string GetMenuFeedBackQuestions = "GetMenuFeedBackQuestions";
         public const string AddMenuImprovementFeedbacks = "AddMenuImprovementFeedbacks";
+        public const string GetMenuFeedbackQuestions = "GetMenuFeedBackQuestions";
         public const string AddUserPreference = "AddUserPreference";
         public const string GetDailyRolledOutMenu = "GetDailyRolledOutMenu";
         #endregion

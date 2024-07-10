@@ -63,7 +63,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             var feedbackList = GetFeedbackDisplayMenu(userId, currentOrderList);
             if (feedbackList == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.GiveFeedBack, feedbackList);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.EmployeeController, ApiEndpoints.GiveFeedback, feedbackList);
 
             PrintBaseResponse(response);
         }
@@ -171,7 +171,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
 
         private async Task SendMenuImprovement(int userId)
         {
-            var menuFeedbackQuestions = await SendRequestAsync<FeedbackQuestionResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetMenuFeedBackQuestions);
+            var menuFeedbackQuestions = await SendRequestAsync<FeedbackQuestionResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetMenuFeedbackQuestions);
             List<ImprovementFeedback> improvementFeedbackList = new List<ImprovementFeedback>();
             Console.Write("Enter Item Name : ");
             string foodItemName = Console.ReadLine();

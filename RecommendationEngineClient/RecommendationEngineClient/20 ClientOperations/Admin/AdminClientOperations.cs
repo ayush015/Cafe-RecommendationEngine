@@ -14,7 +14,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
         #region Public methods
         public async Task GetMenuList()
         {
-            var menuList = await SendRequestAsync<MenuListResponse>(ApiEndpoints.AdminController, "GetMenuList");
+            var menuList = await SendRequestAsync<MenuListResponse>(ApiEndpoints.AdminController, ApiEndpoints.GetMenuList);
 
             if (menuList.Status.Equals(ApplicationConstants.StatusFailed))
             {
@@ -37,7 +37,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
 
             if (addMenuItemRequest == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "AddMenuItem", addMenuItemRequest);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, ApiEndpoints.AddMenuItem, addMenuItemRequest);
             PrintBaseResponse(response);
         }
 
@@ -46,7 +46,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
             int menuId = GetMenuIdInput();
             if (menuId == 0) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "RemoveMenuItem", menuId);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, ApiEndpoints.RemoveMenuItem, menuId);
             PrintBaseResponse(response);
         }
 
@@ -55,7 +55,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Admin
             var updateMenuItemRequest = UpdateMenuDisplay();
             if (updateMenuItemRequest == null) return;
 
-            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, "UpdateMenuItem", updateMenuItemRequest);
+            var response = await SendRequestAsync<BaseResponseDTO>(ApiEndpoints.AdminController, ApiEndpoints.UpdateMenuItem, updateMenuItemRequest);
             PrintBaseResponse(response);
         }
         #endregion
