@@ -89,7 +89,7 @@ namespace RecommendationEngineServer.Controller
                 return new RecommendedMenuResponse
                 {
                     Message = ex.Message,
-                    Status = ApplicationConstants.StatusSuccess,
+                    Status = ApplicationConstants.StatusFailed,
                 };
 
             }

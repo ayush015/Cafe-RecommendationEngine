@@ -34,7 +34,7 @@ namespace RecommendationEngineServer.Common.DTO
 
     #endregion
 
-    #region View Model
+    #region Models
     public class MenuListModel
     {
         public int MenuId { get; set; }

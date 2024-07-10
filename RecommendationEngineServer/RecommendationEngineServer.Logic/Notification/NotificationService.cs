@@ -28,7 +28,7 @@ namespace RecommendationEngineServer.Service.Notifications
            return new List<RecommendedMenuModel>(); 
         }
 
-        public async Task AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotification menuImprovement)
+        public async Task AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotificationRequest menuImprovement)
         {
             var feedBackQuestions = (await _unitOfWork.MenuFeedbackQuestion.GetAll()).ToList();
             var improveMenuItem = "We are trying to improve your experience with <Food Item>. Please provide your feedback and help us.";

@@ -50,7 +50,7 @@ namespace RecommendationEngineServer.Controller
             }
         }
 
-        public async Task<BaseResponseDTO> AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotification menuImprovement)
+        public async Task<BaseResponseDTO> AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotificationRequest menuImprovement)
         {
             try
             {

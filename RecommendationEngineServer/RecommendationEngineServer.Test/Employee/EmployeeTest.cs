@@ -32,7 +32,7 @@ namespace RecommendationEngineServer.Test.Employee
                 .ReturnsAsync(expectedResponse);
 
             // Act
-            var result = await _employeeController.GetDailyMenuNotifcation(notificationRequest);
+            var result = await _employeeController.GetNotifcation(notificationRequest);
 
             // Assert
             Assert.NotNull(result);

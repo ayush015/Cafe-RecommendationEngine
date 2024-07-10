@@ -241,7 +241,7 @@ namespace RecommendationEngineServer
                     }   
                 case "AddNewNotificationForDiscardedMenuFeedback":
                     {
-                        var improveMenu = JsonConvert.DeserializeObject<MenuImprovementNotification>(data.Data);
+                        var improveMenu = JsonConvert.DeserializeObject<MenuImprovementNotificationRequest>(data.Data);
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.AddNewNotificationForDiscardedMenuFeedback(improveMenu));
                         await SendResponseAsync(jsonResponse);
                         break;
