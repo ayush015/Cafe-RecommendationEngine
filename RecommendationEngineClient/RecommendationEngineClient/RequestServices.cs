@@ -6,7 +6,7 @@ namespace RecommendationEngineClient
 {
     public class RequestServices
     {
-        public async Task<string> SendRequestAsync(string request)
+        public async Task<string> SendRequestToServer(string request)
         {
             using (TcpClient client = new TcpClient())
             {

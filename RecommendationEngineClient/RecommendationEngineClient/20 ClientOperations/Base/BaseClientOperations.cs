@@ -24,7 +24,7 @@ namespace RecommendationEngineClient._20_ClientOperations
             };
 
             var jsonRequest = JsonConvert.SerializeObject(requestData);
-            var jsonResponse = await _requestServices.SendRequestAsync(jsonRequest);
+            var jsonResponse = await _requestServices.SendRequestToServer(jsonRequest);
 
             if (jsonResponse == null || string.IsNullOrEmpty(jsonResponse))
                 throw new SocketException((int)SocketError.HostDown);
