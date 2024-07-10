@@ -59,7 +59,7 @@
   "OrderId": 1,
   "MenuItem": {
     "CurrentDate": "2024-07-05T00:00:00Z",
-    "MenuItemsIds": [1, 2, 3]
+    "MenuItemsIds": [ 1, 2, 3 ]
   },
   "MenuException": {
     "Message": "Menu item already exists for the given date"
@@ -107,5 +107,41 @@
         "RecommendationScore": 3.8
       }
     ]
-  }
+  },
+  "AddMenuItemRequests": {
+    "foodItemName": "Pizza",
+    "mealTypeId": 1,
+    "foodTypeId": 1,
+    "spiceLevelId": 2,
+    "cuisineId": 3,
+    "isSweet": false
+  },
+  "updateMenuItemRequests": [
+    {
+      "menuId": 1,
+      "foodItemName": "Pizza",
+      "mealTypeId": 1
+    },
+    {
+      "menuId": 2,
+      "foodItemName": "Pasta",
+      "mealTypeId": 2
+    }
+  ],
+  "menuList": [
+    {
+      "menuId": 1,
+      "foodItemId": 1,
+      "foodItemName": "Pizza",
+      "mealTypeId": 1,
+      "mealTypeName": "Lunch"
+    },
+    {
+      "menuId": 2,
+      "foodItemId": 2,
+      "foodItemName": "Pasta",
+      "mealTypeId": 2,
+      "mealTypeName": "Dinner"
+    }
+  ]
 }

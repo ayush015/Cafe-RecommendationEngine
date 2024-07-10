@@ -11,12 +11,12 @@ using Xunit;
 
 namespace RecommendationEngineServer.Test
 {
-    public class ChefTest : TestBase
+    public class ChefTests : TestBase
     {
         private readonly ChefController _chefController;
         private readonly Mock<IChefService> _chefServiceMock;
 
-        public ChefTest()
+        public ChefTests()
         {
             _chefServiceMock = new Mock<IChefService>();
             _chefController = new ChefController(_chefServiceMock.Object);

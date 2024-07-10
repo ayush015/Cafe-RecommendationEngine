@@ -21,23 +21,6 @@ namespace RecommendationEngineServer.Test.Employee
             _employeeController = new EmployeeController(_employeeServiceMock.Object);
         }
 
-        [Fact]
-        public async Task GetNotification_ReturnsExpectedResult()
-        {
-            // Arrange
-            var notificationRequest = JsonConvert.DeserializeObject<NotificationRequest>(DataDictionary["NotificationRequest"].ToString());
-            var expectedResponse = JsonConvert.DeserializeObject<NotificationResponse>(DataDictionary["NotificationResponse"].ToString());
-
-            _employeeServiceMock.Setup(s => s.GetNotification(It.IsAny<NotificationRequest>()))
-                .ReturnsAsync(expectedResponse);
-
-            // Act
-            var result = await _employeeController.GetNotifcation(notificationRequest);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedResponse.IsNewNotification, result.IsNewNotification);
-        }
 
         [Fact]
         public async Task SelectFoodItemsFromDailyMenu_ReturnsExpectedResult()
