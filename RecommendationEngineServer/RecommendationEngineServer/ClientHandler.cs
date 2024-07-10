@@ -183,14 +183,9 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
-                case ControllerActions.GetNotification:
-                    var notification = JsonConvert.DeserializeObject<NotificationRequest>(data.Data);
-                    var jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetNotifcation(notification));
-                    await SendResponseAsync(jsonResponse);
-                    break;
                 case ControllerActions.SelectFoodItemsFromDailyMenu:
                     var order = JsonConvert.DeserializeObject<OrderRequest>(data.Data);
-                    jsonResponse = JsonConvert.SerializeObject(await _employeeController.SelectFoodItemsFromDailyMenu(order));
+                    var jsonResponse = JsonConvert.SerializeObject(await _employeeController.SelectFoodItemsFromDailyMenu(order));
                     await SendResponseAsync(jsonResponse);
                     break;
                 case ControllerActions.GiveFeedback:
@@ -233,6 +228,13 @@ namespace RecommendationEngineServer
         {
             switch (data.Action)
             {
+                case ControllerActions.GetNotification:
+                    {
+                        var notification = JsonConvert.DeserializeObject<NotificationRequest>(data.Data);
+                        var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetNotifcation(notification));
+                        await SendResponseAsync(jsonResponse);
+                        break;
+                    }    
                 case ControllerActions.GetMonthlyNotification:
                     {
                         var date = JsonConvert.DeserializeObject<DateTime>(data.Data);

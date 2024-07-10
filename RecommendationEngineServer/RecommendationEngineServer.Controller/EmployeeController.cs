@@ -12,35 +12,6 @@ namespace RecommendationEngineServer.Controller
             _employeeService = employeeLogic;
         }
 
-        public async Task<NotificationResponse> GetNotifcation(NotificationRequest notificationRequest)
-        {
-            try
-            {
-                var notification = await _employeeService.GetNotification(notificationRequest);
-                if(string.IsNullOrEmpty(notification.NotificationMessgae))
-                {
-                    
-                    notification.Status = ApplicationConstants.StatusSuccess;
-                    notification.IsNewNotification = false;
-                    return notification;
-                }
-
-
-                notification.Status = ApplicationConstants.StatusSuccess;
-                notification.IsNewNotification = true;
-                notification.Message = ApplicationConstants.NotificationReceivedSuccessfully; 
-                return notification;
-            }
-            catch (Exception ex)
-            {
-                return new NotificationResponse
-                {
-                    Status = ApplicationConstants.StatusFailed,
-                    Message = ex.Message
-                };
-            }
-        }
-
         public async Task<OrderResponse> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest)
         {
             try

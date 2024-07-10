@@ -11,6 +11,36 @@ namespace RecommendationEngineServer.Controller
     {
         private INotificationService _notificationService;
         private IChefService _chefService;
+
+        public async Task<NotificationResponse> GetNotifcation(NotificationRequest notificationRequest)
+        {
+            try
+            {
+                var notification = await _notificationService.GetNotification(notificationRequest);
+                if (string.IsNullOrEmpty(notification.NotificationMessgae))
+                {
+
+                    notification.Status = ApplicationConstants.StatusSuccess;
+                    notification.IsNewNotification = false;
+                    return notification;
+                }
+
+
+                notification.Status = ApplicationConstants.StatusSuccess;
+                notification.IsNewNotification = true;
+                notification.Message = ApplicationConstants.NotificationReceivedSuccessfully;
+                return notification;
+            }
+            catch (Exception ex)
+            {
+                return new NotificationResponse
+                {
+                    Status = ApplicationConstants.StatusFailed,
+                    Message = ex.Message
+                };
+            }
+        }
+
         public NotificationController(INotificationService notificationService,IChefService chefService)
         {
             _notificationService = notificationService;
@@ -64,6 +94,8 @@ namespace RecommendationEngineServer.Controller
                 { Status = ApplicationConstants.StatusFailed, Message=ex.Message };
             }
         }
+
+        
     }
 }
 

@@ -24,7 +24,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 UserId = userId,
                 CurrentDate = currentDate,
             };
-            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.GetNotification, notificationRequest);
+            var notificationMessage = await SendRequestAsync<NotificationResponse>(ApiEndpoints.NotificationController, ApiEndpoints.GetNotification, notificationRequest);
 
             if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {

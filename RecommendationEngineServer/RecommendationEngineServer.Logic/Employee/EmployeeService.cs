@@ -16,51 +16,6 @@ namespace RecommendationEngineServer.Service.Employee
         }
 
         #region Public Methods
-        public async Task<NotificationResponse> GetNotification(NotificationRequest notificationRequest)
-        {
-            var lastSeenUserNotification = (await _unitOfWork.UserNotification.GetAll())
-                                            .Where(x => x.UserId == notificationRequest.UserId)
-                                            .FirstOrDefault();
-
-            int? lastSeenNotificationId = lastSeenUserNotification?.LastSeenNotificationId;
-            var allNotification = (await _unitOfWork.Notification.GetAll()).Where(d => d.CreatedDate == notificationRequest.CurrentDate);
-
-            var latestNotification = allNotification
-                                    .Where(n => lastSeenNotificationId == null || n.Id > lastSeenNotificationId)
-                                    .FirstOrDefault();
-
-            if(latestNotification == null)
-            {
-                return new NotificationResponse
-                { 
-                 NotificationMessgae = string.Empty   
-                };
-
-            }
-
-            if (lastSeenNotificationId == null)
-            {
-                UserNotification userNotification = new UserNotification()
-                {
-                  UserId = notificationRequest.UserId,
-                  LastSeenNotificationId = latestNotification.Id
-                };
-
-                await _unitOfWork.UserNotification.Create(userNotification);
-            }
-            else
-            {
-                lastSeenUserNotification.LastSeenNotificationId = latestNotification.Id;
-            }
-            await _unitOfWork.Complete();
-            return new NotificationResponse
-            { 
-              NotificationMessgae = latestNotification.Message,
-              NotificationTypeId = latestNotification.NotificationTypeId,
-            };
-           
-        }
-
         public async Task AddUserMenuImprovementFeedback(MenuImprovementFeedbackRequest menuImprovementFeedback)
         {
             List<UserMenuFeedbackAnswer> userMenuFeedbackAsnwers = new List<UserMenuFeedbackAnswer>();

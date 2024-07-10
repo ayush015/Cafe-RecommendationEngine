@@ -35,12 +35,12 @@ namespace RecommendationEngineClient._10_Common
         #endregion
 
         #region NotificationController Action Methods
+        public const string GetNotification = "GetNotification";
         public const string GetMonthlyNotification = "GetMonthlyNotification";
         public const string AddNewNotificationForDiscardedMenuFeedback = "AddNewNotificationForDiscardedMenuFeedback";
         #endregion
 
         #region EmployeeController Action Method
-        public const string GetNotification = "GetNotification";
         public const string SelectFoodItemsFromDailyMenu = "SelectFoodItemsFromDailyMenu";
         public const string GiveFeedback = "GiveFeedBack";
         public const string GetMenuItemByOrderId = "GetMenuItemByOrderId";
