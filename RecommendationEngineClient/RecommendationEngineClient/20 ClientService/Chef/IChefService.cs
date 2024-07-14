@@ -1,6 +1,6 @@
-﻿namespace RecommendationEngineClient._20_ClientOperations.Chef
+﻿namespace RecommendationEngineClient._20_ClientService.Chef
 {
-    public interface IChefClientOperations
+    public interface IChefService
     {
         Task GetMenuList();
         Task AddDailyMenuItem();

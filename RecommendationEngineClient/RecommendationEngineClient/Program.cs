@@ -22,7 +22,7 @@ namespace RecommendationEngineClient
             {
                 while (true)
                 {
-                    RequestServices requestServices = new RequestServices();
+                    RequestService requestServices = new RequestService();
                     LoginConsole loginHandler = new LoginConsole(requestServices);
                     AdminConsole adminHandler = new AdminConsole(requestServices);
                     ChefConsole chefHandler = new ChefConsole(requestServices);

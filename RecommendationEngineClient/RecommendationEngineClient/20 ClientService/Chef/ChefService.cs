@@ -4,11 +4,11 @@ using RecommendationEngineClient._10_Common.Enum;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.DTO;
 
-namespace RecommendationEngineClient._20_ClientOperations.Chef
+namespace RecommendationEngineClient._20_ClientService.Chef
 {
-    public class ChefClientOperations : BaseClientOperations, IChefClientOperations
+    public class ChefService : BaseService, IChefService
     {
-        public ChefClientOperations(RequestServices requestServices) : base(requestServices)
+        public ChefService(RequestService requestServices) : base(requestServices)
         {
         }
 

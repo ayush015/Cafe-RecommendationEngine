@@ -1,4 +1,4 @@
-﻿using RecommendationEngineClient._20_ClientOperations.Admin;
+﻿using RecommendationEngineClient._20_ClientService.Admin;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.Enum;
 
@@ -6,11 +6,11 @@ namespace RecommendationEngineClient.Admin
 {
     public class AdminConsole
     {
-        private IAdminClientOperations _adminService;
+        private IAdminService _adminService;
 
-        public AdminConsole(RequestServices requestServices)
+        public AdminConsole(RequestService requestServices)
         {
-            _adminService = new AdminClientOperations(requestServices);
+            _adminService = new AdminService(requestServices);
         }
 
         public async Task AdminConsoleHandler()

@@ -4,13 +4,13 @@ using RecommendationEngineClient._10_Common.Enum;
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.DTO;
 
-namespace RecommendationEngineClient._20_ClientOperations.Employee
+namespace RecommendationEngineClient._20_ClientService.Employee
 {
-    public class EmployeeClientOperations : BaseClientOperations, IEmployeeClientOperations
+    public class EmployeeService : BaseService, IEmployeeService
     {
         private int currentOrderId;
 
-        public EmployeeClientOperations(RequestServices requestServices) : base(requestServices)
+        public EmployeeService(RequestService requestServices) : base(requestServices)
         {
         }
 

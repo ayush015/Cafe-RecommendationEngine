@@ -2,11 +2,11 @@
 using RecommendationEngineClient.Common;
 using RecommendationEngineClient.Common.DTO;
 
-namespace RecommendationEngineClient._20_ClientOperations.Admin
+namespace RecommendationEngineClient._20_ClientService.Admin
 {
-    public class AdminClientOperations : BaseClientOperations, IAdminClientOperations
+    public class AdminService : BaseService, IAdminService
     {
-        public AdminClientOperations(RequestServices requestServices) : base(requestServices)
+        public AdminService(RequestService requestServices) : base(requestServices)
         {
         }
 

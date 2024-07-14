@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RecommendationEngineClient
 {
-    public class RequestServices
+    public class RequestService
     {
         public async Task<string> SendRequestToServer(string request)
         {

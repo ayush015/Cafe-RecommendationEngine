@@ -1,14 +1,14 @@
-﻿using RecommendationEngineClient._20_ClientOperations.Login;
+﻿using RecommendationEngineClient._20_ClientService.Login;
 using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient.Login
 {
     public class LoginConsole
     {
-        private ILoginClientOperations _loginService;
-        public LoginConsole(RequestServices requestServices)
+        private ILoginService _loginService;
+        public LoginConsole(RequestService requestServices)
         {
-            _loginService = new LoginClientOperations(requestServices);
+            _loginService = new LoginService(requestServices);
         }
 
         public async Task<LoggedInUserResponse> AttemptLogin()

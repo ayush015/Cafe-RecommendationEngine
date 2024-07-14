@@ -1,16 +1,16 @@
 ﻿using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
-using RecommendationEngineClient._20_ClientOperations.Chef;
+using RecommendationEngineClient._20_ClientService.Chef;
 using RecommendationEngineClient.Common;
 
 namespace RecommendationEngineClient._30_ConsoleHandler
 {
     public class ChefConsole
     {
-        IChefClientOperations _chefService;
-        public ChefConsole(RequestServices requestServices)
+        IChefService _chefService;
+        public ChefConsole(RequestService requestServices)
         {
-            _chefService = new ChefClientOperations(requestServices);
+            _chefService = new ChefService(requestServices);
         }
 
         public async Task ChefConsoleHandler()

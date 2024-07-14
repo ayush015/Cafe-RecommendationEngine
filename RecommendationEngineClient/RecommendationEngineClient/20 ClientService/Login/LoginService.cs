@@ -1,11 +1,11 @@
 ﻿using RecommendationEngineClient._10_Common;
 using RecommendationEngineClient.Common.DTO;
 
-namespace RecommendationEngineClient._20_ClientOperations.Login
+namespace RecommendationEngineClient._20_ClientService.Login
 {
-    public class LoginClientOperations :BaseClientOperations, ILoginClientOperations
+    public class LoginService :BaseService, ILoginService
     {
-        public LoginClientOperations(RequestServices requestServices) : base(requestServices) 
+        public LoginService(RequestService requestServices) : base(requestServices) 
         { 
         }
 

@@ -2,13 +2,13 @@
 using RecommendationEngineClient.Common.DTO;
 using System.Net.Sockets;
 
-namespace RecommendationEngineClient._20_ClientOperations
+namespace RecommendationEngineClient._20_ClientService
 {
-    public abstract class BaseClientOperations
+    public abstract class BaseService
     {
-        protected RequestServices _requestServices;
+        protected RequestService _requestServices;
 
-        public BaseClientOperations(RequestServices requestServices)
+        public BaseService(RequestService requestServices)
         {
             _requestServices = requestServices;
         }

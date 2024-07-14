@@ -1,6 +1,6 @@
-﻿namespace RecommendationEngineClient._20_ClientOperations.Employee
+﻿namespace RecommendationEngineClient._20_ClientService.Employee
 {
-    public interface IEmployeeClientOperations
+    public interface IEmployeeService
     {
         Task<int> GetNotification(int userId);
         Task SelectFoodItemsFromDailyMenu(int userId);
