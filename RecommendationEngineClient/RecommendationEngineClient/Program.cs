@@ -1,5 +1,4 @@
-﻿using RecommendationEngineClient._10_Common.DTO;
-using RecommendationEngineClient._30_ConsoleHandler;
+﻿using RecommendationEngineClient._30_ConsoleHandler;
 using RecommendationEngineClient.Admin;
 using RecommendationEngineClient.Common.Enum;
 using RecommendationEngineClient.Login;
@@ -52,7 +51,7 @@ namespace RecommendationEngineClient
                 }
 
             }
-            catch(SocketException ex)
+            catch (SocketException ex)
             {
                 Console.WriteLine((SocketError)ex.ErrorCode);
                 return;

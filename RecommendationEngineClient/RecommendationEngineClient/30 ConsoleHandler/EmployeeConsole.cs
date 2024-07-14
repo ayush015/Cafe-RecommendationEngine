@@ -1,6 +1,6 @@
-﻿using RecommendationEngineClient.Common;
-using RecommendationEngineClient._10_Common.Enum;
+﻿using RecommendationEngineClient._10_Common.Enum;
 using RecommendationEngineClient._20_ClientOperations.Employee;
+using RecommendationEngineClient.Common;
 
 namespace RecommendationEngineClient._30_ConsoleHandler
 {
@@ -17,8 +17,8 @@ namespace RecommendationEngineClient._30_ConsoleHandler
         {
             while (true)
             {
-               var notification =  await _employeeClientOperation.GetNotification(userId);
-               
+                var notification = await _employeeClientOperation.GetNotification(userId);
+
                 Console.WriteLine("Enter Choice");
                 Console.WriteLine("1. Select item from Daily Menu\n2. Update Your Profile\n5. Logout\n");
                 Console.Write("Enter : ");

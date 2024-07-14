@@ -1,8 +1,8 @@
-﻿using RecommendationEngineClient.Common.DTO;
-using RecommendationEngineClient.Common;
+﻿using RecommendationEngineClient._10_Common;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
-using RecommendationEngineClient._10_Common;
+using RecommendationEngineClient.Common;
+using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient._20_ClientOperations.Chef
 {

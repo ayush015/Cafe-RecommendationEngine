@@ -1,17 +1,16 @@
-﻿using Newtonsoft.Json;
-using RecommendationEngineClient.Common.DTO;
-using RecommendationEngineClient.Common;
+﻿using RecommendationEngineClient._10_Common;
 using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
-using RecommendationEngineClient._10_Common;
+using RecommendationEngineClient.Common;
+using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient._20_ClientOperations.Employee
 {
-    public class EmployeeClientOperations : BaseClientOperations,IEmployeeClientOperations
+    public class EmployeeClientOperations : BaseClientOperations, IEmployeeClientOperations
     {
         private int currentOrderId;
 
-        public EmployeeClientOperations(RequestServices requestServices) : base(requestServices) 
+        public EmployeeClientOperations(RequestServices requestServices) : base(requestServices)
         {
         }
 
@@ -26,21 +25,21 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             };
             var notificationMessage = await SendRequestAsync<NotificationResponse>(ApiEndpoints.NotificationController, ApiEndpoints.GetNotification, notificationRequest);
 
-            if(notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
+            if (notificationMessage.Status.Equals(ApplicationConstants.StatusSuccess) && !string.IsNullOrEmpty(notificationMessage.NotificationMessgae))
             {
                 Console.WriteLine($"New Notification : \n{notificationMessage.NotificationMessgae}");
                 if (notificationMessage.NotificationTypeId == (int)NotificationType.MenuImprovement)
                 {
-                  await SendMenuImprovement(userId);
+                    await SendMenuImprovement(userId);
                 }
-                else if(notificationMessage.NotificationTypeId == (int)NotificationType.NewDailyMenuItem)
+                else if (notificationMessage.NotificationTypeId == (int)NotificationType.NewDailyMenuItem)
                 {
                     await GetRolledOutMenu(userId);
                 }
                 return 1;
             }
-            else if(!notificationMessage.IsNewNotification)
-            { 
+            else if (!notificationMessage.IsNewNotification)
+            {
                 Console.WriteLine("No New Notifications\n");
                 return 0;
             }
@@ -50,13 +49,13 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 return 0;
             }
 
-            
+
         }
 
         public async Task GiveFeedBack(int userId)
         {
-           var currentOrderList = await GetOrderByOrderId();
-            if(currentOrderList == null || currentOrderList.Count == 0)
+            var currentOrderList = await GetOrderByOrderId();
+            if (currentOrderList == null || currentOrderList.Count == 0)
             {
                 Console.WriteLine("No Order to take feedback");
             }
@@ -75,14 +74,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             if (selectedFoodItemIds == null) return;
 
             OrderRequest orderRequest = new OrderRequest()
-            { 
-              DailyMenuIds = selectedFoodItemIds,
-              UserId = userId
+            {
+                DailyMenuIds = selectedFoodItemIds,
+                UserId = userId
             };
 
             var response = await SendRequestAsync<OrderResponse>(ApiEndpoints.EmployeeController, ApiEndpoints.SelectFoodItemsFromDailyMenu, orderRequest);
 
-           
+
             currentOrderId = response.OrderId;
             PrintBaseResponse(response);
         }
@@ -138,7 +137,7 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 Console.Write("Rating : ");
                 string ratingInput = Console.ReadLine();
 
-                if(!int.TryParse(ratingInput, out int rating) || rating < 1 || rating > 5)
+                if (!int.TryParse(ratingInput, out int rating) || rating < 1 || rating > 5)
                 {
                     Console.WriteLine("Invalid input");
                     break;
@@ -147,14 +146,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
                 Console.Write("\nAny Comments : ");
                 string comment = Console.ReadLine();
 
-                if(string.IsNullOrEmpty(comment) || string.IsNullOrWhiteSpace(comment))
+                if (string.IsNullOrEmpty(comment) || string.IsNullOrWhiteSpace(comment))
                 {
                     Console.WriteLine("Invalid input");
                     break;
                 }
 
                 GiveFeedBackRequest giveFeedBack = new GiveFeedBackRequest()
-                { 
+                {
                     MenuIds = item.MenuId,
                     DailyMenuId = item.DailyMenuId,
                     UserId = userId,
@@ -176,14 +175,14 @@ namespace RecommendationEngineClient._20_ClientOperations.Employee
             Console.Write("Enter Item Name : ");
             string foodItemName = Console.ReadLine();
             Console.WriteLine();
-            foreach (var item in menuFeedbackQuestions.FeedbackQuestions) 
+            foreach (var item in menuFeedbackQuestions.FeedbackQuestions)
             {
                 Console.Write($" Answer to Q{item.QuestionId} : ");
                 string answer = Console.ReadLine();
                 ImprovementFeedback improvementFeedback = new ImprovementFeedback()
                 {
-                     QuestionId = item.QuestionId,
-                     Answer = answer,
+                    QuestionId = item.QuestionId,
+                    Answer = answer,
                 };
                 improvementFeedbackList.Add(improvementFeedback);
             }

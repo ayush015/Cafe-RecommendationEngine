@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using RecommendationEngineClient._20_ClientOperations.Login;
+﻿using RecommendationEngineClient._20_ClientOperations.Login;
 using RecommendationEngineClient.Common.DTO;
 
 namespace RecommendationEngineClient.Login
@@ -7,8 +6,8 @@ namespace RecommendationEngineClient.Login
     public class LoginConsole
     {
         private ILoginClientOperations _loginService;
-        public LoginConsole(RequestServices requestServices) 
-        { 
+        public LoginConsole(RequestServices requestServices)
+        {
             _loginService = new LoginClientOperations(requestServices);
         }
 

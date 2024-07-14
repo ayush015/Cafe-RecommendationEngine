@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecommendationEngineClient._10_Common
+﻿namespace RecommendationEngineClient._10_Common
 {
     public class ApiEndpoints
     {

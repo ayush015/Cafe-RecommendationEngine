@@ -1,18 +1,12 @@
 ﻿using RecommendationEngineClient.Common.DTO;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecommendationEngineClient._10_Common.DTO
 {
     public class NotificationRequest
-    { 
-      public int UserId { get; set; }
-      public DateTime CurrentDate { get; set; }
-    
+    {
+        public int UserId { get; set; }
+        public DateTime CurrentDate { get; set; }
+
     }
 
     public class UserPreferenceRequest
@@ -71,7 +65,7 @@ namespace RecommendationEngineClient._10_Common.DTO
         public string Comments { get; set; }
     }
 
-   
+
     public class FeedbackQuestionResponse : BaseResponseDTO
     {
         public List<FeedbackQuestion> FeedbackQuestions { get; set; }

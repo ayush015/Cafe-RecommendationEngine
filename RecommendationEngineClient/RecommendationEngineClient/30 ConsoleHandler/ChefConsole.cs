@@ -1,9 +1,7 @@
-﻿using RecommendationEngineClient._20_ClientOperations;
-using RecommendationEngineClient._20_ClientOperations.Chef;
-using RecommendationEngineClient.Common.Enum;
-using RecommendationEngineClient.Common;
+﻿using RecommendationEngineClient._10_Common.DTO;
 using RecommendationEngineClient._10_Common.Enum;
-using RecommendationEngineClient._10_Common.DTO;
+using RecommendationEngineClient._20_ClientOperations.Chef;
+using RecommendationEngineClient.Common;
 
 namespace RecommendationEngineClient._30_ConsoleHandler
 {
@@ -61,7 +59,7 @@ namespace RecommendationEngineClient._30_ConsoleHandler
                             }
                     }
                 }
-                
+
             }
         }
 

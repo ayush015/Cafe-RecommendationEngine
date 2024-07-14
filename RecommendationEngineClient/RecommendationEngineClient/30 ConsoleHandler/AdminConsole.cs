@@ -8,14 +8,14 @@ namespace RecommendationEngineClient.Admin
     {
         private IAdminClientOperations _adminService;
 
-        public AdminConsole(RequestServices requestServices) 
-        { 
-          _adminService = new AdminClientOperations(requestServices);
+        public AdminConsole(RequestServices requestServices)
+        {
+            _adminService = new AdminClientOperations(requestServices);
         }
 
         public async Task AdminConsoleHandler()
         {
-            while(true)
+            while (true)
             {
                 Console.WriteLine("Enter Choice");
                 Console.WriteLine("1. Add Menu\n2. Update Menu\n3. Menu List\n4. Remove Item\n5. Logout\n");
@@ -65,6 +65,6 @@ namespace RecommendationEngineClient.Admin
                     }
                 }
             }
-        }   
+        }
     }
 }

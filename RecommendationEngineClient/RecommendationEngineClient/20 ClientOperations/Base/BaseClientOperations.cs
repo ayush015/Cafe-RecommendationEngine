@@ -48,6 +48,6 @@ namespace RecommendationEngineClient._20_ClientOperations
             }
             return choice;
         }
-      
+
     }
 }
