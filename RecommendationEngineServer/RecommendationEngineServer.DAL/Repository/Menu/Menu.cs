@@ -6,7 +6,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
 {
     public class Menu : GenericRepository<Models.Menu>, IMenu
     {
-         private RecommendationEngineDBContext _dbContext;
+        private RecommendationEngineDBContext _dbContext;
         public Menu(DbContext context) : base(context)
         {
             _dbContext = (RecommendationEngineDBContext)context;
@@ -25,7 +25,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                               FoodItemName = foodItem.FoodName,
                               FoodItemId = foodItem.Id,
                               MealTypeId = mealType.Id,
-                              MealTypeName = mealType.MealTypeName,  
+                              MealTypeName = mealType.MealTypeName,
                           });
             return await result.ToListAsync();
         }
@@ -49,7 +49,7 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                             MealTypeName = mealType.MealTypeName,
                         }).LastOrDefaultAsync();
 
-            return  await result;
+            return await result;
         }
 
         public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
@@ -71,11 +71,11 @@ namespace RecommendationEngineServer.DAL.Repository.Menu
                     MealTypeId = mealType.Id,
                     MealTypeName = mealType.MealTypeName,
                 });
-            return await result.ToListAsync();  
+            return await result.ToListAsync();
         }
 
-       public async Task<RecommendedMenuModel> GetMenuDetailByMenuId(int menuId)
-       {
+        public async Task<RecommendedMenuModel> GetMenuDetailByMenuId(int menuId)
+        {
             var result = (
                          from menu in _dbContext.Menu
                          join foodItem in _dbContext.FoodItems on menu.FoodItemId equals foodItem.Id

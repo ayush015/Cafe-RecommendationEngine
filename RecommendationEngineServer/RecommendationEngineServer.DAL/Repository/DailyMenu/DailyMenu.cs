@@ -11,9 +11,9 @@ namespace RecommendationEngineServer.DAL.Repository.DailyMenu
             _dbContext = (RecommendationEngineDBContext)context;
         }
 
-        public async Task AddDailyMenuList(IEnumerable<Models.DailyMenu>  dailyMenus)
+        public async Task AddDailyMenuList(IEnumerable<Models.DailyMenu> dailyMenus)
         {
-           await _dbContext.DailyMenus.AddRangeAsync(dailyMenus);
+            await _dbContext.DailyMenus.AddRangeAsync(dailyMenus);
         }
     }
 }

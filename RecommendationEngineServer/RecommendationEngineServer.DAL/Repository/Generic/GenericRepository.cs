@@ -14,8 +14,8 @@ namespace RecommendationEngineServer.DAL.Repository.Generic
         {
             try
             {
-               await context.Set<T>().AddAsync(model);
-               return model;
+                await context.Set<T>().AddAsync(model);
+                return model;
             }
             catch (Exception)
             {
@@ -25,14 +25,14 @@ namespace RecommendationEngineServer.DAL.Repository.Generic
 
         public async Task<IQueryable<T>> GetAll()
         {
-            return  await Task.FromResult(context.Set<T>());
+            return await Task.FromResult(context.Set<T>());
         }
 
         public async Task<T> GetById(object id)
         {
             return await context.Set<T>().FindAsync(id);
         }
-        public  async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var entity = await GetById(id);
             try

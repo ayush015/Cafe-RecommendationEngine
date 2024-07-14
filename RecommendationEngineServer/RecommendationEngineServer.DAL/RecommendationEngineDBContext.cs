@@ -19,7 +19,7 @@ namespace RecommendationEngineServer.DAL
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<DailyMenu> DailyMenus { get; set; }
-        public DbSet<FoodItem> FoodItems { get; set; }  
+        public DbSet<FoodItem> FoodItems { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<NotificationType> NotificationTypes { get; set; }
