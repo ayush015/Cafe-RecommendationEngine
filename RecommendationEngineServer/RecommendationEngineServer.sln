@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngineServer", "RecommendationEngineServer\RecommendationEngineServer.csproj", "{547B4A72-C747-42EB-855E-E8AC158C763D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 Host", "50 Host", "{DC156FCA-EC94-49F4-AA98-3EE3C7C4AE91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Controller", "40 Controller", "{C73A7861-7489-4FAA-93D5-3333AD5BC62B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Service", "30 Service", "{A5324391-B9B4-446C-8320-B5A05A19E1E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 DAL", "20 DAL", "{A4F4AABB-AAF4-462E-98D3-027A001728E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 Common", "10 Common", "{7EC07D5A-923C-4AFB-A281-7B28371AF00A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngineServer.Controller", "RecommendationEngineServer.Controller\RecommendationEngineServer.Controller.csproj", "{2265E60E-FFB0-4F60-9455-F43AE79768D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngineServer.Service", "RecommendationEngineServer.Logic\RecommendationEngineServer.Service.csproj", "{A3AC1D47-9E54-4C91-A0EB-758CB599C958}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngineServer.DAL", "RecommendationEngineServer.DAL\RecommendationEngineServer.DAL.csproj", "{6A1046D8-456F-467F-B11C-31D287C8C717}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngineServer.Common", "RecommendationEngineServer.Common\RecommendationEngineServer.Common.csproj", "{AD89764B-4B8E-4D26-8B96-C4036D0F6272}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60 Test", "60 Test", "{06D9620E-CE82-42DF-B84A-F828FAB960C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationEngineServer.Test", "RecommendationEngineServer.Test\RecommendationEngineServer.Test.csproj", "{F042A742-395C-4B6D-B9EC-5A70545268B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{547B4A72-C747-42EB-855E-E8AC158C763D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547B4A72-C747-42EB-855E-E8AC158C763D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547B4A72-C747-42EB-855E-E8AC158C763D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547B4A72-C747-42EB-855E-E8AC158C763D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2265E60E-FFB0-4F60-9455-F43AE79768D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2265E60E-FFB0-4F60-9455-F43AE79768D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2265E60E-FFB0-4F60-9455-F43AE79768D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2265E60E-FFB0-4F60-9455-F43AE79768D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3AC1D47-9E54-4C91-A0EB-758CB599C958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3AC1D47-9E54-4C91-A0EB-758CB599C958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3AC1D47-9E54-4C91-A0EB-758CB599C958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3AC1D47-9E54-4C91-A0EB-758CB599C958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A1046D8-456F-467F-B11C-31D287C8C717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A1046D8-456F-467F-B11C-31D287C8C717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A1046D8-456F-467F-B11C-31D287C8C717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A1046D8-456F-467F-B11C-31D287C8C717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD89764B-4B8E-4D26-8B96-C4036D0F6272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD89764B-4B8E-4D26-8B96-C4036D0F6272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD89764B-4B8E-4D26-8B96-C4036D0F6272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD89764B-4B8E-4D26-8B96-C4036D0F6272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F042A742-395C-4B6D-B9EC-5A70545268B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F042A742-395C-4B6D-B9EC-5A70545268B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F042A742-395C-4B6D-B9EC-5A70545268B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F042A742-395C-4B6D-B9EC-5A70545268B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{547B4A72-C747-42EB-855E-E8AC158C763D} = {DC156FCA-EC94-49F4-AA98-3EE3C7C4AE91}
+		{2265E60E-FFB0-4F60-9455-F43AE79768D7} = {C73A7861-7489-4FAA-93D5-3333AD5BC62B}
+		{A3AC1D47-9E54-4C91-A0EB-758CB599C958} = {A5324391-B9B4-446C-8320-B5A05A19E1E1}
+		{6A1046D8-456F-467F-B11C-31D287C8C717} = {A4F4AABB-AAF4-462E-98D3-027A001728E3}
+		{AD89764B-4B8E-4D26-8B96-C4036D0F6272} = {7EC07D5A-923C-4AFB-A281-7B28371AF00A}
+		{F042A742-395C-4B6D-B9EC-5A70545268B4} = {06D9620E-CE82-42DF-B84A-F828FAB960C2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EC28E24-8C73-44D9-AA74-5789C12A5DF0}
+	EndGlobalSection
+EndGlobal
