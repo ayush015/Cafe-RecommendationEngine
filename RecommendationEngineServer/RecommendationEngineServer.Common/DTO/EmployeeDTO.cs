@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecommendationEngineServer.Common.DTO
+﻿namespace RecommendationEngineServer.Common.DTO
 {
     #region Request DTO
     public class OrderRequest
@@ -37,12 +31,12 @@ namespace RecommendationEngineServer.Common.DTO
     }
 
     public class UserPreferenceRequest
-    { 
-      public int UserId { get; set; }
-      public int FoodTypeId { get; set; }
-      public int SpiceLevelId { get; set; }
-      public int PreferredCuisineId { get; set; }
-      public bool HasSweetTooth { get; set; }
+    {
+        public int UserId { get; set; }
+        public int FoodTypeId { get; set; }
+        public int SpiceLevelId { get; set; }
+        public int PreferredCuisineId { get; set; }
+        public bool HasSweetTooth { get; set; }
     }
 
     public class DailyRolledOutMenuRequest
@@ -55,7 +49,7 @@ namespace RecommendationEngineServer.Common.DTO
     #region Response DTO
     public class UserOrderMenuListResponse : BaseResponseDTO
     {
-       public List<UserOrderMenuModel> UserOrderMenus { get; set; }
+        public List<UserOrderMenuModel> UserOrderMenus { get; set; }
     }
 
     public class NotificationResponse : BaseResponseDTO
@@ -66,13 +60,13 @@ namespace RecommendationEngineServer.Common.DTO
     }
 
     public class OrderResponse : BaseResponseDTO
-    { 
-      public int OrderId { get; set; }
+    {
+        public int OrderId { get; set; }
     }
 
     public class DailyRolledOutMenuResponse : BaseResponseDTO
-    { 
-      public List<RolledOutMenu> RolledOutMenu { get; set; }
+    {
+        public List<RolledOutMenu> RolledOutMenu { get; set; }
     }
 
 
@@ -85,9 +79,9 @@ namespace RecommendationEngineServer.Common.DTO
     }
 
     public class ImprovementFeedback
-    { 
-      public int QuestionId { get; set; }
-      public string Answer { get; set; }
+    {
+        public int QuestionId { get; set; }
+        public string Answer { get; set; }
 
     }
 

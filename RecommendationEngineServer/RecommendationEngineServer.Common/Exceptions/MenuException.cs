@@ -5,7 +5,7 @@
         public MenuException(string message) : base(message) { }
     }
 
-    public class  MenuItemNotFoundException : MenuException
+    public class MenuItemNotFoundException : MenuException
     {
         public MenuItemNotFoundException() : base(ApplicationConstants.MenuItemNotFound) { }
     }

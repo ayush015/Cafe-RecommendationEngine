@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecommendationEngineServer.Common.DTO
+﻿namespace RecommendationEngineServer.Common.DTO
 {
 
     #region Request DTO
     public class AddMenuItemRequest
-    { 
+    {
         public string FoodItemName { get; set; }
         public int MealTypeId { get; set; }
         public int FoodTypeId { get; set; }
@@ -17,7 +11,7 @@ namespace RecommendationEngineServer.Common.DTO
         public int CuisineId { get; set; }
         public bool IsSweet { get; set; }
     }
-   
+
     public class UpdateMenuItemRequest
     {
         public int MenuId { get; set; }
@@ -28,7 +22,7 @@ namespace RecommendationEngineServer.Common.DTO
 
     #region Response DTO
     public class MenuListResponse : BaseResponseDTO
-    { 
+    {
         public List<MenuListModel> MenuList { get; set; }
     }
 

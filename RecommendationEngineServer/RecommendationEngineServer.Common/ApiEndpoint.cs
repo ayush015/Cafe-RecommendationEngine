@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecommendationEngineServer.Common
+﻿namespace RecommendationEngineServer.Common
 {
     public static class ControllerNames
     {
@@ -36,7 +30,6 @@ namespace RecommendationEngineServer.Common
         #endregion
 
         #region EmployeeController actions
-        public const string GetNotification = "GetNotification";
         public const string SelectFoodItemsFromDailyMenu = "SelectFoodItemsFromDailyMenu";
         public const string GiveFeedback = "GiveFeedBack";
         public const string GetMenuItemByOrderId = "GetMenuItemByOrderId";
@@ -47,6 +40,7 @@ namespace RecommendationEngineServer.Common
         #endregion
 
         #region NotificationController actions
+        public const string GetNotification = "GetNotification";
         public const string GetMonthlyNotification = "GetMonthlyNotification";
         public const string AddNewNotificationForDiscardedMenuFeedback = "AddNewNotificationForDiscardedMenuFeedback";
         #endregion
