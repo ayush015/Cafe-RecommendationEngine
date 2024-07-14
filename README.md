@@ -8,7 +8,7 @@ This repository contains two main applications: `RecommendationEngineClient` and
 
 - [Overview](#overview)
 - [Architecture](#architecture)
-- [Entry Point](#Entry_Point)
+- [Entry Point](#EntryPoint)
 
 ## Architecture
 
@@ -42,7 +42,7 @@ The `RecommendationEngineServer` application handles the business logic, data pe
 - Entity Framework Core
 - SQL Server (or any other database supported by EF Core)
 
-### Entry Point
+### EntryPoint
 - Server Host/Program.cs
 - Client Program.cs
 
