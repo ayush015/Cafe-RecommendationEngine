@@ -1,9 +1,7 @@
-﻿using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Service.Login;
-using RecommendationEngineServer.DAL.Models;
-using RecommendationEngineServer.Common;
-using RecommendationEngineServer.Service.Admin;
+﻿using RecommendationEngineServer.Common;
+using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Common.Exceptions;
+using RecommendationEngineServer.Service.Admin;
 
 namespace RecommendationEngineServer.Controller
 {
@@ -12,16 +10,16 @@ namespace RecommendationEngineServer.Controller
 
         private IAdminService _adminLogic;
 
-        public AdminController(IAdminService adminLogic) 
-        { 
-          _adminLogic = adminLogic;
+        public AdminController(IAdminService adminLogic)
+        {
+            _adminLogic = adminLogic;
         }
 
         public async Task<BaseResponseDTO> AddMenuItem(AddMenuItemRequest addMenuItemRequest)
         {
             try
             {
-                 var result = await _adminLogic.AddMenuItem(addMenuItemRequest);
+                var result = await _adminLogic.AddMenuItem(addMenuItemRequest);
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusSuccess,
@@ -51,7 +49,7 @@ namespace RecommendationEngineServer.Controller
             try
             {
                 var result = await _adminLogic.GetMenuList();
-                if(result == null || result.Count < 1)
+                if (result == null || result.Count < 1)
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
                 }

@@ -1,8 +1,7 @@
 ﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Service.Notifications;
 using RecommendationEngineServer.Service.Chef;
-using RecommendationEngineServer.Service.Employee;
+using RecommendationEngineServer.Service.Notifications;
 
 
 namespace RecommendationEngineServer.Controller
@@ -12,8 +11,8 @@ namespace RecommendationEngineServer.Controller
         private INotificationService _notificationService;
         private IChefService _chefService;
 
-      
-        public NotificationController(INotificationService notificationService,IChefService chefService)
+
+        public NotificationController(INotificationService notificationService, IChefService chefService)
         {
             _notificationService = notificationService;
             _chefService = chefService;
@@ -56,7 +55,7 @@ namespace RecommendationEngineServer.Controller
             {
                 var discardedMenus = await _notificationService.GetMonthlyDiscardedMenuNotification(currentDate, recommendedMenus);
 
-                if(discardedMenus.Count < 0)
+                if (discardedMenus.Count < 0)
                 {
                     return new DiscardedMenuResponse
                     {
@@ -89,14 +88,14 @@ namespace RecommendationEngineServer.Controller
                 return new BaseResponseDTO
                 { Status = ApplicationConstants.StatusSuccess };
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return new BaseResponseDTO
-                { Status = ApplicationConstants.StatusFailed, Message=ex.Message };
+                { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
             }
         }
 
-        
+
     }
 }
 

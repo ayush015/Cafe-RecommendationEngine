@@ -59,7 +59,7 @@ namespace RecommendationEngineServer.Controller
         {
             try
             {
-               var orderedMenuList =  await _employeeService.GetMenuItemsByOrderId(orderId);
+                var orderedMenuList = await _employeeService.GetMenuItemsByOrderId(orderId);
                 if (orderedMenuList == null || orderedMenuList.Count < 1)
                 {
                     throw new Exception(ApplicationConstants.MenuListIsEmpty);
@@ -72,7 +72,7 @@ namespace RecommendationEngineServer.Controller
                     UserOrderMenus = menuList
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new UserOrderMenuListResponse
                 {
@@ -91,8 +91,8 @@ namespace RecommendationEngineServer.Controller
                 await _employeeService.AddUserMenuImprovementFeedback(menuImprovementFeedbackRequest);
                 return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess, Message = "Added Successfully" };
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 return new BaseResponseDTO { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
             }
         }
@@ -109,7 +109,7 @@ namespace RecommendationEngineServer.Controller
 
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new FeedbackQuestionResponse
                 {
@@ -125,17 +125,17 @@ namespace RecommendationEngineServer.Controller
             {
                 await _employeeService.AddUserPreference(userPreferenceRequest);
                 return new BaseResponseDTO
-                { 
-                     Status = ApplicationConstants.StatusSuccess,
-                     Message = "Added Successfully"
+                {
+                    Status = ApplicationConstants.StatusSuccess,
+                    Message = "Added Successfully"
                 };
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return new BaseResponseDTO
                 {
                     Status = ApplicationConstants.StatusFailed,
-                    Message = ex.Message    
+                    Message = ex.Message
                 };
             }
         }
@@ -151,16 +151,17 @@ namespace RecommendationEngineServer.Controller
                     RolledOutMenu = result
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new DailyRolledOutMenuResponse
-                { 
-                   Status = ApplicationConstants.StatusFailed,  
-                   Message = ex.Message 
+                {
+                    Status = ApplicationConstants.StatusFailed,
+                    Message = ex.Message
                 };
 
             }
         }
     }
 }
+
 

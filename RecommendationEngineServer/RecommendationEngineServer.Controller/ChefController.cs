@@ -18,7 +18,7 @@ namespace RecommendationEngineServer.Controller
             try
             {
                 var result = await _chefService.AddDailyMenuItem(menuItem);
-                if(result == 0)
+                if (result == 0)
                 {
                     return new BaseResponseDTO
                     {
@@ -62,7 +62,7 @@ namespace RecommendationEngineServer.Controller
                     Message = ApplicationConstants.SentNotificationSuccessfully
                 };
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return new BaseResponseDTO
                 {
@@ -78,13 +78,13 @@ namespace RecommendationEngineServer.Controller
             {
                 var recommendedMenuList = await _chefService.GetMenuListItems();
                 return new RecommendedMenuResponse
-                { 
+                {
                     RecommendedMenus = recommendedMenuList,
-                    Status = ApplicationConstants.StatusSuccess, 
+                    Status = ApplicationConstants.StatusSuccess,
                 };
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return new RecommendedMenuResponse
                 {
@@ -102,9 +102,9 @@ namespace RecommendationEngineServer.Controller
                 await _chefService.DiscardMenuItem(menuId);
                 return new BaseResponseDTO { Status = ApplicationConstants.StatusSuccess };
             }
-            catch (Exception ex) 
-            { 
-              return new BaseResponseDTO() { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
+            catch (Exception ex)
+            {
+                return new BaseResponseDTO() { Status = ApplicationConstants.StatusFailed, Message = ex.Message };
             }
         }
     }

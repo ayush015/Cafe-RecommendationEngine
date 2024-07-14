@@ -1,16 +1,15 @@
-﻿using RecommendationEngineServer.Common.DTO;
+﻿using RecommendationEngineServer.Common;
+using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Service.Login;
-using RecommendationEngineServer.DAL.Models;
-using RecommendationEngineServer.Common;
 
 namespace RecommendationEngineServer.Controller
 {
     public class AuthController
     {
-        private IAuthService _authLogic; 
-        public AuthController(IAuthService authLogic) 
-        { 
-          _authLogic = authLogic;
+        private IAuthService _authLogic;
+        public AuthController(IAuthService authLogic)
+        {
+            _authLogic = authLogic;
         }
 
         public async Task<LoggedInUserResponse> Login(UserLoginRequest userLoginRequest)
@@ -31,10 +30,10 @@ namespace RecommendationEngineServer.Controller
             {
                 return new LoggedInUserResponse
                 {
-                  Status = ApplicationConstants.StatusFailed,
-                  Message = ex.Message,
+                    Status = ApplicationConstants.StatusFailed,
+                    Message = ex.Message,
                 };
-               
+
             }
         }
     }
