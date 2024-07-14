@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecommendationEngineServer.Common;
-using RecommendationEngineServer.Controller;
 using System.Net;
 using System.Net.Sockets;
 
@@ -33,7 +32,7 @@ namespace RecommendationEngineServer
                 // Resolve a new scope for each client
                 var scope = _serviceProvider.CreateScope();
                 var clientHandler = scope.ServiceProvider.GetRequiredService<ClientHandler>();
-                clientHandler.SetClient(client, scope); 
+                clientHandler.SetClient(client, scope);
                 Thread clientThread = new Thread(new ParameterizedThreadStart(clientHandler.HandleClientAsync));
                 clientThread.Start();
             }

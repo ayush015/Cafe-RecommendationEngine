@@ -4,10 +4,10 @@ using Microsoft.Extensions.Hosting;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.DAL;
 using RecommendationEngineServer.DAL.UnitOfWork;
-using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.Service.Admin;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Employee;
+using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.Service.Notifications;
 
 namespace RecommendationEngineServer

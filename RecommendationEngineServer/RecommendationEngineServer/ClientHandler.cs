@@ -212,7 +212,7 @@ namespace RecommendationEngineServer
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.AddUserPreference(userFoodPreference));
                     await SendResponseAsync(jsonResponse);
                     break;
-                case ControllerActions.GetDailyRolledOutMenu: 
+                case ControllerActions.GetDailyRolledOutMenu:
                     var rolledOutMenuRequest = JsonConvert.DeserializeObject<DailyRolledOutMenuRequest>(data.Data);
                     jsonResponse = JsonConvert.SerializeObject(await _employeeController.GetDailyRolledOutMenu(rolledOutMenuRequest));
                     await SendResponseAsync(jsonResponse);
@@ -234,21 +234,21 @@ namespace RecommendationEngineServer
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetNotifcation(notification));
                         await SendResponseAsync(jsonResponse);
                         break;
-                    }    
+                    }
                 case ControllerActions.GetMonthlyNotification:
                     {
                         var date = JsonConvert.DeserializeObject<DateTime>(data.Data);
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.GetMonthlyDiscardedMenuNotification(date));
                         await SendResponseAsync(jsonResponse);
                         break;
-                    }   
+                    }
                 case ControllerActions.AddNewNotificationForDiscardedMenuFeedback:
                     {
                         var improveMenu = JsonConvert.DeserializeObject<MenuImprovementNotificationRequest>(data.Data);
                         var jsonResponse = JsonConvert.SerializeObject(await _notificationController.AddNewNotificationForDiscardedMenuFeedback(improveMenu));
                         await SendResponseAsync(jsonResponse);
                         break;
-                    }  
+                    }
                 // Handle other actions here
                 default:
                     Console.WriteLine($"Unknown action: {data.Action} for EmployeeController");
