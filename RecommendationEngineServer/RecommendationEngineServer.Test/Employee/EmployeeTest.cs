@@ -4,8 +4,6 @@ using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.Service.Employee;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace RecommendationEngineServer.Test.Employee

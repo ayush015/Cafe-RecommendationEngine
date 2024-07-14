@@ -9,7 +9,7 @@ namespace RecommendationEngineServer.Test
         public string dataStorePath = Path.Combine(Directory.GetCurrentDirectory(), "../../../data.json");
         public async Task InitializeAsync()
         {
-            if(DataDictionary == null)
+            if (DataDictionary == null)
             {
 
                 using (var stream = new FileStream(dataStorePath, FileMode.Open, FileAccess.Read))
@@ -32,7 +32,7 @@ namespace RecommendationEngineServer.Test
 
         public Task DisposeAsync()
         {
-           return Task.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 }

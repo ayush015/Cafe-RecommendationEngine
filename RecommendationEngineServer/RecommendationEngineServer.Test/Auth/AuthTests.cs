@@ -1,11 +1,11 @@
 using Moq;
-using Xunit;
+using Newtonsoft.Json;
+using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.Service.Login;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.DAL.Models;
-using RecommendationEngineServer.Common;
-using Newtonsoft.Json;
+using RecommendationEngineServer.Service.Login;
+using Xunit;
 
 namespace RecommendationEngineServer.Test.Auth
 {
@@ -24,7 +24,7 @@ namespace RecommendationEngineServer.Test.Auth
         public async Task Login_SuccessfulLogin_ReturnsLoggedInUserResponse()
         {
             // Arrange
-            var userLoginRequest = JsonConvert.DeserializeObject<UserLoginRequest>(DataDictionary["User"].ToString()); 
+            var userLoginRequest = JsonConvert.DeserializeObject<UserLoginRequest>(DataDictionary["User"].ToString());
             var loginResult = new User { Id = 1, Username = "Emp1", UserRoleId = 2 };
 
             _authServiceMock.Setup(auth => auth.Login(It.IsAny<UserLoginRequest>()))

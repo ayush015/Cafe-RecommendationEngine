@@ -1,11 +1,11 @@
 ﻿using Moq;
-using RecommendationEngineServer.Common.DTO;
+using Newtonsoft.Json;
 using RecommendationEngineServer.Common;
+using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.Service.Chef;
 using RecommendationEngineServer.Service.Notifications;
 using Xunit;
-using Newtonsoft.Json;
 
 namespace RecommendationEngineServer.Test.Notification
 {

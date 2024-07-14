@@ -1,11 +1,11 @@
 ﻿using Moq;
+using Newtonsoft.Json;
+using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.Common.Exceptions;
-using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Controller;
 using RecommendationEngineServer.Service.Admin;
 using Xunit;
-using Newtonsoft.Json;
 
 namespace RecommendationEngineServer.Test.Admin
 {
@@ -14,7 +14,7 @@ namespace RecommendationEngineServer.Test.Admin
     {
         private Mock<IAdminService> _adminServiceMock;
         private AdminController _adminController;
-        public  AdminTests()
+        public AdminTests()
         {
             _adminServiceMock = new Mock<IAdminService>();
             _adminController = new AdminController(_adminServiceMock.Object);
