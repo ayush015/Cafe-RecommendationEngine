@@ -9,9 +9,9 @@ namespace RecommendationEngineServer.Service.Chef
     public class ChefService : IChefService
     {
         private IUnitOfWork _unitOfWork;
-        public ChefService(IUnitOfWork unitOfWork) 
-        { 
-          _unitOfWork = unitOfWork;
+        public ChefService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
         }
 
         #region Public Methods
@@ -22,9 +22,9 @@ namespace RecommendationEngineServer.Service.Chef
             if (menuItem.MenuItemsIds.Count <= 0)
                 throw new MenuException(ApplicationConstants.MenuListIsEmpty);
 
-            var allDailyMenu =  (await _unitOfWork.DailyMenu.GetAll()).ToList().LastOrDefault();
+            var allDailyMenu = (await _unitOfWork.DailyMenu.GetAll()).ToList().LastOrDefault();
 
-            if(allDailyMenu.Date == menuItem.CurrentDate)
+            if (allDailyMenu.Date == menuItem.CurrentDate)
             {
                 return ApplicationConstants.DailyMenuDateAlreadyExist;
             }
@@ -90,11 +90,11 @@ namespace RecommendationEngineServer.Service.Chef
         {
             var menuItem = await _unitOfWork.Menu.GetById(menuId);
 
-            if(menuItem == null) throw new MenuItemNotFoundException();
+            if (menuItem == null) throw new MenuItemNotFoundException();
 
             menuItem.IsDiscarded = true;
 
-           await _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
         }
         #endregion
@@ -186,7 +186,7 @@ namespace RecommendationEngineServer.Service.Chef
 
         private double CalculateRecommendationScore(double averageRating, List<string> comments, int orderFrequency)
         {
-            
+
             double maxOrderFrequency = 50.0;
 
             double normalizedRating = (averageRating / 5.0) * 5.0;
@@ -228,7 +228,7 @@ namespace RecommendationEngineServer.Service.Chef
             var negativeWords = GetNegativeWords();
 
             comment = comment.ToLower();
-            var words = comment.Split(new[] { ' ', '.', ','}, StringSplitOptions.RemoveEmptyEntries);
+            var words = comment.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             int positiveScore = 0;
             int negativeScore = 0;
@@ -259,7 +259,7 @@ namespace RecommendationEngineServer.Service.Chef
             }
             else if (negativeScore > positiveScore)
             {
-                return -1.0; 
+                return -1.0;
             }
             else
             {
@@ -281,7 +281,7 @@ namespace RecommendationEngineServer.Service.Chef
             return positiveWords;
         }
 
-        private List<string> GetNegativeWords() 
+        private List<string> GetNegativeWords()
         {
             var negativeWords = new List<string>
             {

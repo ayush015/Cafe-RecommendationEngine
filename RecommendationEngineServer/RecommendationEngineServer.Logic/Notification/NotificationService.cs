@@ -1,6 +1,6 @@
 ﻿using RecommendationEngineServer.Common.DTO;
-using RecommendationEngineServer.DAL.UnitOfWork;
 using RecommendationEngineServer.DAL.Models;
+using RecommendationEngineServer.DAL.UnitOfWork;
 using System.Text;
 
 namespace RecommendationEngineServer.Service.Notifications
@@ -65,12 +65,12 @@ namespace RecommendationEngineServer.Service.Notifications
 
             double daysDifference = (currentDate - firstDailyMenuDate).TotalDays;
 
-            if(daysDifference % 30 == 0)
+            if (daysDifference % 30 == 0)
             {
                 return recommendedMenus.Where(m => m.RecommendationScore <= 2.0 && m.RecommendationScore > 0.0).ToList();
             }
 
-           return new List<RecommendedMenuModel>(); 
+            return new List<RecommendedMenuModel>();
         }
 
         public async Task AddNewNotificationForDiscardedMenuFeedback(MenuImprovementNotificationRequest menuImprovement)
@@ -82,11 +82,11 @@ namespace RecommendationEngineServer.Service.Notifications
 
             foreach (var question in feedBackQuestions)
             {
-                string message = $"Q{question.Id} {question.Question.Replace("<Food Item>",menuItem.FoodItem.FoodName)}";
+                string message = $"Q{question.Id} {question.Question.Replace("<Food Item>", menuItem.FoodItem.FoodName)}";
                 notificationMessage.AppendLine(message);
             }
 
-            notificationMessage.Insert(0, $"\n{improveMenuItem.Replace("<Food Item>",menuItem.FoodItem.FoodName)}\n");
+            notificationMessage.Insert(0, $"\n{improveMenuItem.Replace("<Food Item>", menuItem.FoodItem.FoodName)}\n");
 
             Notification addNotification = new Notification()
             {

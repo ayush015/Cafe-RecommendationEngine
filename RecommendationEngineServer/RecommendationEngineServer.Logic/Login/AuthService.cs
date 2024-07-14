@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RecommendationEngineServer.Common;
+﻿using RecommendationEngineServer.Common;
 using RecommendationEngineServer.Common.DTO;
 using RecommendationEngineServer.DAL.Models;
 using RecommendationEngineServer.DAL.UnitOfWork;
@@ -13,21 +12,21 @@ namespace RecommendationEngineServer.Service.Login
         {
             _unitOfWork = unitOfWork;
         }
-    
+
         public async Task<User> Login(UserLoginRequest userLoginRequest)
         {
-            if(userLoginRequest.UserName == null || userLoginRequest.Password == null)
+            if (userLoginRequest.UserName == null || userLoginRequest.Password == null)
             {
                 throw new Exception(ApplicationConstants.UserNamePasswordIsNull);
             }
 
             var user = (await _unitOfWork.User.GetAll())
                                              .FirstOrDefault(u =>
-                                             u.Username.Equals(userLoginRequest.UserName) && 
+                                             u.Username.Equals(userLoginRequest.UserName) &&
                                              u.Password.Equals(userLoginRequest.Password)
                                              );
 
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception(ApplicationConstants.UserNameAndPasswordDidNotMatch);
             }

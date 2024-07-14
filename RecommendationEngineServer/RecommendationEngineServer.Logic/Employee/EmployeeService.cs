@@ -23,25 +23,25 @@ namespace RecommendationEngineServer.Service.Employee
 
             if (menuItem == null) throw new MenuItemNotFoundException();
 
-           foreach (var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
-           {
+            foreach (var improvementFeedback in menuImprovementFeedback.ImprovementFeedbacks)
+            {
                 UserMenuFeedbackAnswer newAnswer = new UserMenuFeedbackAnswer()
                 {
-                   MenuId = menuItem.Id,
+                    MenuId = menuItem.Id,
                     MenuFeedbackQuestionId = improvementFeedback.QuestionId,
-                   UserId = menuImprovementFeedback.UserId,
-                   Answer = improvementFeedback.Answer
+                    UserId = menuImprovementFeedback.UserId,
+                    Answer = improvementFeedback.Answer
                 };
 
                 userMenuFeedbackAsnwers.Add(newAnswer);
-           }
+            }
 
-           await _unitOfWork.UserMenuFeedbackAnswer.AddMenuImprovementFeedbacks(userMenuFeedbackAsnwers);
+            await _unitOfWork.UserMenuFeedbackAnswer.AddMenuImprovementFeedbacks(userMenuFeedbackAsnwers);
         }
 
         public async Task<int> SelectFoodItemsFromDailyMenu(OrderRequest orderRequest)
         {
-           int userId = orderRequest.UserId;
+            int userId = orderRequest.UserId;
             List<UserOrder> userOrders = new List<UserOrder>();
             Order newOrder = new Order()
             {
@@ -53,7 +53,7 @@ namespace RecommendationEngineServer.Service.Employee
             await _unitOfWork.Order.Create(newOrder);
             await _unitOfWork.Complete();
 
-            foreach( var dailyMenuId in orderRequest.DailyMenuIds) 
+            foreach (var dailyMenuId in orderRequest.DailyMenuIds)
             {
                 UserOrder newUserOrder = new UserOrder()
                 {
@@ -72,7 +72,7 @@ namespace RecommendationEngineServer.Service.Employee
         {
             List<Feedback> feedbackList = new List<Feedback>();
 
-            foreach(var feedbacks in giveFeedBackRequest)
+            foreach (var feedbacks in giveFeedBackRequest)
             {
                 var menu = await _unitOfWork.Menu.GetById(feedbacks.MenuIds);
                 var dailyMenu = await _unitOfWork.DailyMenu.GetById(feedbacks.DailyMenuId);
@@ -93,8 +93,8 @@ namespace RecommendationEngineServer.Service.Employee
                 feedbackList.Add(newFeedback);
             }
 
-           await _unitOfWork.Feedback.AddUserFeebacks(feedbackList);
-           await _unitOfWork.Complete();
+            await _unitOfWork.Feedback.AddUserFeebacks(feedbackList);
+            await _unitOfWork.Complete();
         }
 
         public async Task<List<UserOrderMenuModel>> GetMenuItemsByOrderId(int orderId)
@@ -110,8 +110,8 @@ namespace RecommendationEngineServer.Service.Employee
             {
                 FeedbackQuestion feedbackQuestion = new FeedbackQuestion()
                 {
-                     QuestionId = question.Id,
-                      Question = question.Question
+                    QuestionId = question.Id,
+                    Question = question.Question
                 };
 
                 feedbackQuestionList.Add(feedbackQuestion);
@@ -124,7 +124,7 @@ namespace RecommendationEngineServer.Service.Employee
         {
             var userPreference = (await _unitOfWork.UserFoodPreference.GetAll()).Where(u => u.UserId == userPreferenceRequest.UserId).FirstOrDefault();
 
-            if(userPreference != null)
+            if (userPreference != null)
             {
                 userPreference.FoodTypeId = (int)(FoodType)userPreferenceRequest.FoodTypeId;
                 userPreference.PreferredCuisineId = (int)(CuisineType)userPreferenceRequest.PreferredCuisineId;
@@ -135,12 +135,12 @@ namespace RecommendationEngineServer.Service.Employee
             }
 
             UserFoodPreference userFoodPreference = new UserFoodPreference()
-            { 
-              UserId = userPreferenceRequest.UserId,
-              FoodTypeId = (int)(FoodType)userPreferenceRequest.FoodTypeId, 
-              PreferredCuisineId = (int)(CuisineType)userPreferenceRequest.PreferredCuisineId,
-              SpiceLevelId = (int)(SpiceLevel)userPreferenceRequest.SpiceLevelId,
-              HasSweetTooth = userPreferenceRequest.HasSweetTooth
+            {
+                UserId = userPreferenceRequest.UserId,
+                FoodTypeId = (int)(FoodType)userPreferenceRequest.FoodTypeId,
+                PreferredCuisineId = (int)(CuisineType)userPreferenceRequest.PreferredCuisineId,
+                SpiceLevelId = (int)(SpiceLevel)userPreferenceRequest.SpiceLevelId,
+                HasSweetTooth = userPreferenceRequest.HasSweetTooth
             };
 
             await _unitOfWork.UserFoodPreference.Create(userFoodPreference);
